@@ -1,0 +1,27 @@
+<div class="row">
+
+  <!-- Directive for listing channels -->
+  <div class="col-md-4">
+    <p class="lead">channels</p>
+    <hr>
+    <div ng-repeat="channel in channelList | orderByPriority">
+      #{{channel.$id}}
+      <span ng-if="channel.$id == currentChannel">(*)</span>
+      <channellistitem channel="channel"></channellistitem>
+    </div>
+    <hr>
+    <p class="lead">create</p>
+    <createchannel user="user"></createchannel>
+  </div>
+
+
+  <div class="col-md-8">
+    <p class="lead">messages</p>
+    <hr>
+    <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p>
+
+    <hr>
+    <composemessage channel="messages[currentChannel]"></composemessage>
+  </div>
+
+</div>
