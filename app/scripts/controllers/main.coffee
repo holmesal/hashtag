@@ -30,7 +30,7 @@ angular.module('shortwaveApp')
 
     # Handle logins
     $scope.login = ->
-      $scope.auth.login 'facebook'
+      $scope.$auth.$login 'facebook'
 
 
 
