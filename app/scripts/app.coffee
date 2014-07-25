@@ -32,7 +32,7 @@ angular
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'
         resolve:
-          user: (User) -> User.getUser()
+          user: ['User', (User) -> User.getUser()]
 
       # Handle named channels in the route
       .when '/:channel',
