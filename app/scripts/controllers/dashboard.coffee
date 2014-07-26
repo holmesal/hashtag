@@ -8,7 +8,7 @@
  # Controller of the shortwaveApp
 ###
 angular.module('shortwaveApp')
-  .controller 'DashboardCtrl', ($scope, $rootScope, $filter, $firebase, user) ->
+  .controller 'DashboardCtrl', ($scope, $rootScope, $filter, $firebase, user, ChannelUtils) ->
 
     # Master channels object
     $scope.messages = {}
@@ -26,7 +26,7 @@ angular.module('shortwaveApp')
 
     # Track which conversation is currently selected
     $scope.currentChannel = ""
-    $scope.channelList = []
+    $scope.channelList = {}
 
     console.log user
 
@@ -49,6 +49,10 @@ angular.module('shortwaveApp')
       channelName = ev.snapshot.name
       console.log "deleting channel #{channelName}"
       delete $scope.messages[channelName]
+      # If this thing was the current channel, set it to something else
+      if channelName is $scope.currentChannel
+        channelList = $filter('orderByPriority')($scope.channelList)
+        $scope.currentChannel = channelList[channelList.length-1].$id
 
     $scope.$watch 'channelList', (updated, outdated) ->
 
@@ -88,3 +92,21 @@ angular.module('shortwaveApp')
     $scope.setChannel = (channelName) ->
       console.log "changed channel to #{channelName}"
       $scope.currentChannel = channelName
+
+    $scope.toggleMute = ->
+      setTo = !$scope.channelList[$scope.currentChannel].muted
+      # priorState = !setTo
+      ChannelUtils.setMute $scope.currentChannel, setTo
+      .then ->
+        console.log "set mute properly"
+      .catch (err) ->
+        console.error "could not set mute"
+        console.error err
+      console.log "Setting mute on channel #{$scope.currentChannel} to #{setTo}"
+    $scope.leaveChannel = ->
+      ChannelUtils.leaveChannel $scope.currentChannel
+      .then ->
+        console.log "left channel #{$scope.currentChannel} properly"
+      .catch (err) ->
+        console.log "error leaving channel #{$scope.currentChannel}"
+        console.log err

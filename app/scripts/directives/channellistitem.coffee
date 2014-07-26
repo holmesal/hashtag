@@ -8,7 +8,7 @@
 ###
 angular.module('shortwaveApp')
   .directive('channelListItem', ->
-    templateUrl: 'views/partials/channelListItem.html'
+    templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     link: (scope, element, attrs) ->
       # element.text 'this is the channelListItem directive'

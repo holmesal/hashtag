@@ -16,6 +16,16 @@
 
   <div class="col-md-8">
     <p class="lead">messages</p>
+    <div>
+      <!-- Mute a channel -->
+      <button ng-click="toggleMute()" class="btn btn-warning">
+        <span ng-if="!channelList[currentChannel].muted">Mute</span>
+        <span ng-if="channelList[currentChannel].muted">Unmute</span>
+      </button>
+
+      <!-- Leave a channel -->
+      <button ng-click="leaveChannel()" class="btn btn-danger">Leave</button>
+    </div>
     <hr>
     <message ng-repeat="message in messages[currentChannel] | orderByPriority" message="message"></message>
     <!-- <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p> -->

@@ -66,6 +66,7 @@ angular.module('shortwaveApp')
                     channelListItemRef = user.$getRef().child('channels').child channelName
                     channelListItemRef.setWithPriority
                         lastSeen: 0
+                        muted: false
                     , Date.now(), (err) ->
                         if err
                             deferredChannel.reject err
@@ -96,6 +97,7 @@ angular.module('shortwaveApp')
                         selfChannelRef = user.$getRef().child('channels').child channelName
                         selfChannelRef.setWithPriority
                             lastSeen: 0
+                            muted: false
                         , Date.now(), (err) ->
                             if err
                                 joined.reject err
@@ -134,7 +136,47 @@ angular.module('shortwaveApp')
                     error: err
                     channelName: channelName
 
+
             exists.promise
 
 
+        setMute: (channelName, value) ->
+
+            set = $q.defer()
+
+            user = User.getUser()
+
+            muteRef = user.$getRef().child "channels/#{channelName}/muted"
+            muteRef.set value, (err) ->
+                if err
+                    set.reject err
+                else
+                    set.resolve()
+
+            set.promise
+
+        leaveChannel: (channelName) ->
+
+            left = $q.defer()
+
+            authUser = User.getAuthUser()
+            user = User.getUser()
+
+            # First, remove yourself from the members of the channel
+            memberRef = $rootScope.rootRef.child "/channels/#{channelName}/members/#{authUser.uid}"
+            memberRef.set null, (err) ->
+                if err
+                    left.reject()
+                else
+
+                    # Then, remove the channel from your own list
+                    listRef = user.$getRef().child "channels/#{channelName}"
+                    listRef.set null, (err) ->
+                        if err
+                            left.reject()
+                        else
+                            left.resolve()
+
+
+            left.promise
 
