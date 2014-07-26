@@ -54,7 +54,7 @@ angular.module('shortwaveApp')
               console.log 'joined ok!'
               # Channel created ok, clear the textfield and any errors
               # scope.takenError = false
-              # scope.channelText = ''
+              scope.channelText = ''
               # scope.channelExists = null
             .catch (err) ->
               # Creation failed, log it

@@ -5,8 +5,8 @@
     <p class="lead">channels</p>
     <hr>
     <div ng-repeat="channel in channelList | orderByPriority">
-      <button class="btn btn-block btn-default" ng-class="{'btn-info':channel.$id == currentChannel}" ng-click="setChannel(channel.$id)">#{{channel.$id}}</button>
-      <channellistitem channel="channel"></channellistitem>
+      
+      <channel-list-item channel="channel"></channel-list-item>
     </div>
     <hr>
     <p class="lead">create</p>
@@ -17,7 +17,8 @@
   <div class="col-md-8">
     <p class="lead">messages</p>
     <hr>
-    <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p>
+    <message ng-repeat="message in messages[currentChannel] | orderByPriority" message="message"></message>
+    <!-- <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p> -->
 
     <hr>
     <composemessage channel="messages[currentChannel]"></composemessage>

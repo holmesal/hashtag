@@ -7,8 +7,8 @@
  # # One of the list items that appears in the 
 ###
 angular.module('shortwaveApp')
-  .directive('channellistitem', ->
-    template: '<div></div>'
+  .directive('channelListItem', ->
+    templateUrl: 'views/partials/channelListItem.html'
     restrict: 'E'
     link: (scope, element, attrs) ->
       # element.text 'this is the channelListItem directive'

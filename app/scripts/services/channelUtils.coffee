@@ -9,7 +9,7 @@
  # Primarily, it will be used in the route resolver - route changes won't proceed if the channel doesn't exist.
 ###
 angular.module('shortwaveApp')
-  .service 'ChannelUtils', ($firebase, $q, $rootScope, User) ->
+  .service 'ChannelUtils', ($firebase, $q, $rootScope, $timeout, User) ->
     
 
     ChannelUtils = 
@@ -104,7 +104,10 @@ angular.module('shortwaveApp')
 
             # Otherwise, just pretend you joined (sshhhhh)
             else
-                joined.resolve()
+                # Behold: the sketchy way to resolve a promise before returning it
+                $timeout joined.resolve, 0
+
+            joined.promise
 
         checkChannel: (channelName) ->
 
