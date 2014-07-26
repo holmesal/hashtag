@@ -5,8 +5,7 @@
     <p class="lead">channels</p>
     <hr>
     <div ng-repeat="channel in channelList | orderByPriority">
-      #{{channel.$id}}
-      <span ng-if="channel.$id == currentChannel">(*)</span>
+      <button class="btn btn-block btn-default" ng-class="{'btn-info':channel.$id == currentChannel}" ng-click="setChannel(channel.$id)">#{{channel.$id}}</button>
       <channellistitem channel="channel"></channellistitem>
     </div>
     <hr>

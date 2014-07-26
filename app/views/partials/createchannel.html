@@ -1,3 +1,11 @@
-<input type="text" ng-model="newChannelName" class="form-control"></input>
-<button class="btn btn-success" ng-click="createChannel()">Create Channel</button>
+<input type="text" ng-model="channelText" class="form-control" ng-keyup="checkChannel()"></input>
+
+<button ng-if="!channelExists" class="btn btn-success" ng-click="createOrJoinChannel()">
+  Create Channel
+</button>
+
+<button ng-if="channelExists" class="btn btn-info" ng-click="createOrJoinChannel()">
+  Join Channel
+</button>
+
 <p class="text-danger" ng-if="takenError && lastTry == newChannelName">That channel is already taken.</p>

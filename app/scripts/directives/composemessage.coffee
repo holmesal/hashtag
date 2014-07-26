@@ -38,17 +38,12 @@ angular.module('shortwaveApp')
 
         console.log JSON.stringify(message)
 
-        # Send the message
-        # pushRef = scope.channel.$getRef().push()
+        # Clear the current text
+        scope.messageText = ''
 
-        # pushRef.setWithPriority message, Date.now(), (err) ->
-        #   if err
-        #     console.error err
         scope.channel.$add message
         .then ->
           console.log 'saved!'
-          # Clear the current text
-          scope.messageText = ''
         .catch (err) ->
           console.error err
 

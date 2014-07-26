@@ -44,10 +44,6 @@ angular.module('shortwaveApp')
 
             deferredChannel = $q.defer()
 
-            unless channelName
-                console.error 'must pass a channel name'
-                return
-
             newChannel = 
                 members: {}
                 moderators: {}
@@ -78,5 +74,64 @@ angular.module('shortwaveApp')
 
             # Send back the promise
             deferredChannel.promise
+
+        joinChannel: (channelName) ->
+
+            joined = $q.defer()
+
+            authUser = User.getAuthUser()
+            user = User.getUser()
+
+            console.log user
+
+            # Only proceed if you're not already in this channel
+            unless user.channels[channelName]
+
+                # Add yourself to the channel members
+                channelMemberRef = $rootScope.rootRef.child "channels/#{channelName}/members/#{authUser.uid}"
+                channelMemberRef.set true, (err) ->
+                    if err
+                        joined.reject err
+                    else
+                        selfChannelRef = user.$getRef().child('channels').child channelName
+                        selfChannelRef.setWithPriority
+                            lastSeen: 0
+                        , Date.now(), (err) ->
+                            if err
+                                joined.reject err
+                            else
+                                joined.resolve()
+
+            # Otherwise, just pretend you joined (sshhhhh)
+            else
+                joined.resolve()
+
+        checkChannel: (channelName) ->
+
+            console.log "checking channel #{channelName}"
+
+            exists = $q.defer()
+
+            # make the channel ref
+            publicRef = $rootScope.rootRef.child "channels/#{channelName}/public"
+            publicRef.once 'value', (snap) ->
+                console.log "Channel public value is #{snap.val()}"
+                if snap.val() in [true,false]
+                    exists.resolve
+                        channelName: channelName
+                        exists: true
+                        public: snap.val()
+                else
+                    exists.resolve
+                        channelName: channelName
+                        exists: false
+                        public: null
+            , (err) ->
+                exists.reject
+                    error: err
+                    channelName: channelName
+
+            exists.promise
+
 
 
