@@ -7,7 +7,7 @@
  # # composemessage
 ###
 angular.module('shortwaveApp')
-  .directive('composemessage', ($firebaseSimpleLogin, $rootScope) ->
+  .directive('composemessage', ($firebaseSimpleLogin, $rootScope, Message) ->
     templateUrl: 'views/partials/composemessage.html'
     restrict: 'E'
     scope: 
@@ -27,24 +27,32 @@ angular.module('shortwaveApp')
       # Send a message
       scope.send = ->
 
-        # Build a new message
-        message = 
-          type: 'text'
-          content:
-            text: scope.messageText
-          owner: scope.user.uid
-        
-        message['.priority'] = Date.now()
-
-        console.log JSON.stringify(message)
-
-        # Clear the current text
-        scope.messageText = ''
-
-        scope.channel.$add message
+        Message.send scope.channel.$id, scope.messageText
         .then ->
-          console.log 'saved!'
+          console.log "send message successfully"
+          # Clear the current text
+          scope.messageText = ''
         .catch (err) ->
+          console.error "error sending message"
           console.error err
+
+        # # Build a new message
+        # message = 
+        #   type: 'text'
+        #   content:
+        #     text: scope.messageText
+        #   owner: scope.user.uid
+        
+        # message['.priority'] = Date.now()
+
+        # console.log JSON.stringify(message)
+
+        
+
+        # scope.channel.$add message
+        # .then ->
+        #   console.log 'saved!'
+        # .catch (err) ->
+        #   console.error err
 
   )

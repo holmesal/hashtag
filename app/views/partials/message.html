@@ -1,7 +1,14 @@
 <div class="row">
-  <div ng-if="owner" class="col-md-4">
+  <div ng-if="owner && !rolling" class="col-md-2">
     <img ng-src="{{owner.photo}}">
     <p>{{owner.firstName}}</p>
   </div>
   <p>{{message.content.text}}</p>
+
+  <!-- Todo - GIFs should have a template to themselves -->
+  <video ng-if="vidurl" autoplay loop>
+    <source ng-src="{{vidurl}}">
+  </video>
+
+  <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" style="width: 100%">
 </div>

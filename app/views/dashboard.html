@@ -6,7 +6,7 @@
     <hr>
     <div ng-repeat="channel in channelList | orderByPriority">
       
-      <channel-list-item channel="channel"></channel-list-item>
+      <channel-list-item channel="channel" viewing="channel.$id == currentChannel" ng-click="setChannel(channel.$id)"></channel-list-item>
     </div>
     <hr>
     <p class="lead">create</p>
@@ -18,7 +18,7 @@
     <p class="lead">messages</p>
     <div>
       <!-- Mute a channel -->
-      <button ng-click="toggleMute()" class="btn btn-warning">
+      <button ng-click="toggleMute()" class="btn btn-wa rning">
         <span ng-if="!channelList[currentChannel].muted">Mute</span>
         <span ng-if="channelList[currentChannel].muted">Unmute</span>
       </button>
@@ -27,7 +27,7 @@
       <button ng-click="leaveChannel()" class="btn btn-danger">Leave</button>
     </div>
     <hr>
-    <message ng-repeat="message in messages[currentChannel] | orderByPriority" message="message"></message>
+    <message ng-repeat="message in messages[currentChannel] | orderByPriority" message="message" rolling="message.owner == (messages[currentChannel] | orderByPriority)[$index-1].owner"></message>
     <!-- <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p> -->
 
     <hr>
