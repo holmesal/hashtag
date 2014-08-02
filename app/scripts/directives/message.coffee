@@ -25,7 +25,9 @@ angular.module('shortwaveApp')
 
 
       # Hacky till this gets moved out into it's own template
-      scope.$watch 'message.content.src.mp4', (updated) ->
+      scope.$watch 'message.content.src', (updated) ->
         if updated
-          scope.vidurl = $sce.trustAsResourceUrl(updated)
+          scope.vidurls = 
+            mp4: $sce.trustAsResourceUrl(updated.mp4)
+            webm: $sce.trustAsResourceUrl(updated.webm)
   )

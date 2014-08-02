@@ -1,5 +1,11 @@
 {
   "name": "shortwave",
+  "main": "http://localhost:9000",
+  "chromium-args": "--disable-web-security",
+  "window": {
+    "toolbar": false,
+    "frame": true
+  },
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {

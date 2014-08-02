@@ -6,9 +6,10 @@
   <p>{{message.content.text}}</p>
 
   <!-- Todo - GIFs should have a template to themselves -->
-  <video ng-if="vidurl" autoplay loop>
-    <source ng-src="{{vidurl}}">
+  <video ng-if="vidurls" autoplay loop>
+    <source ng-src="{{vidurls.webm}}">
+    <source ng-src="{{vidurls.mp4}}">
   </video>
 
-  <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" style="width: 100%">
+  <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}">
 </div>
