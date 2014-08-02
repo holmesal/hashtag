@@ -36,8 +36,8 @@ angular
 
       # Handle named channels in the route
       .when '/:channel',
-        templateUrl: 'views/dashboard.html'
-        controller: 'DashboardCtrl'
+        templateUrl: 'views/stream.html'
+        controller: 'StreamCtrl'
         resolve: 
           channel: ['ChannelUtils', '$route', (ChannelUtils, $route) -> ChannelUtils.getChannel $route.current.params.channel]
 

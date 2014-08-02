@@ -30,7 +30,10 @@ angular.module('shortwaveApp')
                 channel = snap.val()
 
                 if channel
-                    deferredChannel.resolve channel
+                    deferredChannel.resolve 
+                        data: channel
+                        name: channelName
+                        snap: snap
                 else
                     deferredChannel.reject 'no channel exists'
 
