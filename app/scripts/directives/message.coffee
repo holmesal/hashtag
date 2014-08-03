@@ -15,14 +15,11 @@ angular.module('shortwaveApp')
       rolling: '='
     link: (scope, element, attrs) ->
 
-      console.log scope.message
-      console.log scope.rolling
-
       # scope.vidurl = 'http://zippy.gfycat.com/AlarmingSarcasticGoldenmantledgroundsquirrel.mp4'#message.content.src.mp4
 
       ownerRef = $rootScope.rootRef.child "users/#{scope.message.owner}/profile"
-      scope.owner = $firebase ownerRef
-
+      sync = $firebase ownerRef
+      scope.owner = sync.$asObject()
 
       # Hacky till this gets moved out into it's own template
       scope.$watch 'message.content.src', (updated) ->

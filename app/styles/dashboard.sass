@@ -1,0 +1,39 @@
+$navbarheight: 52px
+
+@import "./colors"
+
+.dashboard
+  width: 100%
+  height: 100%
+  padding-top: $navbarheight
+
+  navbar
+    height: $navbarheight
+    width: 100%
+    background-color: $greenColor
+    color: white
+    line-height: $navbarheight
+    text-align: center
+    position: absolute
+    top: 0
+    left: 0
+
+  channel-list, .mainView
+    height: 100%
+
+  channel-list
+    width: 265px
+    height: 100%
+    float: left
+
+  .mainView
+    width: auto
+    overflow: hidden
+    position: relative
+
+    composebar
+      position: absolute
+      bottom: 0
+      width: 100%
+      height: $navbarheight
+      background-color: blue

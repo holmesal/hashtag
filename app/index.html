@@ -20,7 +20,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <!-- <div class="container"> -->
 <!--       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
@@ -30,12 +30,12 @@
         <h3 class="text-muted">shortwave</h3>
       </div> -->
 
-      <div ng-view=""></div>
+      <div ng-view="" class="appView"></div>
 
 <!--       <div class="footer">
         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
       </div> -->
-    </div>
+    <!-- </div> -->
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -82,6 +82,7 @@
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="bower_components/angularjs-scroll-glue/src/scrollglue.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -95,10 +96,13 @@
         <script src="scripts/directives/createchannel.js"></script>
         <script src="scripts/services/user.js"></script>
         <script src="scripts/services/channels.js"></script>
-        <script src="scripts/directives/composemessage.js"></script>
+        <script src="scripts/directives/composebar.js"></script>
         <script src="scripts/directives/message.js"></script>
         <script src="scripts/services/message.js"></script>
         <script src="scripts/controllers/stream.js"></script>
+        <script src="scripts/directives/stream.js"></script>
+        <script src="scripts/directives/navbar.js"></script>
+        <script src="scripts/directives/channellist.js"></script>
         <!-- endbuild -->
 </body>
 </html>

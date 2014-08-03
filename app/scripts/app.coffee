@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase'
+    'firebase',
+    'luegg.directives'
   ])
   .config ($routeProvider) ->
     $routeProvider

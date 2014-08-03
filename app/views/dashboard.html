@@ -1,37 +1,11 @@
-<div class="row">
+<div class="dashboard">
 
-  <!-- Directive for listing channels -->
-  <div class="col-md-4">
-    <p class="lead">channels</p>
-    <hr>
-    <div ng-repeat="channel in channelList | orderByPriority">
-      
-      <channel-list-item channel="channel" viewing="channel.$id == currentChannel" ng-click="setChannel(channel.$id)"></channel-list-item>
-    </div>
-    <hr>
-    <p class="lead">create</p>
-    <createchannel user="user"></createchannel>
+  <navbar currentChannel="currentChannel"></navbar>
+
+  <channel-list></channel-list>
+
+  <div class="mainView">
+    <stream channel="currentChannel"></stream>
+    <composebar channel="currentChannel"></composebar>
   </div>
-
-
-  <div class="col-md-8">
-    <p class="lead">messages</p>
-    <div>
-      <!-- Mute a channel -->
-      <button ng-click="toggleMute()" class="btn btn-wa rning">
-        <span ng-if="!channelList[currentChannel].muted">Mute</span>
-        <span ng-if="channelList[currentChannel].muted">Unmute</span>
-      </button>
-
-      <!-- Leave a channel -->
-      <button ng-click="leaveChannel()" class="btn btn-danger">Leave</button>
-    </div>
-    <hr>
-    <message ng-repeat="message in messages[currentChannel] | orderByPriority" message="message" rolling="message.owner == (messages[currentChannel] | orderByPriority)[$index-1].owner"></message>
-    <!-- <p ng-repeat="message in messages[currentChannel] | orderByPriority">{{message.content.text}}</p> -->
-
-    <hr>
-    <composemessage channel="messages[currentChannel]"></composemessage>
-  </div>
-
 </div>

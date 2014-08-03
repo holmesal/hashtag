@@ -48,13 +48,19 @@ angular.module('shortwaveApp')
       # console.log 'deferred auth user resolved successfully!'
       # Bind the firebase user to the root scope
       userRef = rootRef.child('users').child(authUser.uid)
-      $rootScope.user = $firebase userRef
+      sync = $firebase userRef
+      $rootScope.user = sync.$asObject()
+
+      # Once it loads, resolve the promise
+      $rootScope.user.$loaded().then =>
+        console.log 'got user!'
+        deferredUser.resolve $rootScope.user
       # Watch it for updates
-      $rootScope.$watch 'user', (user) ->
-        # If the user exists, resolve the deferredUser promise
-        if user
-          console.log 'got user'
-          deferredUser.resolve user
+      # $rootScope.$watch 'user', (user) ->
+      #   # If the user exists, resolve the deferredUser promise
+      #   if user
+      #     console.log 'got user'
+      #     deferredUser.resolve user
 
 
     User = 

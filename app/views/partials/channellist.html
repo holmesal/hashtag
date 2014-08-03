@@ -1,0 +1,6 @@
+<channel-list-item 
+  ng-repeat="channel in channels" 
+  channel="channel"
+  currentChannel="currentChannel"
+  ng-class="{selected: currentChannel == channel.$id}">
+</channel-list-item>

@@ -11,8 +11,8 @@ angular.module('shortwaveApp')
     templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     scope:
-      viewing: '='
       channel: '='
+      currentChannel: '='
     link: (scope, element, attrs) ->
       # element.text 'this is the channelListItem directive'
   )

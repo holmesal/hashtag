@@ -9,11 +9,6 @@
 ###
 angular.module('shortwaveApp')
   .controller 'StreamCtrl', ($scope, $rootScope, $firebase, channel) ->
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate'
-      'AngularJS'
-      'Karma'
-    ]
 
     ref = new Firebase "#{$rootScope.firebaseURL}/messages/#{channel.name}"
 
