@@ -11,7 +11,7 @@ angular.module('shortwaveApp')
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
-      current: '='
+      currentChannel: '='
     link: (scope, element, attrs) ->
 
       # Go load the channels from firebase
@@ -36,7 +36,8 @@ angular.module('shortwaveApp')
         console.log "the current channel is #{scope.currentChannel}"
 
         # Broadcast
-        $rootScope.$broadcast 'updateChannel', channel
+        # $rootScope.$broadcast 'updateChannel', channel
+        scope.currentChannel = channel
 
 
   )

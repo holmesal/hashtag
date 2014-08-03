@@ -27,8 +27,6 @@ angular.module('shortwaveApp')
           content:
             text: text
           owner: authUser.uid
-          parsed: false
-          raw: text
 
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()

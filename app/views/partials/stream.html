@@ -1,7 +1,8 @@
 
-<div class="messages" scroll-glue>
+<div class="messages">
   <message 
     ng-repeat="message in messages" 
+    id="{{message.$id}}"
     message="message" 
     rolling="message.owner == messages[$index-1].owner">
   </message>

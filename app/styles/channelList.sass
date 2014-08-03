@@ -11,23 +11,25 @@ channel-list
   background-color: $sidebarColor
 
   channel-list-item
-    display: block
-    width: 100%
-    height: $channelListItemHeight
-    border-bottom: $dividerstyle
 
-    .indicator
-      width: $indicatorWidth
-      height: 100%
-      float: left
+    .channelWrapper
+      display: block
+      width: 100%
+      height: $channelListItemHeight
+      border-bottom: $dividerstyle
 
-    .info
-      height: 100%
-      width: auto
-      overflow: hidden
+      .indicator
+        width: $indicatorWidth
+        height: 100%
+        float: left
+
+      .info
+        height: 100%
+        width: auto
+        overflow: hidden
 
 
-    // Selected state
-    &.selected
-      background-color: $greenColor
-      color: white
+      // Selected state
+      &.selected
+        background-color: $greenColor
+        color: white
