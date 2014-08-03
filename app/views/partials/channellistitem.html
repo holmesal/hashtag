@@ -1,8 +1,10 @@
 <div class="channelWrapper" 
   ng-click="changeChannel()" 
   ng-class="{'selected': currentChannel == channel.$id}">
-  <div class="indicator"></div>
+  <div class="indicator">
+    <div class="dot" ng-if="currentChannel != channel.$id"></div>
+  </div>
   <div class="info">
-    {{channel.$id}}
+    <span class="name">#{{channel.$id}}</span>
   </div>
 </div>

@@ -3,10 +3,18 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
 // endbower
 
+@import "compass/css3";
+
 @import "dashboard.sass";
 @import "stream.sass";
 @import "channelList.sass";
 @import "compose.sass";
+
+
+// Fonts
+@include font-face("Avenir Light", font-files("fonts/Avenir-Light.otf"));
+@include font-face("Avenir Medium", font-files("fonts/Avenir-Medium.otf"));
+@include font-face("Avenir Black", font-files("fonts/Avenir-Black.otf"));
 
 html,body,.appView {
   margin: 0px;
@@ -14,6 +22,7 @@ html,body,.appView {
   height: 100%;
   width: 100%;
   min-width: 100px;
+  font-family: Avenir-Light;
   // overflow: none;
 }
 

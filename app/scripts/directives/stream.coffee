@@ -31,21 +31,19 @@ angular.module('shortwaveApp')
       # Scroll to bottom anytime messages change
       scope.$watch 'messages', ->
         scrollToBottom()
-
-        # $timeout scrollToBottom, 1000
       , true
-
-        
 
       scrollToBottom = =>
         # console.log 'scrolling to the bottom'
         # Scroll the messaages to the bottom
         # For some reason we can't access the child in this way:
         scroller = element.children()[0]
+
         # So the ghetto way looks like this:
         $('.messages').stop().animate
           scrollTop: scroller.scrollHeight
         , 'slow'
-        
+      
+      # Catch any events coming up from the loadchirp directive
       scope.$on 'heightUpdate', scrollToBottom
   )

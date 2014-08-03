@@ -2,13 +2,54 @@
 
 
 $channelListItemHeight: 70px
+$createChannelHeight: 53px
 $indicatorWidth: 50px
+$dotSize: 8px
 
-$dividerstyle: 2px solid $dividerColor
+$dividerstyle: 1px solid $dividerColor
 
 
 channel-list 
   background-color: $sidebarColor
+
+  .addChannel
+    display: block
+    width: 100%
+    height: $createChannelHeight
+    color: $blackColor
+    position: relative
+    text-align: center
+    border-bottom: $dividerstyle
+
+    .plus,.supporting
+      transition: 0.2s ease-in-out all
+      position: absolute
+      left: 0
+      width: 100%
+
+    .plus 
+      line-height: $createChannelHeight
+      font-family: Avenir-Black
+      font-size: 22px
+      top: 0
+
+    .supporting
+      font-size: 12px
+      bottom: -3px
+      opacity: 0
+      transition: 0.2s ease-in-out all
+
+    &:hover
+      cursor: pointer
+
+      .plus
+        top: -8px
+
+      .supporting
+        opacity: 1
+        bottom: 5px
+
+
 
   channel-list-item
 
@@ -18,18 +59,39 @@ channel-list
       height: $channelListItemHeight
       border-bottom: $dividerstyle
 
+      &:hover
+        cursor: pointer
+
       .indicator
         width: $indicatorWidth
         height: 100%
         float: left
+        position: relative
+
+        .dot 
+          width: $dotSize
+          height: $dotSize
+          border-radius: 50%
+          position: absolute
+          top: 23px
+          right: 23px
+          background-color: $indicatorColor
 
       .info
         height: 100%
         width: auto
         overflow: hidden
+        padding-top: 15px
+
+        .name 
+          font-size: 17px
+          color: $blackColor
 
 
       // Selected state
       &.selected
         background-color: $greenColor
-        color: white
+
+        .info 
+          .name
+            color: white
