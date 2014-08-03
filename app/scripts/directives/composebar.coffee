@@ -13,16 +13,6 @@ angular.module('shortwaveApp')
     scope: 
       channel: '='
     link: (scope, element, attrs) ->
-      # element.text 'this is the composemessage directive'
-      scope.$watch 'channel', (newChannel) ->
-        if newChannel
-          console.log "directive saw channel change to #{newChannel}"
-
-      # auth = $firebaseSimpleLogin $rootScope.rootRef
-
-      # auth.$getCurrentUser().then (user) ->
-      #   scope.user = user
-
 
       # Send a message
       scope.send = ->

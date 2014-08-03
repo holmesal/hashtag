@@ -15,8 +15,6 @@ angular.module('shortwaveApp')
       currentChannel: '='
     link: (scope, element, attrs) ->
 
-      console.log "comparison #{scope.currentChannel} == #{scope.channel.$id}"
-
       # Handle channel changes
       scope.changeChannel = ->
         # Broadcast the new channel

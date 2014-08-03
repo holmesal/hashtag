@@ -10,8 +10,6 @@
 angular.module('shortwaveApp')
   .service 'User', ($rootScope, $firebase, $firebaseSimpleLogin, $q) ->
 
-    console.log 'starting up!'
-
     # Defer the auth user
     deferredAuthUser = $q.defer()
 
@@ -53,7 +51,6 @@ angular.module('shortwaveApp')
 
       # Once it loads, resolve the promise
       $rootScope.user.$loaded().then =>
-        console.log 'got user!'
         deferredUser.resolve $rootScope.user
       # Watch it for updates
       # $rootScope.$watch 'user', (user) ->
@@ -79,7 +76,6 @@ angular.module('shortwaveApp')
           return deferredAuthUser.promise
 
       getUser: ->
-        console.log 'getting user!'
         # If the user already exists, return that. Otherwise, return a promise
         if $rootScope.user
           return $rootScope.user

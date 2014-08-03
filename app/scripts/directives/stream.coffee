@@ -7,26 +7,31 @@
  # # stream
 ###
 angular.module('shortwaveApp')
-  .directive('stream', ($rootScope, $firebase, $timeout) ->
+  .directive('stream', ($rootScope, $firebase, $timeout, Channels) ->
     templateUrl: 'views/partials/stream.html'
     restrict: 'E'
     scope:
       channel: '='
     link: (scope, element, attrs) ->
+
+      scope.loaded = false
       
       scope.$watch 'channel', (up) ->
-        console.log 'channel changed to ' + up
         if scope.channel
 
           # Get the new ref
-          messagesRef = $rootScope.rootRef.child "messages/#{scope.channel}"
-          sync = $firebase messagesRef.limit(50)
+          # messagesRef = $rootScope.rootRef.child "messages/#{scope.channel}"
+          # sync = $firebase messagesRef.limit(50)
 
-          scope.messages = sync.$asArray()
+          # scope.messages = sync.$asArray()
+          scope.messages = Channels.channels[scope.channel]
+
+          console.log "channel #{scope.channel} appears to have length #{scope.messages.length}"
 
           scope.messages.$loaded().then ->
-            console.log "messages were loaded woohoo!"
             scrollToBottom()
+            # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
+            scope.loaded = true
 
       # Scroll to bottom anytime messages change
       scope.$watch 'messages', ->

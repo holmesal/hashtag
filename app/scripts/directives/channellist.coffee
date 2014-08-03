@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, User) ->
+  .directive('channelList', ($firebase, $rootScope, User, Channels) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -20,11 +20,10 @@ angular.module('shortwaveApp')
       channelsRef = userRef.child 'channels'
       sync = $firebase channelsRef
 
-      scope.channels = sync.$asArray()
+      scope.channels = Channels.list
 
+      # Once the channels load
       scope.channels.$loaded().then ->
-        console.log 'channel list loaded'
-        console.log scope.channels
 
         # Is this user currently viewing any channels?
         user = User.getUser()
@@ -33,7 +32,6 @@ angular.module('shortwaveApp')
         else
           # Just pick the first channel
           channel = scope.channels[0].$id
-        console.log "the current channel is #{scope.currentChannel}"
 
         # Broadcast
         # $rootScope.$broadcast 'updateChannel', channel
