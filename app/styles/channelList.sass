@@ -8,6 +8,8 @@ $dotSize: 8px
 
 $dividerstyle: 1px solid $dividerColor
 
+$quick: 0.2s ease-in-out all
+
 
 channel-list 
   background-color: $sidebarColor
@@ -59,6 +61,9 @@ channel-list
       height: $channelListItemHeight
       border-bottom: $dividerstyle
 
+      transition: $quick
+
+
       &:hover
         cursor: pointer
 
@@ -86,6 +91,7 @@ channel-list
         .name 
           font-size: 17px
           color: $blackColor
+          transition: $quick
 
 
       // Selected state
