@@ -7,7 +7,7 @@
  # # message
 ###
 angular.module('shortwaveApp')
-  .directive('message', ($rootScope, $firebase, $sce) ->
+  .directive('message', ($rootScope, $firebase, $sce, $window) ->
     templateUrl: 'views/partials/message.html'
     restrict: 'E'
     scope:
@@ -27,4 +27,12 @@ angular.module('shortwaveApp')
           scope.vidurls = 
             mp4: $sce.trustAsResourceUrl(updated.mp4)
             webm: $sce.trustAsResourceUrl(updated.webm)
+
+      # Watch the window scroll
+      # windowEl = element.parent()
+
+      # windowEl.on 'scroll', ->
+      #   console.log "window scrolled to #{windowEl.scrollTop()}"
+      #   scope.offsetTop = windowEl.scrollTop()
+      # scope.offsetTop = 100
   )
