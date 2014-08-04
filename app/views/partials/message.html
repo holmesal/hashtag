@@ -2,13 +2,17 @@
   <div ng-if="owner && !rolling" class="userPhoto" ng-style="{'background-image':'url('+owner.photo+')'}"></div>
   <p class="name" ng-if="owner && !rolling">{{owner.firstName}}</p>
 
-  <p class="text" ng-bind-html="message.content.text | parseUrl"></p>
+  <div class="content">
 
-  <!-- Todo - GIFs should have a template to themselves -->
-  <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
-    <source ng-src="{{vidurls.webm}}">
-    <source ng-src="{{vidurls.mp4}}">
-  </video>
+    <p class="text" ng-bind-html="message.content.text | parseUrl"></p>
 
-  <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" loadchirp>
+    <!-- Todo - GIFs should have a template to themselves -->
+    <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
+      <source ng-src="{{vidurls.webm}}">
+      <source ng-src="{{vidurls.mp4}}">
+    </video>
+
+    <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" loadchirp>
+
+  </div>
 </div>
