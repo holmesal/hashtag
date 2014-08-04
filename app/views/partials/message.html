@@ -1,6 +1,6 @@
 <div>
   <div ng-if="owner && !rolling" class="userPhoto" ng-style="{'background-image':'url('+owner.photo+')'}"></div>
-  <p ng-if="owner && !rolling">{{owner.firstName}}</p>
+  <p class="name" ng-if="owner && !rolling">{{owner.firstName}}</p>
   <p>{{message.content.text}}</p>
 
   <!-- Todo - GIFs should have a template to themselves -->

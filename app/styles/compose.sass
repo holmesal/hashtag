@@ -1,0 +1,45 @@
+@import "./colors"
+
+$composeheight: 44px
+
+$borderColor: #C6C6C6
+
+composebar
+  position: absolute
+  bottom: 0
+  width: 100%
+  height: $composeheight
+  background-color: $composeColor
+
+  .textContainer
+    // float: left
+    width: auto 
+    // background-color: blue
+    overflow: hidden
+    height: 100%
+    padding: 8px
+
+    textarea
+      box-sizing: border-box
+      width: 100%
+      resize: none
+      border: 1px solid $borderColor
+      border-radius: 3px
+      height: 100%
+
+      &:active,:focus,:hover
+        outline: 0px !important
+        webkit-appearance: none
+
+
+  .sendButton
+    float: right
+    width: 100px
+    height: 100%
+    text-align: center
+    line-height: $composeheight
+    font-family: Avenir-Medium
+    color: $sendColor
+
+    &:hover
+      cursor: pointer

@@ -28,13 +28,27 @@ stream
 
     message 
       position: relative
+      display: block
+
+      // Only message gets a min height
+      &.only 
+        min-height: 50px
+      // Last message gets more padding
+      &.last
+        margin-bottom: 25px
 
       .userPhoto
         position: absolute
-        width: 45px
-        height: 45px
+        width: 48px
+        height: 48px
         border-radius: 50%
         background-color: $profilePlaceholderColor
         top: 0
         left: -(($leftGutter/2) + ($photoSize/2))
+
+      .name 
+        font-size: 10px
+        color: $nameColor
+        font-family: Avenir-Medium
+        margin-bottom: 2px
 

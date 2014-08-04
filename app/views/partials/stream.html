@@ -4,6 +4,7 @@
     ng-repeat="message in messages" 
     id="{{message.$id}}"
     message="message" 
-    rolling="message.owner == messages[$index-1].owner">
+    rolling="message.owner == messages[$index-1].owner"
+    ng-class="{last: message.owner != messages[$index+1].owner, only: message.owner != messages[$index+1].owner && message.owner != messages[$index-1].owner}">
   </message>
 </div>

@@ -26,8 +26,6 @@ angular.module('shortwaveApp')
           # scope.messages = sync.$asArray()
           scope.messages = Channels.channels[scope.channel]
 
-          console.log "channel #{scope.channel} appears to have length #{scope.messages.length}"
-
           scope.messages.$loaded().then ->
             scrollToBottom()
             # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
