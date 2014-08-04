@@ -1,10 +1,11 @@
 <div>
   <div ng-if="owner && !rolling" class="userPhoto" ng-style="{'background-image':'url('+owner.photo+')'}"></div>
   <p class="name" ng-if="owner && !rolling">{{owner.firstName}}</p>
-  <p>{{message.content.text}}</p>
+
+  <p class="text" ng-bind-html="message.content.text | parseUrl"></p>
 
   <!-- Todo - GIFs should have a template to themselves -->
-  <video ng-if="vidurls" autoplay loop loadchirp>
+  <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
     <source ng-src="{{vidurls.webm}}">
     <source ng-src="{{vidurls.mp4}}">
   </video>
