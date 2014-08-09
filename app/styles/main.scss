@@ -5,16 +5,24 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 @import "compass/css3";
 
+@import "colors.sass";
+@import "structure.sass";
+
+@import "reset.sass";
+
 @import "dashboard.sass";
 @import "stream.sass";
 @import "channelList.sass";
 @import "compose.sass";
+@import "create.sass";
 
 
 // Fonts
 @include font-face("Avenir Light", font-files("fonts/Avenir-Light.otf"));
 @include font-face("Avenir Medium", font-files("fonts/Avenir-Medium.otf"));
 @include font-face("Avenir Black", font-files("fonts/Avenir-Black.otf"));
+@include font-face("Avenir Book", font-files("fonts/Avenir-Book.otf"));
+@include font-face("Avenir Heavy", font-files("fonts/Avenir-Heavy.otf"));
 
 html,body,.appView {
   margin: 0px;

@@ -75,7 +75,7 @@ angular.module('shortwaveApp')
         # Is the last message newer?
         for channelName, idx in @channelList
             if channelName.$id is name
-                if latest > @channelList[idx].lastSeen
+                if latest >= @channelList[idx].lastSeen
                     # Ignore yourself
                     unless last.owner is @user.$id
                         @channelList[idx].unread = true

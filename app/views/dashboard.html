@@ -1,6 +1,6 @@
 <div class="dashboard" ng-class="{createVisible:createVisible}">
 
-  <div class="navbar">
+  <div class="navbar" ng-click="logout()">
     <p class="title">Shortwave</p>
   </div>
 
@@ -11,10 +11,5 @@
     <composebar channel="currentChannel"></composebar>
   </div>
 
-  <create>
-    <div class="navbar">
-      <a class="cancel" ng-click="hideCreate()">Cancel</a>
-      <p class="title">Create</p>
-    </navbar>
-  </create>
+  <create hide-create="hideCreate"></create>
 </div>

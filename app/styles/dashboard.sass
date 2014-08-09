@@ -1,29 +1,31 @@
-$navbarheight: 52px
-
+@import "./structure"
 @import "./colors"
 
 .dashboard
   width: 100%
   height: 100%
-  padding-top: $navbarheight
+  padding-top: $navbarHeight
   position: relative
   transition: 0.6s ease-in-out all
+  -webkit-transform: translateZ(0)
 
   &.createVisible
-    margin-left: -100%
+    margin-left: 500px
 
   .navbar
     width: 100%
-    height: $navbarheight
+    height: $navbarHeight
     background-color: $greenColor
     position: absolute
     top: 0
     left: 0
-    line-height: $navbarheight
+    line-height: $navbarHeight
     color: white
+    border-radius: 0px
 
     .title 
-      font-family: Avenir-Black
+      font-family: Avenir-Heavy
+      letter-spacing: 1px
       font-size: 17px
       text-align: center
 
@@ -31,7 +33,7 @@ $navbarheight: 52px
       position: absolute
       left: 20px
       font-family: Avenir-Light
-      font-size: 15px
+      font-size: 17px
       color: white 
       &:hover
         text-decoration: none
@@ -49,13 +51,3 @@ $navbarheight: 52px
     width: auto
     overflow: hidden
     position: relative
-
-
-
-  create
-    position: absolute
-    width: 100%
-    background-color: $sidebarColor
-    height: 100%
-    left: 100%
-    top: 0
