@@ -16,37 +16,21 @@ angular.module('shortwaveApp')
 
       # Send a message
       scope.send = ->
-        Message.send scope.channel, scope.messageText
-        .then ->
-          console.log "send message successfully"
-        .catch (err) ->
-          console.error "error sending message"
-          console.error err
-          # restore the old text
-          scope.messageText = scope.lastText
+        # Is there anything here?
+        if scope.messageText
+          Message.send scope.channel, scope.messageText
+          .then ->
+            console.log "send message successfully"
+          .catch (err) ->
+            console.error "error sending message"
+            console.error err
+            # restore the old text
+            scope.messageText = scope.lastText
 
-        # store the last text
-        scope.lastText = scope.messageText
-        # Clear the current text
-        scope.messageText = ''
-        # # Build a new message
-        # message = 
-        #   type: 'text'
-        #   content:
-        #     text: scope.messageText
-        #   owner: scope.user.uid
-        
-        # message['.priority'] = Date.now()
-
-        # console.log JSON.stringify(message)
-
-        
-
-        # scope.channel.$add message
-        # .then ->
-        #   console.log 'saved!'
-        # .catch (err) ->
-        #   console.error err
+          # store the last text
+          scope.lastText = scope.messageText
+          # Clear the current text
+          scope.messageText = ''
 
       scope.keydown = (ev) ->
 
