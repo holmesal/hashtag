@@ -77,13 +77,15 @@ angular.module('shortwaveApp')
       checkTimes: (name) ->
         # console.warn "checking times for channel #{name}"
         # Get the priority of the last message
-        latest = @messages[name][@messages[name].length - 1].$priority
+        last = @messages[name][@messages[name].length - 1]
+        latest = last.$priority
         # Is the last message newer?
         for channelName, idx in @channelList
             if channelName.$id is name
                 if latest > @channelList[idx].lastSeen
-                    @channelList[idx].unread = true
-                    # console.warn "got a newer message!"
+                    # Ignore yourself
+                    unless last.owner is @user.$id
+                        @channelList[idx].unread = true
 
       sendNotification: (channelName, ev) ->
         # Only respond to messages being added
@@ -92,12 +94,15 @@ angular.module('shortwaveApp')
             message = @messages[channelName][idx]
             console.log "new message: #{message.content.text}"
 
-            # Create and send a new notification
-            Notification.requestPermission()
-            note = new Notification "##{channelName}: #{message.content.text}",
-                icon: './images/yeoman.png'
-                body: message.content.text
-                tag: ev.key
+            # If this isn't you
+            unless @user.$id is message.owner
+                console.log 'sending notification'
+                # Create and send a new notification
+                Notification.requestPermission()
+                note = new Notification "##{channelName}: #{message.content.text}",
+                    icon: './images/yeoman.png'
+                    body: message.content.text
+                    tag: ev.key
 
 
 
