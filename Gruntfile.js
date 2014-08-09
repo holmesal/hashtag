@@ -372,7 +372,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
+          src: ['bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*'],
           dest: '<%= yeoman.dist %>'
         }]
       },
@@ -408,6 +408,16 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.coffee',
         singleRun: true
       }
+    },
+
+    // Build for node-webkit
+    nodewebkit: {
+      options: {
+        platforms: ['osx'],
+        buildDir: './releases',
+        version: '0.10.1'
+      },
+      src: ['package.json','dist/**/**']
     }
   });
 
@@ -461,5 +471,10 @@ module.exports = function (grunt) {
     'newer:jshint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('desktop', [
+    'build',
+    'nodewebkit'
   ]);
 };
