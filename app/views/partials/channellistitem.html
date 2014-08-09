@@ -2,7 +2,7 @@
   ng-click="changeChannel()" 
   ng-class="{'selected': currentChannel == channel.$id}">
   <div class="indicator">
-    <div class="dot" ng-show="currentChannel != channel.$id"></div>
+    <div class="dot" ng-show="channel.unread"></div>
   </div>
   <div class="info">
     <span class="name">#{{channel.$id}}</span>

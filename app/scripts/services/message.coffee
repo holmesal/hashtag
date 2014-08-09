@@ -34,12 +34,20 @@ angular.module('shortwaveApp')
           if err
             sent.reject err
           else
-            # Queue a parse request for this message
-            parseRef = $rootScope.rootRef.child('parseQueue').push()
-            parseRef.set
+            request = 
               channel: channel
               message: pushRef.ref().name()
-            , (err) ->
+            # Queue a parse request for this message
+            parseRef = $rootScope.rootRef.child('parseQueue').push()
+            parseRef.set request, (err) ->
+              if err
+                sent.reject err
+              else
+                sent.resolve()
+
+            # Queue a push request for this message
+            pushRef = $rootScope.rootRef.child('pushQueue').push()
+            pushRef.set request, (err) ->
               if err
                 sent.reject err
               else

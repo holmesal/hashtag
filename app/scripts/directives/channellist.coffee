@@ -20,7 +20,7 @@ angular.module('shortwaveApp')
       channelsRef = userRef.child 'channels'
       sync = $firebase channelsRef
 
-      scope.channels = Channels.list
+      scope.channels = Channels.channelList
 
       # Once the channels load
       scope.channels.$loaded().then ->
@@ -36,6 +36,5 @@ angular.module('shortwaveApp')
         # Broadcast
         # $rootScope.$broadcast 'updateChannel', channel
         scope.currentChannel = channel
-
 
   )

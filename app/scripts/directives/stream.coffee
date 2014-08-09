@@ -24,7 +24,7 @@ angular.module('shortwaveApp')
           # sync = $firebase messagesRef.limit(50)
 
           # scope.messages = sync.$asArray()
-          scope.messages = Channels.channels[scope.channel]
+          scope.messages = Channels.messages[scope.channel]
 
           scope.messages.$loaded().then ->
             scrollToBottom()

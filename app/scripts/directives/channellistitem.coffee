@@ -7,7 +7,7 @@
  # # One of the list items that appears in the 
 ###
 angular.module('shortwaveApp')
-  .directive('channelListItem', ($rootScope) ->
+  .directive('channelListItem', ($rootScope, User) ->
     templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     scope:
@@ -20,4 +20,7 @@ angular.module('shortwaveApp')
         # Broadcast the new channel
         $rootScope.$broadcast 'updateChannel', scope.channel.$id
         # scope.currentChannel = scope.channel.$id
+        # Set your lastSeen for this channel
+        nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/lastSeen"
+        nowRef.set Date.now()
   )

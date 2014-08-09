@@ -8,7 +8,7 @@
  # Controller for the landing page - handle loggin in the user, etc.
 ###
 angular.module('shortwaveApp')
-  .controller 'MainCtrl', ($scope, $rootScope, $location, $firebase, $firebaseSimpleLogin) ->
+  .controller 'MainCtrl', ($scope, $rootScope, $location, $firebase, $firebaseSimpleLogin, Notifications) ->
 
     # TODO - move login checking out to a service that does it in the route resolve - right now said service exists, but this callback is in too many places...
     $scope.$auth = $firebaseSimpleLogin $rootScope.rootRef
