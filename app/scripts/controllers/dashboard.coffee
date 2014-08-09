@@ -11,4 +11,10 @@ angular.module('shortwaveApp')
   .controller 'DashboardCtrl', ($scope, $rootScope, $filter, $firebase, user,  Channels) ->
 
     $rootScope.$on 'updateChannel', (ev, newChannel) ->
-        $scope.currentChannel = newChannel
+      $scope.currentChannel = newChannel
+
+    $scope.showCreate = ->
+      $scope.createVisible = true
+
+    $scope.hideCreate = ->
+      $scope.createVisible = false

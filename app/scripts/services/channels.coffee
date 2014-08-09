@@ -34,13 +34,6 @@ angular.module('shortwaveApp')
         # When the list of channels changes, we'll want to look for new ones
         @channelList.$watch @channelListChanged, @
 
-      #   # Once the list of channels is loaded, load the messages
-      #   @loaded.then @loadMessages
-
-      # loadMessages: ->
-      #   # For each channel, set up a corresponding sync ref for the messages in that channel
-      #   console.log 'would be loading messages here'
-
       channelListChanged: ->
         # console.log 'the list of channels changed:'
         # console.log @channelList

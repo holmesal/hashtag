@@ -17,7 +17,11 @@ angular.module('shortwaveApp')
       scope.loaded = false
       
       scope.$watch 'channel', (up) ->
+
+        scope.loaded = false
+
         if scope.channel
+          console.log 'channel changed!'
 
           # Get the new ref
           # messagesRef = $rootScope.rootRef.child "messages/#{scope.channel}"
@@ -28,8 +32,13 @@ angular.module('shortwaveApp')
 
           scope.messages.$loaded().then ->
             scrollToBottom()
+            $timeout ->
+              scope.loaded = true
+            , 500
             # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
-            scope.loaded = true
+            # $timeout ->
+            #   scope.loaded = true
+            # , 100
 
       # Scroll to bottom anytime messages change
       scope.$watch 'messages', ->
@@ -45,7 +54,9 @@ angular.module('shortwaveApp')
         # So the ghetto way looks like this:
         $('.messages').stop().animate
           scrollTop: scroller.scrollHeight
-        , 'slow'
+        ,
+          queue: false
+          duration: 300
       
       # Catch any events coming up from the loadchirp directive
       scope.$on 'heightUpdate', scrollToBottom

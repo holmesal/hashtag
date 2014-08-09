@@ -12,6 +12,7 @@ angular.module('shortwaveApp')
     restrict: 'E'
     scope:
       currentChannel: '='
+      showCreate: '='
     link: (scope, element, attrs) ->
 
       # Go load the channels from firebase

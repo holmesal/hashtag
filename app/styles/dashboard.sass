@@ -6,19 +6,36 @@ $navbarheight: 52px
   width: 100%
   height: 100%
   padding-top: $navbarheight
+  position: relative
+  transition: 0.6s ease-in-out all
 
-  navbar
-    height: $navbarheight
+  &.createVisible
+    margin-left: -100%
+
+  .navbar
     width: 100%
+    height: $navbarheight
     background-color: $greenColor
-    font-family: Avenir-Black
-    font-size: 17px
-    color: white
-    line-height: $navbarheight
-    text-align: center
     position: absolute
     top: 0
     left: 0
+    line-height: $navbarheight
+    color: white
+
+    .title 
+      font-family: Avenir-Black
+      font-size: 17px
+      text-align: center
+
+    .cancel
+      position: absolute
+      left: 20px
+      font-family: Avenir-Light
+      font-size: 15px
+      color: white 
+      &:hover
+        text-decoration: none
+        cursor: pointer
 
   channel-list, .mainView
     height: 100%
@@ -32,3 +49,13 @@ $navbarheight: 52px
     width: auto
     overflow: hidden
     position: relative
+
+
+
+  create
+    position: absolute
+    width: 100%
+    background-color: $sidebarColor
+    height: 100%
+    left: 100%
+    top: 0

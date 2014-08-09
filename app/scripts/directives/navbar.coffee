@@ -8,8 +8,10 @@
 ###
 angular.module('shortwaveApp')
   .directive('navbar', ->
-    template: '#{{currentChannel}}'
+    template: '{{currentChannel}}'
     restrict: 'E'
+    scope:
+      currentChannel: '='
     link: (scope, element, attrs) ->
       # element.text 'this is the navbar directive'
   )

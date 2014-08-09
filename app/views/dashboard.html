@@ -1,11 +1,20 @@
-<div class="dashboard">
+<div class="dashboard" ng-class="{createVisible:createVisible}">
 
-  <navbar currentChannel="currentChannel" ng-click="Notification.requestPermission()"></navbar>
+  <div class="navbar">
+    <p class="title">Shortwave</p>
+  </div>
 
-  <channel-list current-channel="currentChannel"></channel-list>
+  <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list>
 
   <div class="mainView">
     <stream channel="currentChannel"></stream>
     <composebar channel="currentChannel"></composebar>
   </div>
+
+  <create>
+    <div class="navbar">
+      <a class="cancel" ng-click="hideCreate()">Cancel</a>
+      <p class="title">Create</p>
+    </navbar>
+  </create>
 </div>
