@@ -133,7 +133,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      release: 'release'
     },
 
     // Add vendor prefixed styles
@@ -414,10 +415,49 @@ module.exports = function (grunt) {
     nodewebkit: {
       options: {
         platforms: ['osx'],
-        buildDir: './releases',
+        buildDir: 'release',
         version: '0.10.1'
       },
       src: ['package.json','dist/**/**']
+    },
+
+    // Compress
+    compress: {
+      release: {
+        options: {
+          archive: 'release/dist.zip'
+        },
+        expand: true,
+        cwd: 'dist/',
+        src: ['**/*'],
+        dest: 'release'
+      }
+    },
+
+    // Load aws creds
+    aws: grunt.file.readJSON('/Users/alonsoholmes/grunt-aws.json'),
+
+    // Upload to s3
+    s3: {
+      options: {
+        key: '<%= aws.key %>',
+        secret: '<%= aws.secret %>',
+        bucket: 'shortwave-releases',
+        region: 'us-west-1',
+        access: 'public-read'
+      },
+      release: {
+        upload: [
+          {
+            src: './package.json',
+            dest: 'package.json'
+          },
+          {
+            src: 'release/dist.zip',
+            dest: 'dist.zip'
+          }
+        ]
+      }
     }
   });
 
@@ -474,7 +514,20 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('desktop', [
+    // Build
     'build',
-    'nodewebkit'
+    // Clean current release folder
+    'clean:release',
+    // Build for desktop
+    'nodewebkit',
+    // Compress for web
+    'compress'
+  ]);
+
+  grunt.registerTask('deploy', [
+    // Build for desktop
+    'desktop',
+    // Push to S3
+    's3:release'
   ]);
 };
