@@ -12,7 +12,7 @@
       <source ng-src="{{vidurls.mp4}}">
     </video>
 
-    <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" loadchirp>
+    <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" ng-click="navigate(message.content.src)" loadchirp>
 
   </div>
 <!-- </div> -->
