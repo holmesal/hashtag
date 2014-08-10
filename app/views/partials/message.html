@@ -4,7 +4,7 @@
 
   <div class="content">
 
-    <p class="text" ng-bind-html="message.content.text | parseUrl"></p>
+    <p class="text" compile="message.content.text | parseUrl"></p>
 
     <!-- Todo - GIFs should have a template to themselves -->
     <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>

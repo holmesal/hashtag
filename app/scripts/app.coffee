@@ -45,7 +45,7 @@ angular
       .otherwise
         redirectTo: '/dashboard'
 
-  .run ($rootScope, $location, $firebase) ->
+  .run ($rootScope, $location, $firebase, NodeWebkit) ->
 
     # Some channel names are just not allowed
     # TODO - store these in Firebase instead

@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Channels', ($rootScope, $firebase, $timeout, User, Notifications) ->
+  .service 'Channels', ($rootScope, $firebase, $timeout, User) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
 
     class Channels
