@@ -1,0 +1,20 @@
+{
+  "name": "Shortwave",
+  "main": "app://localhost/launcher.html",
+  "chromium-args": "--disable-web-security",
+  "window": {
+    "title": "Shortwave",
+    "toolbar": true,
+    "min_width": 700,
+    "min_height": 700,
+    "width": 800,
+    "height": 800
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "dependencies": {
+    "semver": "^3.0.1",
+    "request": "^2.40.0"
+  }
+}
