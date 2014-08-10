@@ -18,7 +18,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
   };
 
   // Define the configuration for all the tasks
@@ -387,6 +387,20 @@ module.exports = function (grunt) {
         expand: true,
         dest: 'desktop',
         src: '<%= yeoman.dist %>/**/*'
+      },
+      iconsMac: {
+        expand: true,
+        cwd: '.',
+        files: [
+          {
+            src: 'desktop/assets/icon/Icon?',
+            dest: 'release/Shortwave/osx/Shortwave.app/icon/Icon?'
+          },
+          {
+            src: 'desktop/assets/icon.icns',
+            dest: 'release/Shortwave/osx/Shortwave.app/Contents/Resources/nw.icns'
+          }
+        ]
       }
     },
 
@@ -423,7 +437,7 @@ module.exports = function (grunt) {
         buildDir: 'release',
         version: '0.10.1'
       },
-      src: ['package.json','dist/**/**']
+      src: ['desktop/**/**']
     },
 
     // Compress
@@ -462,6 +476,14 @@ module.exports = function (grunt) {
             dest: 'dist.zip'
           }
         ]
+      },
+      dmg: {
+        upload: [
+          {
+            src: 'release/Shortwave/osx/Shortwave.dmg',
+            dest: 'package.json'
+          }
+        ]
       }
     },
 
@@ -478,6 +500,16 @@ module.exports = function (grunt) {
         push: true,
         pushTo: 'origin',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+      }
+    },
+
+    // Run commands in the shell
+    shell: {
+      makeDmg: {
+        command: 'desktop/createDmg/create-dmg --volname "Shortwave" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Shortwave.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Shortwave/osx/Shortwave.dmg release/Shortwave/osx'
+      },
+      nw: {
+        cmd: 'nw desktop/'
       }
     }
   });
@@ -534,26 +566,55 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('desktop', [
+  // For developing an application locally - building on the desktop
+  grunt.registerTask('buildDesktop', [
     // Build
     'build',
     // Clean current release folder
     'clean:release',
     // Grab the latest dist
-    'copy:webkit',
-    // Build for desktop
-    'nodewebkit',
-    // Compress for web
-    // Grabs package.json and dist folder
-    'compress'
+    'copy:webkit'
   ]);
+
+  // For developing an application locally - building on the desktop
+  // Just builds and runs nodewebkit out of the desktop/ folder
+  grunt.registerTask('nw',[
+    // Build for desktop
+    'buildDesktop',
+    // Run node-webkit
+    'shell:nw'
+  ]);
+
+  // For prepping the desktop app for release
+  // Just builds and runs nodewebkit out of the desktop/ folder
+  grunt.registerTask('releaseDesktop',[
+    // First, build for desktop
+    'buildDesktop',
+    // Make the nodewebkit app
+    'nodewebkit',
+    // Copy over the necessary icon files
+    'copy:iconsMac',
+    // Make the launcher
+    'shell:makeDmg',
+    // Push up to S3
+    's3:dmg'
+  ]);
+
 
   grunt.registerTask('release', [
     // Bumps the version number & commits
     'bump',
     // Build for desktop
-    'desktop',
+    'buildDesktop',
+    // Compress for S3
+    'compress',
     // Push to S3
     's3:release'
+  ]);
+
+  grunt.registerTask('fullRelease', [
+    'release',
+    // Push the updated app to S3 as well
+    'releaseDesktop'
   ]);
 };
