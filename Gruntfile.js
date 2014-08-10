@@ -134,7 +134,7 @@ module.exports = function (grunt) {
         }]
       },
       server: '.tmp',
-      release: 'release'
+      release: ['release','desktop/dist']
     },
 
     // Add vendor prefixed styles
@@ -382,6 +382,11 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      webkit: {
+        expand: true,
+        dest: 'desktop',
+        src: '<%= yeoman.dist %>/**/*'
       }
     },
 
@@ -518,13 +523,15 @@ module.exports = function (grunt) {
     'build',
     // Clean current release folder
     'clean:release',
+    // Grab the latest dist
+    'copy:webkit',
     // Build for desktop
     'nodewebkit',
     // Compress for web
     'compress'
   ]);
 
-  grunt.registerTask('deploy', [
+  grunt.registerTask('release', [
     // Build for desktop
     'desktop',
     // Push to S3
