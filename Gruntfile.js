@@ -463,6 +463,22 @@ module.exports = function (grunt) {
           }
         ]
       }
+    },
+
+    // Updates the version number
+    bump: {
+      options: {
+        files: ['package.json'],
+        commit: true,
+        commitMessage: 'Desktop release v%VERSION%',
+        commitFiles: ['package.json'],
+        createTag: true,
+        tagName: 'v%VERSION%',
+        tagMessage: 'Desktop release %VERSION%',
+        push: true,
+        pushTo: 'origin',
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+      }
     }
   });
 
@@ -528,10 +544,13 @@ module.exports = function (grunt) {
     // Build for desktop
     'nodewebkit',
     // Compress for web
+    // Grabs package.json and dist folder
     'compress'
   ]);
 
   grunt.registerTask('release', [
+    // Bumps the version number & commits
+    'bump',
     // Build for desktop
     'desktop',
     // Push to S3
