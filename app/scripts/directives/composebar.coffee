@@ -7,7 +7,7 @@
  # # composemessage
 ###
 angular.module('shortwaveApp')
-  .directive('composebar', ($firebaseSimpleLogin, $rootScope, Message) ->
+  .directive('composebar', ($firebaseSimpleLogin, $rootScope, $window, Message) ->
     templateUrl: 'views/partials/composebar.html'
     restrict: 'E'
     scope: 
@@ -18,7 +18,7 @@ angular.module('shortwaveApp')
       scope.send = ->
         # Is there anything here?
         if scope.messageText
-          Message.send scope.channel, scope.messageText
+          Message.text scope.messageText, scope.channel
           .then ->
             console.log "send message successfully"
           .catch (err) ->
@@ -36,5 +36,11 @@ angular.module('shortwaveApp')
 
         if ev.keyCode is 13
           scope.send()
+
+      # Grab focus when window comes into focus
+      win = angular.element $window
+      win.on 'focus', ->
+        console.log 'regained focus, setting to compose'
+        $rootScope.$broadcast 'focusOn', 'compose'
 
   )

@@ -1,4 +1,7 @@
-<div class="dashboard" ng-class="{createVisible:createVisible}">
+<div class="dashboard" 
+  ng-class="{createVisible:createVisible}" 
+  nv-file-drop uploader="uploader"
+  ng-paste="paste($event)">
 
   <div class="navbar" ng-click="logout()">
     <p class="title">Shortwave</p>

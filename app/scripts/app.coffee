@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'firebase',
-    'luegg.directives'
+    'luegg.directives',
+    'angularFileUpload'
   ])
   .config ($routeProvider) ->
     $routeProvider
@@ -44,6 +45,7 @@ angular
 
       .otherwise
         redirectTo: '/dashboard'
+
 
   .run ($rootScope, $location, $firebase, NodeWebkit) ->
 
@@ -82,33 +84,5 @@ angular
       console.error 'error logging in with firebase'
       console.error err
 
-    # Log in this user with firebase
-    # TODO - move login checking out to a service that does it in the route resolve
-    # OR - just make a route resolver that is able to hold up the route change until this auth comes back either way. Ugh this sounds familiar
-    # $rootScope.rootRef = rootRef = new Firebase $rootScope.firebaseURL
-    # auth = new FirebaseSimpleLogin rootRef, (err, authUser) =>
-    #   console.log 'auth done'
-    #   if err
-    #     console.error err
-    #   else
-    #     # If the user is logged in, redirect to one of your channels. Your first one?
-    #     if authUser
 
-    #       # Keep the authUser, this won't change
-    #       $rootScope.authUser = authUser
-
-    #       # Bind to the user
-    #       userRef = rootRef.child "users/#{authUser.uid}"
-    #       $rootScope.user = $firebase userRef
-
-    #       # Update this user's data
-    #       userInfoRef = rootRef.child "users/#{authUser.uid}/profile"
-    #       userInfoRef.update 
-    #         photo: authUser.thirdPartyUserData.picture.data.url 
-    #         firstName: authUser.thirdPartyUserData.first_name
-
-    #       # console.error 'should change path here to go to their home screen'
-    #       console.log 'changing path!'
-    #       $rootScope.$apply ->
-    #         $location.path '/dashboard'
 

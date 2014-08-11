@@ -13,20 +13,40 @@ angular.module('shortwaveApp')
 
     Message = 
 
-      send: (channel, text) ->
-
-        sent = $q.defer()
-
-        authUser = User.getAuthUser()
-
-        # any message types I can recognize here?
+      text: (text, channel) ->
 
         # Build a new message
         message = 
           type: 'text'
           content:
             text: text
-          owner: authUser.uid
+
+        # Send - returns a promise
+        @send message, channel
+
+      image: (url, channel) ->
+
+        # Build a new image message
+        message =
+          type: 'image'
+          content:
+            src: url
+
+        # Send - returns a promise
+        @send message, channel
+
+
+
+
+      send: (message, channel) ->
+
+        # Sent promise
+        sent = $q.defer()
+
+        # Add some required properties
+        authUser = User.getAuthUser()
+
+        message.owner = authUser.uid
 
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()
@@ -53,4 +73,5 @@ angular.module('shortwaveApp')
               else
                 sent.resolve()
 
+        # Return the promise
         sent.promise

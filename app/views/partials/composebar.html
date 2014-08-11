@@ -1,7 +1,7 @@
 
 <div class="sendButton" ng-click="send()">Send</div>
 <div class="textContainer">
-  <textarea type="text" ng-model="messageText" ng-keydown="keydown($event)"></textarea>
+  <textarea type="text" ng-model="messageText" ng-keydown="keydown($event)" focus-on="compose"></textarea>
   <!-- <input type="text" ng-model="messageText" class="form-control" ng-keydown="keydown($event)"></input> -->
 </div>
 <!-- <button class="btn btn-success" ng-click="send()">Send ({{channel.$id}})</button> -->
