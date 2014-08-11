@@ -14,5 +14,15 @@
 
     <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" ng-click="navigate(message.content.src)" loadchirp>
 
+    <div ng-if="message.type == 'website'" class="website" ng-click="navigate(message.content.url)">
+      <p class="title" ng-if="message.content.title">{{message.content.title}}</p>
+      <p class="description" ng-if="message.content.description && !message.content.image">{{message.content.description}}</p>
+      <img ng-src="{{message.content.image}}" loadchirp>
+      <div class="buttonRow">
+        <img class="favicon" ng-src="{{message.content.favicon}}">
+        <p class="siteName" ng-if="message.content.siteName">{{message.content.siteName}}</p>
+      </div>
+    </div>
+
   </div>
 <!-- </div> -->
