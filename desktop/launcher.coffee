@@ -5,6 +5,13 @@ repoOwner = 'reactiveui'
 repoName = 'reactiveui'
 {EventEmitter} = require 'events'
 
+rm = require 'rimraf'
+mv = require 'mv'
+fs = require 'fs'
+AdmZip = require 'adm-zip'
+
+bucket = 'https://shortwave-releases.s3-us-west-1.amazonaws.com'
+
 # Go check for the latest release
 # alert 'omg alive'
 
@@ -14,9 +21,10 @@ class Launcher extends EventEmitter
 
   info: (stuff) ->
     console.info stuff
-    p = document.createElement 'p'
-    p.innerHTML = stuff
-    document.body.appendChild p
+    if document?
+      p = document.createElement 'p'
+      p.innerHTML = stuff
+      document.body.appendChild p
 
   constructor: ->
 
@@ -25,8 +33,10 @@ class Launcher extends EventEmitter
       unless timeout
         timeout = 0
       # Load the existing app
-      setTimeout ->
-        window.location = "app://localhost/dist/index.html"
+      setTimeout =>
+        @info 'booting app'
+        if window?
+          window.location = "app://localhost/dist/index.html"
       , timeout
 
     # Get the current version
@@ -45,26 +55,26 @@ class Launcher extends EventEmitter
       @currentVersion = 'v0.0.0'
 
   getLatestVersion: ->
-    @info 'getting latest version from github...'
+    @info "getting latest version from #{bucket}..."
     request 
-      url: "https://api.github.com/repos/#{repoOwner}/#{repoName}/releases"
+      url: "#{bucket}/package.json"
       json: true
-      headers: 
-        'User-Agent': 'Shortwave'
-        'Accept': 'application/vnd.github.v3+json'
-    , (err, res, body) =>
+    , (err, res, pack) =>
       unless err or res.statusCode isnt 200
-        latestRelease = body[0]
-        @info 'got release from github!'
-        console.log latestRelease
-        @latestVersion = latestRelease.tag_name
+        # This is the package.json
+        @latestVersion = pack.version
+        # latestRelease = body[0]
+        @info 'got latest info from aws!'
+        # console.log latestVersion
+        # @latestVersion = latestRelease.tag_name
         # If newer, start updateing
         @info "checking if #{@latestVersion} > #{@currentVersion}"
         if semver.gt @latestVersion, @currentVersion
           @info 'got newer version, downloading'
-          @download latestRelease.assets_url
+          @download()
         else
           @info 'currently running newest version, skipping'
+          @emit 'continue', 3000
       else
         # TODO - catch no-internet errors here
         @info "error getting latest release from github"
@@ -72,9 +82,65 @@ class Launcher extends EventEmitter
         @info "status: #{res?.statusCode}"
         @emit 'continue', 5000
 
-  download: (asset_url) ->
-    @info "would be downloading here"
-    @emit 'continue', 2000
+
+  download: ->
+    url = "#{bucket}/dist.zip"
+    @info "downloading from #{url}"
+
+    # Remove any existing zip file
+    rm 'dist.zip', =>
+      # Download the new zip file
+      stream = fs.createWriteStream 'dist.zip'
+      request.get url
+      .pipe stream
+
+      # @unpack()
+
+      stream.on 'close', =>
+        @info 'stream closed!'
+        @info 'finished downloading new version!'
+        # verify this zip, then unpack it
+        @prepare()
+
+  prepare: ->
+    @info "preparing to unpack zip..."
+
+    try
+      @zip = new AdmZip 'dist.zip'
+
+      # Move the current dist folder to a backup
+      # Delete any existing backups
+      rm 'backup', =>
+        # Does the dist folder already exist?
+        fs.exists 'dist', (exists) =>
+          if exists
+            # Move stuff
+            mv 'dist', 'backup', 
+              mkdirp: true
+            , (err) =>
+              throw new Error err if err 
+              @info 'dist/ was moved to backup/'
+              @unpack()
+          else
+            # Unpack right away
+            @unpack()
+
+      # entries = zip.getEntries()
+
+      # for entry in entries
+      #   @info entry.toString()
+    catch
+      @info 'error - bad zip! aborting update...'
+      @emit 'continue', 5000
+
+  unpack: ->
+    @info "unpacking zip..."
+    # Wow, I hope this is synchronous
+    @zip.extractAllTo 'dist', true # overwrite any existing
+    # Go!
+    @info "unpacked!"
+    @info fs.readdirSync 'dist'
+    @emit 'continue', 3000
 
 
 new Launcher

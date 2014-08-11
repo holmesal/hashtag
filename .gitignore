@@ -4,5 +4,5 @@ dist
 .sass-cache
 bower_components
 cache
-releases
 release
+desktop/dist.zip

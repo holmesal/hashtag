@@ -1,6 +1,6 @@
 {
   "name": "Shortwave",
-  "version": "v0.1",
+  "version": "0.1.0",
   "main": "app://localhost/launcher.html",
   "chromium-args": "--disable-web-security",
   "window": {
@@ -17,6 +17,9 @@
   },
   "dependencies": {
     "semver": "^3.0.1",
-    "request": "^2.40.0"
+    "request": "^2.40.0",
+    "rimraf": "^2.2.8",
+    "adm-zip": "^0.4.4",
+    "mv": "^2.0.3"
   }
 }

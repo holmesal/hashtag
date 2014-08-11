@@ -373,7 +373,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: ['bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*'],
+          src: ['bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*','package.json'],
           dest: '<%= yeoman.dist %>'
         }]
       },
@@ -449,7 +449,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: 'dist/',
         src: ['**/*'],
-        dest: 'release'
+        dest: ''
       }
     },
 
@@ -481,7 +481,7 @@ module.exports = function (grunt) {
         upload: [
           {
             src: 'release/Shortwave/osx/Shortwave.dmg',
-            dest: 'package.json'
+            dest: 'Shortwave.dmg'
           }
         ]
       }
