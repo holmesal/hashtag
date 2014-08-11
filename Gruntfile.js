@@ -508,7 +508,7 @@ module.exports = function (grunt) {
       makeDmg: {
         command: 'desktop/createDmg/create-dmg --volname "Shortwave" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Shortwave.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Shortwave/osx/Shortwave.dmg release/Shortwave/osx'
       },
-      nw: {
+      nodewebkit: {
         command: 'nw desktop/'
       },
       firebase: {
@@ -585,7 +585,7 @@ module.exports = function (grunt) {
     // Build for desktop
     'buildDesktop',
     // Run node-webkit
-    'shell:nw'
+    'shell:nodewebkit'
   ]);
 
   // For prepping the desktop app for release

@@ -12,7 +12,18 @@ angular.module('shortwaveApp')
     restrict: 'E'
     scope: 
       channel: '='
+      uploader: '='
+      composeHeight: '='
     link: (scope, element, attrs) ->
+
+      # Get the height straightaway
+      # alert element.height()
+
+      scope.$watch ->
+        element.height()
+      , (height) ->
+        console.log "height changed to #{height}px"
+        scope.composeHeight = "#{height}px"
 
       # Send a message
       scope.send = ->

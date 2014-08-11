@@ -10,6 +10,8 @@
 angular.module('shortwaveApp')
   .controller 'DashboardCtrl', ($scope, $rootScope, $timeout, $filter, $firebase, $firebaseSimpleLogin, $location, user, Channels, Message, FileUploader) ->
 
+    # Information about current uploads
+
     $rootScope.$on 'updateChannel', (ev, newChannel) =>
       $scope.currentChannel = newChannel
       $scope.focusInput()
@@ -46,6 +48,8 @@ angular.module('shortwaveApp')
       autoUpload: true
       alias: 'image'
 
+    console.log $scope.uploader
+
     # Only accept images
     $scope.uploader.filters.push
       name: 'imageFilter'
@@ -69,6 +73,7 @@ angular.module('shortwaveApp')
 
     $scope.uploader.onProgressAll = (progress) ->
       console.info "upload progress: #{progress}"
+
 
     $scope.uploader.onSuccessItem = (fileItem, res, status, headers) ->
       console.info 'successfully uploaded item - sending message'

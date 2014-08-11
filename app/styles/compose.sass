@@ -5,26 +5,37 @@ composebar
   position: absolute
   bottom: 0
   width: 100%
-  height: $composeHeight
-  background-color: $composeColor
 
-  .textContainer
-    // float: left
-    width: auto 
-    // background-color: blue
-    overflow: hidden
-    height: 100%
-    padding: 8px
+  .sender
+    height: $composeHeight
+    background-color: $composeColor
+
+    .textContainer
+      // float: left
+      width: auto 
+      // background-color: blue
+      overflow: hidden
+      height: 100%
+      padding: 8px
 
 
-  .sendButton
-    float: right
-    width: 100px
-    height: 100%
-    text-align: center
-    line-height: $composeHeight
-    font-family: Avenir-Medium
-    color: $sendColor
+    .sendButton
+      float: right
+      width: 100px
+      height: 100%
+      text-align: center
+      line-height: $composeHeight
+      font-family: Avenir-Medium
+      color: $sendColor
 
-    &:hover
-      cursor: pointer
+      &:hover
+        cursor: pointer
+
+  .uploading
+    height: $uploadingHeight
+    width: 100%
+
+    .prog
+      background-color: $greenColor
+      height: 100%
+      transition: 0.2s ease-in-out all
