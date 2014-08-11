@@ -134,7 +134,7 @@ module.exports = function (grunt) {
         }]
       },
       server: '.tmp',
-      release: ['release','desktop/dist']
+      release: ['release','desktop/dist','desktop/backup','desktop/dist.zip']
     },
 
     // Add vendor prefixed styles
@@ -509,7 +509,10 @@ module.exports = function (grunt) {
         command: 'desktop/createDmg/create-dmg --volname "Shortwave" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Shortwave.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Shortwave/osx/Shortwave.dmg release/Shortwave/osx'
       },
       nw: {
-        cmd: 'nw desktop/'
+        command: 'nw desktop/'
+      },
+      firebase: {
+        command: 'firebase deploy'
       }
     }
   });
@@ -609,7 +612,9 @@ module.exports = function (grunt) {
     // Compress for S3
     'compress',
     // Push to S3
-    's3:release'
+    's3:release',
+    // Deploy to firebase
+    'shell:firebase'
   ]);
 
   grunt.registerTask('fullRelease', [
