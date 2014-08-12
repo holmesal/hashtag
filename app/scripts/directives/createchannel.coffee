@@ -79,5 +79,8 @@ angular.module('shortwaveApp')
         scope.description = ''
         scope.meta = null
 
+      scope.keydown = (ev) ->
+        scope.addChannel() if ev.keyCode is 13
+
           
   )

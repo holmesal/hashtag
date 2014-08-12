@@ -22,6 +22,7 @@ angular.module('shortwaveApp')
 
       # Handle channel changes
       scope.changeChannel = ->
+        console.log 'changing in response to click'
         # Broadcast the new channel
         $rootScope.$broadcast 'updateChannel', scope.channel.$id
         # scope.currentChannel = scope.channel.$id
@@ -38,9 +39,16 @@ angular.module('shortwaveApp')
         nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/muted"
         nowRef.set scope.channel.muted
 
-      scope.leave = ->
+      scope.leave = (ev) ->
         # Leave the channel
         ChannelUtils.leaveChannel scope.channel.$id
-        # Join the first channel
-        $rootScope.$broadcast 'updateChannel', Channels.channelList[Channels.channelList.length-1].$id
+        # Join the first that isn't this one
+        list = (channel.$id for channel in Channels.channelList when channel.$id isnt scope.channel.$id)
+        console.log "leaving #{scope.channel.$id}"
+        console.log list
+        console.log list[0]
+        $rootScope.$broadcast 'updateChannel', list[0]
+
+        # Stop the event from propogating - would trigger a channel change
+        ev.stopPropagation()
   )

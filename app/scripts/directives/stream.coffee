@@ -21,7 +21,7 @@ angular.module('shortwaveApp')
         scope.loaded = false
 
         if scope.channel
-          console.log 'channel changed!'
+          console.log "channel changed to #{scope.channel}"
 
           # Get the new ref
           # messagesRef = $rootScope.rootRef.child "messages/#{scope.channel}"
