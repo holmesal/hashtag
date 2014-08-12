@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, User, Channels) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, User, Channels) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -16,7 +16,11 @@ angular.module('shortwaveApp')
     link: (scope, element, attrs) ->
 
       # Start in the collapsed state
-      scope.showCreate = true
+      scope.createVisible = false
+
+      # Hide create anytime the channel changes
+      $rootScope.$on 'updateChannel', (ev, newChannel) =>
+        scope.createVisible = false
 
       # Go load the channels from firebase
       uid = User.getAuthUser().uid
@@ -41,4 +45,17 @@ angular.module('shortwaveApp')
         # $rootScope.$broadcast 'updateChannel', channel
         scope.currentChannel = channel
 
+      scope.showCreate = ->
+        unless scope.createVisible
+          # Show create
+          scope.createVisible = true
+          # Focus on the element
+          $timeout ->
+            $rootScope.$broadcast 'focusOn', 'newchannelname'
+
+        else
+          # Hide create
+          scope.createVisible = false
+          # Focus on the input
+          $rootScope.$broadcast 'focusOn', 'compose'
   )

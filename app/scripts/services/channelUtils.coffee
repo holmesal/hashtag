@@ -43,14 +43,16 @@ angular.module('shortwaveApp')
             # Send the promise back!
             deferredChannel.promise
 
-        createChannel: (channelName) ->
+        createChannel: (channelName, description) ->
 
             deferredChannel = $q.defer()
 
             newChannel = 
                 members: {}
                 moderators: {}
-                public: true
+                meta:
+                    public: true
+                    description: description
 
             authUser = User.getAuthUser()
             user = User.getUser()
@@ -66,7 +68,7 @@ angular.module('shortwaveApp')
                 else
                     # Worked!
                     # Now set the channel on yourself
-                    channelListItemRef = user.$getRef().child('channels').child channelName
+                    channelListItemRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
                     channelListItemRef.setWithPriority
                         lastSeen: 0
                         muted: false
@@ -97,7 +99,7 @@ angular.module('shortwaveApp')
                     if err
                         joined.reject err
                     else
-                        selfChannelRef = user.$getRef().child('channels').child channelName
+                        selfChannelRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
                         selfChannelRef.setWithPriority
                             lastSeen: 0
                             muted: false
@@ -121,19 +123,19 @@ angular.module('shortwaveApp')
             exists = $q.defer()
 
             # make the channel ref
-            publicRef = $rootScope.rootRef.child "channels/#{channelName}/public"
+            publicRef = $rootScope.rootRef.child "channels/#{channelName}/meta"
             publicRef.once 'value', (snap) ->
                 console.log "Channel public value is #{snap.val()}"
-                if snap.val() in [true,false]
+                if snap.val()
                     exists.resolve
                         channelName: channelName
                         exists: true
-                        public: snap.val()
+                        meta: snap.val()
                 else
                     exists.resolve
                         channelName: channelName
                         exists: false
-                        public: null
+                        meta: null
             , (err) ->
                 exists.reject
                     error: err
@@ -173,7 +175,7 @@ angular.module('shortwaveApp')
                 else
 
                     # Then, remove the channel from your own list
-                    listRef = user.$getRef().child "channels/#{channelName}"
+                    listRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
                     listRef.set null, (err) ->
                         if err
                             left.reject()

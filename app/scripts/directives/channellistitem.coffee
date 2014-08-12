@@ -7,15 +7,13 @@
  # # One of the list items that appears in the 
 ###
 angular.module('shortwaveApp')
-  .directive('channelListItem', ($rootScope, $firebase, User) ->
+  .directive('channelListItem', ($rootScope, $firebase, $timeout, User, Channels, ChannelUtils) ->
     templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     scope:
       channel: '='
       currentChannel: '='
     link: (scope, element, attrs) ->
-
-      console.log scope.channel
 
       # Get the description
       ref = $rootScope.rootRef.child "channels/#{scope.channel.$id}/meta/description"
@@ -39,4 +37,10 @@ angular.module('shortwaveApp')
         # Save the setting
         nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/muted"
         nowRef.set scope.channel.muted
+
+      scope.leave = ->
+        # Leave the channel
+        ChannelUtils.leaveChannel scope.channel.$id
+        # Join the first channel
+        $rootScope.$broadcast 'updateChannel', Channels.channelList[Channels.channelList.length-1].$id
   )

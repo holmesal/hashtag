@@ -56,6 +56,8 @@ channel-list
       .plus
         @include rotate(45deg)
         color: $blackColor
+      .supporting
+        color: $blackColor
 
     &:hover
       cursor: pointer
@@ -129,17 +131,22 @@ channel-list
           width: 100%
           margin-top: 8px
           overflow: auto
+          position: relative
 
           .mute, .leave
             // height: 12px
             // width: auto
             font-size: 18px
-            transition: $quick
-            $transform: rotate(180deg)
+            // transition: $quick
+            // $transform: rotate(180deg)
             color: $iconColor
 
+            &:hover
+              cursor: pointer
+
           .mute
-            float: left
+            position: absolute
+            left: 0
           .leave
             float: right
 
@@ -153,11 +160,16 @@ channel-list
 
   create-channel
     display: block
-    min-height: 200px
+    margin-bottom: 200px
 
     .section
       padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
       background-color: white
+      position: relative
+      margin-bottom: 2px
+
+      &.static 
+        background-color: transparent
 
 
       .inputWrapper
@@ -166,13 +178,60 @@ channel-list
         textarea
           border: none
           padding: 0
+          background-color: transparent
 
           &.inputName
             font-family: Avenir-Medium
             font-size: 14px
             color: $blackColor
 
+          &.inputDescription
+            font-size: 12px
+            font-family: Avenir-Book
+            opacity: 0.75
+            // transition: $quick
+            line-height: 140%
+
+        .description
+          font-size: 12px
+          font-family: Avenir-Book
+          opacity: 0.75
+          line-height: 140%
+
         .hash
           position: absolute
           left: $hashOffset
           top: 0
+
+      .charCount
+        text-align: center
+        position: absolute
+        bottom: 0
+        left: 0
+        width: 100%
+        font-family: Avenir-Book
+        font-size: 10px
+        color: $blackColor
+        opacity: 0.3
+        margin-bottom: 3px
+
+    a
+      width: 100%
+      display: block
+      background-color: $greenColor
+      height: 33px
+      line-height: 33px
+      text-align: center
+      font-family: Avenir-Black
+      font-size: 14px
+      color: white
+      transition: $quick
+
+      &.faded
+        background-color: #CDCDCD
+        color: #E5E5E5
+
+      &:hover
+        cursor: pointer
+        text-decoration: none
+        color: white
