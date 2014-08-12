@@ -16,7 +16,7 @@
     "angularjs-scroll-glue": "~0.0.1",
     "angular-file-upload": "~1.1.0",
     "angular-emoji-filter": "https://github.com/suffering/angular-emoji-filter.git",
-    "angular-elastic": "~2.3.5"
+    "angular-elastic": "https://github.com/holmesal/angular-elastic.git"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
