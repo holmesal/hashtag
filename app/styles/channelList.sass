@@ -1,4 +1,6 @@
 @import "./colors"
+@import "./structure"
+@import "compass"
 
 
 $channelListItemHeight: 70px
@@ -10,18 +12,23 @@ $dividerstyle: 1px solid $dividerColor
 
 $quick: 0.2s linear all
 
+$hashOffset: -16px
+
 
 channel-list 
   background-color: $sidebarColor
+  overflow-y: scroll
 
   .addChannel
     display: block
     width: 100%
     height: $createChannelHeight
-    color: $blackColor
+    color: white
     position: relative
     text-align: center
     border-bottom: $dividerstyle
+    background-color: $greenColor
+    @include transition($quick)
 
     .plus,.supporting
       transition: 0.2s ease-in-out all
@@ -32,24 +39,33 @@ channel-list
     .plus 
       line-height: $createChannelHeight
       font-family: Avenir-Black
-      font-size: 22px
+      font-size: 25px
       top: 0
+      transition: $quick
+
 
     .supporting
       font-size: 12px
       bottom: -3px
       opacity: 0
-      transition: 0.2s ease-in-out all
+      @include transition($quick)
+
+    &.addMode
+      background-color: $sidebarColor
+
+      .plus
+        @include rotate(45deg)
+        color: $blackColor
 
     &:hover
       cursor: pointer
 
-      .plus
-        top: -8px
+    //   .plus
+    //     top: -8px
 
-      .supporting
-        opacity: 1
-        bottom: 5px
+    //   .supporting
+    //     opacity: 1
+    //     bottom: 5px
 
 
 
@@ -61,7 +77,7 @@ channel-list
       // height: $channelListItemHeight
       border-bottom: $dividerstyle
       transition: $quick
-      padding: 20px 40px 20px 40px
+      padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
 
 
 
@@ -99,7 +115,7 @@ channel-list
 
           .hash
             position: absolute
-            left: -16px
+            left: $hashOffset
 
         .description
           font-size: 12px
@@ -120,6 +136,7 @@ channel-list
             font-size: 18px
             transition: $quick
             $transform: rotate(180deg)
+            color: $iconColor
 
           .mute
             float: left
@@ -133,4 +150,29 @@ channel-list
 
         .info 
           color: white
-          // .name
+
+  create-channel
+    display: block
+    min-height: 200px
+
+    .section
+      padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
+      background-color: white
+
+
+      .inputWrapper
+        position: relative
+
+        textarea
+          border: none
+          padding: 0
+
+          &.inputName
+            font-family: Avenir-Medium
+            font-size: 14px
+            color: $blackColor
+
+        .hash
+          position: absolute
+          left: $hashOffset
+          top: 0

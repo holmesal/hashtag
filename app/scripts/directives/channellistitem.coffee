@@ -30,4 +30,13 @@ angular.module('shortwaveApp')
         # Set your lastSeen for this channel
         nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/lastSeen"
         nowRef.set Date.now()
+
+      scope.toggleMute = (ev) ->
+        scope.channel.muted = !scope.channel.muted
+        # console.log "mute is now #{scope.channel.muted}"
+        # Stop the event from propogating further
+        ev.stopPropagation()
+        # Save the setting
+        nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/muted"
+        nowRef.set scope.channel.muted
   )

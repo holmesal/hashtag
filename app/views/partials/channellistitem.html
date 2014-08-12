@@ -1,6 +1,6 @@
 <div class="channelWrapper" 
   ng-click="changeChannel()" 
-  ng-class="{'selected': currentChannel == channel.$id}">
+  ng-class="{'selected': false && currentChannel == channel.$id}">
   <!--div class="indicator">
     <div class="dot" ng-show="channel.unread"></div>
   </div-->
@@ -11,8 +11,11 @@
     </p>
     <p class="description">{{description.$value}}</p>
     <div class="actions">
-      <span class="mute glyphicon glyphicon-volume-off"></span>
-      <span class="leave glyphicon glyphicon-log-out"></span>
+      <img ng-if="!channel.muted" class="mute" src="images/mute.png"
+        ng-click="toggleMute($event)">
+      <img ng-if="channel.muted" class="mute" src="images/mute-active.png"
+        ng-click="toggleMute($event)">
+      <img class="leave" src="images/leave.png">
     </div>
   </div>
 </div>

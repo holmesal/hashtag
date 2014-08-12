@@ -19,7 +19,8 @@ angular
     'firebase',
     'luegg.directives',
     'angularFileUpload',
-    'emoji'
+    'emoji',
+    'monospaced.elastic'
   ])
   .config ($routeProvider) ->
     $routeProvider

@@ -1,8 +1,13 @@
 
-<div class="addChannel" ng-click="showCreate()">
+<div class="addChannel" ng-click="showCreate = !showCreate" ng-class="{addMode: showCreate}">
   <span class="plus">+</span>
-  <span class="supporting">create or join a channel</span>
+  <!-- <span class="supporting">create or join a channel</span> -->
+
+  
 </div>
+
+<create-channel ng-show="showCreate"></create-channel>
+
 
 <channel-list-item 
   ng-repeat="channel in channels" 

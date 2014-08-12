@@ -7,7 +7,7 @@
  # # composemessage
 ###
 angular.module('shortwaveApp')
-  .directive('composebar', ($firebaseSimpleLogin, $rootScope, $window, Message) ->
+  .directive('composebar', ($firebaseSimpleLogin, $rootScope, $window, $timeout, Message) ->
     templateUrl: 'views/partials/composebar.html'
     restrict: 'E'
     scope: 
@@ -29,7 +29,9 @@ angular.module('shortwaveApp')
       scope.send = ->
         # Is there anything here?
         if scope.messageText
-          Message.text scope.messageText, scope.channel
+          # Replace with line breaks
+          text = scope.messageText.replace '\n','</br>'
+          Message.text text, scope.channel
           .then ->
             console.log "send message successfully"
           .catch (err) ->
@@ -46,7 +48,9 @@ angular.module('shortwaveApp')
       scope.keydown = (ev) ->
 
         if ev.keyCode is 13
-          scope.send()
+          # Is shift being held down?
+          unless ev.shiftKey
+            scope.send()
 
       # Grab focus when window comes into focus
       win = angular.element $window

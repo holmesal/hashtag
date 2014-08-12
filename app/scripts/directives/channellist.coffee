@@ -12,8 +12,11 @@ angular.module('shortwaveApp')
     restrict: 'E'
     scope:
       currentChannel: '='
-      showCreate: '='
+      # showCreate: '='
     link: (scope, element, attrs) ->
+
+      # Start in the collapsed state
+      scope.showCreate = true
 
       # Go load the channels from firebase
       uid = User.getAuthUser().uid
