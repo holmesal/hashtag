@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'firebase',
     'luegg.directives',
-    'angularFileUpload'
+    'angularFileUpload',
+    'emoji'
   ])
   .config ($routeProvider) ->
     $routeProvider

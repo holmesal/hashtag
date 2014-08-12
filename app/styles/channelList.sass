@@ -8,7 +8,7 @@ $dotSize: 8px
 
 $dividerstyle: 1px solid $dividerColor
 
-$quick: 0.2s ease-in-out all
+$quick: 0.2s linear all
 
 
 channel-list 
@@ -58,10 +58,11 @@ channel-list
     .channelWrapper
       display: block
       width: 100%
-      height: $channelListItemHeight
+      // height: $channelListItemHeight
       border-bottom: $dividerstyle
-
       transition: $quick
+      padding: 20px 40px 20px 40px
+
 
 
       &:hover
@@ -85,13 +86,45 @@ channel-list
       .info
         height: 100%
         width: auto
-        overflow: hidden
-        padding-top: 15px
+        // overflow: hidden
+        // padding-top: 15px
+        color: $blackColor
 
         .name 
-          font-size: 17px
-          color: $blackColor
+          font-family: Avenir-Medium
+          font-size: 13px
           transition: $quick
+          margin-bottom: 8px
+          position: relative
+
+          .hash
+            position: absolute
+            left: -16px
+
+        .description
+          font-size: 12px
+          font-family: Avenir-Book
+          opacity: 0.75
+          transition: $quick
+          line-height: 140%
+          margin-bottom: 0px
+
+        .actions
+          width: 100%
+          margin-top: 8px
+          overflow: auto
+
+          .mute, .leave
+            // height: 12px
+            // width: auto
+            font-size: 18px
+            transition: $quick
+            $transform: rotate(180deg)
+
+          .mute
+            float: left
+          .leave
+            float: right
 
 
       // Selected state
@@ -99,5 +132,5 @@ channel-list
         background-color: $greenColor
 
         .info 
-          .name
-            color: white
+          color: white
+          // .name

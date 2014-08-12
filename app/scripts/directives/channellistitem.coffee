@@ -7,13 +7,20 @@
  # # One of the list items that appears in the 
 ###
 angular.module('shortwaveApp')
-  .directive('channelListItem', ($rootScope, User) ->
+  .directive('channelListItem', ($rootScope, $firebase, User) ->
     templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     scope:
       channel: '='
       currentChannel: '='
     link: (scope, element, attrs) ->
+
+      console.log scope.channel
+
+      # Get the description
+      ref = $rootScope.rootRef.child "channels/#{scope.channel.$id}/meta/description"
+      sync = $firebase ref
+      scope.description = sync.$asObject()
 
       # Handle channel changes
       scope.changeChannel = ->
