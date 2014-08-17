@@ -52,6 +52,8 @@ angular.module('shortwaveApp')
 
                 # Once this list of messages loads, start watching it
                 @messages[name].$loaded().then =>
+                    # Check the unread notifications right away
+                    @checkTimes name
                     # When this list of messages changes, check the newest times
                     # And broadcast a "got message" event
                     @messages[name].$watch (message) =>
@@ -68,17 +70,21 @@ angular.module('shortwaveApp')
         # console.log @messages
 
       checkTimes: (name) ->
-        # console.warn "checking times for channel #{name}"
+        console.warn "checking times for channel #{name}"
         # Get the priority of the last message
         last = @messages[name][@messages[name].length - 1]
         latest = last.$priority
         # Is the last message newer?
-        for channelName, idx in @channelList
-            if channelName.$id is name
-                if latest >= @channelList[idx].lastSeen
+        for channel, idx in @channelList
+            unread = false
+            if channel.$id is name
+                console.log "#{latest} >= #{channel.lastSeen} - diff is #{latest - channel.lastSeen}"
+                if latest >= channel.lastSeen
                     # Ignore yourself
                     unless last.owner is @user.$id
-                        @channelList[idx].unread = true
+                        unread = true
+                        # @channelList[idx].unread = true
+                @channelList[idx].unread = unread
 
       sendNotification: (channelName, ev) ->
         # Only respond to messages being added

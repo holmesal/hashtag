@@ -1,9 +1,10 @@
 <div class="channelWrapper" 
   ng-click="changeChannel()" 
   ng-class="{'selected': false && currentChannel == channel.$id}">
-  <!--div class="indicator">
-    <div class="dot" ng-show="channel.unread"></div>
-  </div-->
+
+  <div class="indicator" ng-class="{visible: channel.unread}">
+  </div>
+
   <div class="info">
     <p class="name">
       <span class="hash">#</span>

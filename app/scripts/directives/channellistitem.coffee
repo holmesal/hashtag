@@ -20,6 +20,13 @@ angular.module('shortwaveApp')
       sync = $firebase ref
       scope.description = sync.$asObject()
 
+      # Bind unread
+      # unreadChannels = Channels.unread
+      # scope.unread = unreadChannels[scope.channel.$id]
+      scope.$watch 'channel.unread', ->
+        console.log scope.channel.unread
+
+
       # Handle channel changes
       scope.changeChannel = ->
         console.log 'changing in response to click'

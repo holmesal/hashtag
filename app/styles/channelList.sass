@@ -80,6 +80,7 @@ channel-list
       border-bottom: $dividerstyle
       transition: $quick
       padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
+      position: relative
 
 
 
@@ -87,19 +88,26 @@ channel-list
         cursor: pointer
 
       .indicator
-        width: $indicatorWidth
+        $width: 6px
+        position: absolute
+        right: -$width
+        top: 0
+        width: $width
         height: 100%
-        float: left
-        position: relative
+        background-color: $greenColor
+        transition: $quick
 
-        .dot 
-          width: $dotSize
-          height: $dotSize
-          border-radius: 50%
-          position: absolute
-          top: 23px
-          right: 23px
-          background-color: $indicatorColor
+        &.visible
+          right: 0px
+
+        // .stripe 
+        //   width: $dotSize
+        //   height: $dotSize
+        //   border-radius: 50%
+        //   position: absolute
+        //   top: 23px
+        //   right: 23px
+        //   background-color: $indicatorColor
 
       .info
         height: 100%
