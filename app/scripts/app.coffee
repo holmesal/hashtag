@@ -49,7 +49,7 @@ angular
         redirectTo: '/dashboard'
 
 
-  .run ($rootScope, $location, $firebase, NodeWebkit) ->
+  .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->
 
     # Some channel names are just not allowed
     # TODO - store these in Firebase instead
@@ -58,6 +58,11 @@ angular
     # TODO - separate dev and production firebases
     $rootScope.firebaseURL = 'http://shortwave-dev.firebaseio.com'
     $rootScope.rootRef = new Firebase $rootScope.firebaseURL
+
+    # Handle auth
+    # TODO - break this out into a service
+    $rootScope.auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
+      console.log err
 
     # Catch errors in changing location
     $rootScope.$on '$routeChangeError', ->
@@ -76,6 +81,11 @@ angular
 
       # Go to the dashboard
       $location.path '/dashboard'
+
+    # On logout, take them to the login screen
+    $rootScope.$on '$firebaseSimpleLogin:logout', (e, authUser) ->
+      console.log 'logout event from app.coffee'
+      $location.path '/'
 
     # On logout, go to the landing page
     $rootScope.$on '$firebaseSimpleLogin:logout', ->

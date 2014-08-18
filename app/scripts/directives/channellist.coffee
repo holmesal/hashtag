@@ -7,13 +7,15 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, $timeout, User, Channels) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, User, Channels) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
       currentChannel: '='
       # showCreate: '='
     link: (scope, element, attrs) ->
+
+      scope.$auth = $firebaseSimpleLogin $rootScope.rootRef
 
       # Start in the collapsed state
       scope.createVisible = false
@@ -58,4 +60,13 @@ angular.module('shortwaveApp')
           scope.createVisible = false
           # Focus on the input
           $rootScope.$broadcast 'focusOn', 'compose'
+
+      scope.logout = ->
+        # auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
+        #   console.log 'logged out'
+        # auth.logout()
+        $rootScope.auth.logout()
+        $timeout ->
+          $window.location.reload()
+        , 200
   )
