@@ -29,7 +29,12 @@ angular.module('shortwaveApp')
           win.menu = nativeMenuBar
 
       open: (url) ->
-        @gui.Shell.openExternal url
+        if @isDesktop
+          @gui.Shell.openExternal url
+
+      clearCache: ->
+        if @isDesktop
+          @gui.App.clearCache()
 
     return new NodeWebkit
       

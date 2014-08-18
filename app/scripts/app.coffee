@@ -83,12 +83,8 @@ angular
       $location.path '/dashboard'
 
     # On logout, take them to the login screen
-    $rootScope.$on '$firebaseSimpleLogin:logout', (e, authUser) ->
-      console.log 'logout event from app.coffee'
-      $location.path '/'
-
-    # On logout, go to the landing page
     $rootScope.$on '$firebaseSimpleLogin:logout', ->
+      console.log 'logout event from app.coffee'
       $location.path '/'
 
     # On login error, log that shit

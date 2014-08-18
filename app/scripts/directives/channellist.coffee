@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, User, Channels) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, User, Channels, NodeWebkit) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -39,13 +39,16 @@ angular.module('shortwaveApp')
         user = User.getUser()
         if user.viewing
           channel = user.viewing
-        else
+        else if scope.channels.length > 0
           # Just pick the first channel
           channel = scope.channels[0].$id
+        else
+          channel = null
 
         # Broadcast
         # $rootScope.$broadcast 'updateChannel', channel
-        scope.currentChannel = channel
+        if channel
+          scope.currentChannel = channel
 
       scope.showCreate = ->
         unless scope.createVisible
@@ -66,7 +69,8 @@ angular.module('shortwaveApp')
         #   console.log 'logged out'
         # auth.logout()
         $rootScope.auth.logout()
+        NodeWebkit.clearCache()
         $timeout ->
           $window.location.reload()
-        , 200
+        , 2000
   )

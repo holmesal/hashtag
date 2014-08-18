@@ -19,7 +19,7 @@ angular.module('shortwaveApp')
         if scope.name
           scope.channelChecker = ChannelUtils.checkChannel scope.name
           .then (result) ->
-            # console.log "DOES CHANNEL #{result.channelName} EXIST? #{result.exists}"
+            console.log "DOES CHANNEL #{result.channelName} EXIST? #{result.exists}"
             # These might not come back in the right order
             if result.channelName is scope.name
               scope.exists = result.exists
@@ -60,6 +60,8 @@ angular.module('shortwaveApp')
               # Creation failed, log it
               console.error "channel #{scope.name} could not be created!"
               console.error err
+            .fail (err) ->
+              console.error err
 
           else
             ChannelUtils.joinChannel scope.name
@@ -72,6 +74,8 @@ angular.module('shortwaveApp')
             .catch (err) ->
               # Creation failed, log it
               console.error "channel #{scope.name} could not be joined!"
+              console.error err
+            .fail (err) ->
               console.error err
 
       reset = ->

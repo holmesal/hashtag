@@ -88,17 +88,17 @@ angular.module('shortwaveApp')
             authUser = User.getAuthUser()
             user = User.getUser()
 
-            console.log user
-
             # Only proceed if you're not already in this channel
-            unless user.channels[channelName]
+            unless user.channels?[channelName]
 
                 # Add yourself to the channel members
                 channelMemberRef = $rootScope.rootRef.child "channels/#{channelName}/members/#{authUser.uid}"
                 channelMemberRef.set true, (err) ->
+                    debugger
                     if err
                         joined.reject err
                     else
+                        console.log 'joined ok!'
                         selfChannelRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
                         selfChannelRef.setWithPriority
                             lastSeen: 0
@@ -111,7 +111,8 @@ angular.module('shortwaveApp')
 
             # Otherwise, just pretend you joined (sshhhhh)
             else
-                # Behold: the sketchy way to resolve a promise before returning it
+                console.warn 'faking join for a channel you are already in'
+                # Behold: the sketchy way to resolve a promise just after returning it
                 $timeout joined.resolve, 0
 
             joined.promise
@@ -125,7 +126,7 @@ angular.module('shortwaveApp')
             # make the channel ref
             publicRef = $rootScope.rootRef.child "channels/#{channelName}/meta"
             publicRef.once 'value', (snap) ->
-                console.log "Channel public value is #{snap.val()}"
+                console.log "Channel public value is #{snap.val()?.public}"
                 if snap.val()
                     exists.resolve
                         channelName: channelName
