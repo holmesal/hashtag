@@ -93,15 +93,20 @@ angular.module('shortwaveApp')
             message = @messages[channelName][idx]
             console.log "new message: #{message.content.text}"
 
-            # If this isn't you
-            unless @user.$id is message.owner
-                console.log 'sending notification'
-                # Create and send a new notification
-                Notification.requestPermission()
-                note = new Notification "##{channelName}: #{message.content.text}",
-                    icon: './images/yeoman.png'
-                    body: message.content.text
-                    tag: ev.key
+            # If this isn't you and this isn't a parsed message
+            console.log "is this a parsed message? #{message.parsedFrom}"
+            if @user.$id isnt message.owner and not message.parsedFrom
+                # Grab the owner's name
+                nameRef = $rootScope.rootRef.child "users/#{message.owner}/profile/firstName"
+                nameRef.once 'value', (snap) ->
+                    name = snap.val()
+                    console.log 'sending notification'
+                    # Create and send a new notification
+                    Notification.requestPermission()
+                    note = new Notification "#{name} (##{channelName})",
+                        icon: 'images/icon.png'
+                        body: message.content.text
+                        tag: ev.key
 
 
 

@@ -514,6 +514,20 @@ module.exports = function (grunt) {
       firebase: {
         command: 'firebase deploy'
       }
+    },
+
+    // Replace text
+    replace: {
+      plist:{
+        src: 'release/Shortwave/osx/Shortwave.app/Contents/Info.plist',
+        overwrite: true,
+        replacements: [
+          {
+            from: 'com.intel.nw',
+            to: 'com.mtnlab.shortwave'
+          }
+        ]
+      }
     }
   });
 
@@ -560,7 +574,11 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    // Clean current release folder
+    'clean:release',
+    // Grab the latest dist
+    'copy:webkit'
   ]);
 
   grunt.registerTask('default', [
@@ -573,10 +591,14 @@ module.exports = function (grunt) {
   grunt.registerTask('buildDesktop', [
     // Build
     'build',
-    // Clean current release folder
-    'clean:release',
-    // Grab the latest dist
-    'copy:webkit'
+    // Make the nodewebkit app
+    'nodewebkit',
+    // Copy over the necessary icon files
+    'copy:iconsMac',
+    // Replace the bundleidentifier in the info.plist
+    'replace:plist',
+    // Make the launcher
+    'shell:makeDmg'
   ]);
 
   // For developing an application locally - building on the desktop
@@ -593,12 +615,6 @@ module.exports = function (grunt) {
   grunt.registerTask('releaseDesktop',[
     // First, build for desktop
     'buildDesktop',
-    // Make the nodewebkit app
-    'nodewebkit',
-    // Copy over the necessary icon files
-    'copy:iconsMac',
-    // Make the launcher
-    'shell:makeDmg',
     // Push up to S3
     's3:dmg'
   ]);
