@@ -15,6 +15,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "channelList.sass";
 @import "compose.sass";
 @import "create.sass";
+@import "landing.sass";
 
 
 // Fonts
@@ -38,8 +39,8 @@ body{
   overflow: hidden;
 }
 
-*:focus {
-    outline: 0;
+*:focus, *:active {
+    outline: 0 !important;
 }
 
 a{

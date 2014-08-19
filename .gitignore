@@ -6,3 +6,4 @@ bower_components
 cache
 release
 desktop/dist.zip
+*.log
