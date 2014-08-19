@@ -94,7 +94,6 @@ angular.module('shortwaveApp')
                 # Add yourself to the channel members
                 channelMemberRef = $rootScope.rootRef.child "channels/#{channelName}/members/#{authUser.uid}"
                 channelMemberRef.set true, (err) ->
-                    debugger
                     if err
                         joined.reject err
                     else
@@ -152,7 +151,7 @@ angular.module('shortwaveApp')
 
             user = User.getUser()
 
-            muteRef = user.$getRef().child "channels/#{channelName}/muted"
+            muteRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}/muted"
             muteRef.set value, (err) ->
                 if err
                     set.reject err
@@ -185,4 +184,19 @@ angular.module('shortwaveApp')
 
 
             left.promise
+
+        setViewing: (channelName) ->
+
+            set = $q.defer()
+
+            user = User.getUser()
+
+            viewRef = $rootScope.rootRef.child "users/#{user.$id}/viewing"
+            viewRef.set channelName, (err) ->
+                if err
+                    set.reject err
+                else
+                    set.resolve()
+
+            set.promise
 

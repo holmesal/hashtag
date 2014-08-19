@@ -70,7 +70,7 @@ angular.module('shortwaveApp')
         # console.log @messages
 
       checkTimes: (name) ->
-        console.warn "checking times for channel #{name}"
+        # console.warn "checking times for channel #{name}"
         # Get the priority of the last message
         last = @messages[name][@messages[name].length - 1]
         latest = last.$priority
@@ -78,7 +78,7 @@ angular.module('shortwaveApp')
         for channel, idx in @channelList
             unread = false
             if channel.$id is name
-                console.log "#{latest} >= #{channel.lastSeen} - diff is #{latest - channel.lastSeen}"
+                # console.log "#{latest} >= #{channel.lastSeen} - diff is #{latest - channel.lastSeen}"
                 if latest >= channel.lastSeen
                     # Ignore yourself
                     unless last.owner is @user.$id

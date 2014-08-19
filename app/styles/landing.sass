@@ -31,11 +31,56 @@ $width: 413px
     margin-top: 90px
     color: white 
     text-align: center
+    height: 66px
+    width: $width
+    display: block
+    margin-left: auto 
+    margin-right: auto
+    position: relative
+
+    $offset: 10px
 
     .str1, .str2
       font-family: Avenir-Book
       font-size: 20px
       letter-spacing: 0.6px
+      position: absolute
+      width: 100%
+      text-align: center
+
+      &.ng-enter,&.ng-leave
+        +transition(0.5s linear all)
+        opacity: 1
+
+      &.ng-leave 
+        +transition(0.3s linear all)
+
+      &.ng-enter
+        opacity: 0
+      &.ng-enter-active
+        opacity: 1
+      &.ng-leave
+        opacity: 1
+      &.ng-leave-active
+        opacity: 0
+        +scale(0.1,0.1,500)
+
+    .str1
+      top: 0
+      &.ng-enter
+        top: -$offset
+      &.ng-enter-active
+        top: 0
+      &.ng-leave-active
+        top: $offset*2
+    .str2
+      bottom: 0
+      &.ng-enter
+        bottom: -$offset
+      &.ng-enter-active
+        bottom: 0
+      &.ng-leave-active
+        bottom: $offset*2
 
     .str2
       font-family: Avenir-Heavy

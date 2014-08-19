@@ -13,9 +13,8 @@ angular.module('shortwaveApp')
     scope:
       message: '='
       rolling: '='
+      last: '='
     link: (scope, element, attrs) ->
-
-      # scope.vidurl = 'http://zippy.gfycat.com/AlarmingSarcasticGoldenmantledgroundsquirrel.mp4'#message.content.src.mp4
 
       ownerRef = $rootScope.rootRef.child "users/#{scope.message.owner}/profile"
       sync = $firebase ownerRef

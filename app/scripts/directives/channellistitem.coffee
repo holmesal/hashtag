@@ -38,24 +38,34 @@ angular.module('shortwaveApp')
         nowRef.set Date.now()
 
       scope.toggleMute = (ev) ->
+        # If undefined or false
+        unless scope.channel.muted
+          scope.channel.muted = false
+        # Flip
         scope.channel.muted = !scope.channel.muted
         # console.log "mute is now #{scope.channel.muted}"
-        # Stop the event from propogating further
+        # Stop the click from propogating further
         ev.stopPropagation()
         # Save the setting
-        nowRef = $rootScope.rootRef.child "users/#{User.getAuthUser().uid}/channels/#{scope.channel.$id}/muted"
-        nowRef.set scope.channel.muted
+        ChannelUtils.setMute scope.channel.$id, scope.channel.muted
+        .then ->
+          console.log "channel muted successfully"
+        .catch (err) ->
+          console.error err
 
       scope.leave = (ev) ->
         # Leave the channel
         ChannelUtils.leaveChannel scope.channel.$id
-        # Join the first that isn't this one
-        list = (channel.$id for channel in Channels.channelList when channel.$id isnt scope.channel.$id)
-        console.log "leaving #{scope.channel.$id}"
-        console.log list
-        console.log list[0]
-        $rootScope.$broadcast 'updateChannel', list[0]
+        .then ->
+          console.log "left channel successfully"
+          # Join the first that isn't this one
+          list = (channel.$id for channel in Channels.channelList when channel.$id isnt scope.channel.$id)
+          console.log "leaving #{scope.channel.$id}"
+          console.log "joining #{list[0]}"
+          $rootScope.$broadcast 'updateChannel', list[0]
+        .catch (err) ->
+          console.error err
 
-        # Stop the event from propogating - would trigger a channel change
+        # Stop the click from propogating - would trigger a channel change
         ev.stopPropagation()
   )

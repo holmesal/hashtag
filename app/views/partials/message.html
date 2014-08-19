@@ -3,6 +3,7 @@
   <p class="name" ng-if="owner && !rolling">{{owner.firstName}}</p>
 
   <div class="content">
+    <span class="timeAgo" am-time-ago="message.$priority" ng-class="{visible:last}"></span>
 
     <p class="text" compile="message.content.text | parseUrl"></p>
 

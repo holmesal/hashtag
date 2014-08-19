@@ -1,11 +1,12 @@
-@import "./colors"
-@import "./structure"
+@import colors
+@import structure
+@import compass/css3
 
 
 // $navbarHeight: 45px
 
 $leftGutter: 75px
-$rightGutter: 39px
+$rightGutter: 108px
 $photoSize: 45px
 
 $maxMessageWidth: 320px
@@ -68,6 +69,22 @@ stream
 
       .content
         margin-bottom: 5px
+        position: relative
+
+        .timeAgo
+          position: absolute 
+          bottom: 0px
+          left: 100%
+          width: $rightGutter
+          padding-right: 10px
+          text-align: right
+          color: $iconColor
+          opacity: 0
+
+          +transition(0.2s linear all)
+
+          &.visible
+            opacity: 1
 
         .text 
           margin-bottom: 0
@@ -125,6 +142,10 @@ stream
               color: $grayception
               margin-left: 7px
               margin-bottom: 0px
+
+        &:hover
+          .timeAgo
+            opacity: 1
 
 
 

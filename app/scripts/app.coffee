@@ -20,7 +20,8 @@ angular
     'luegg.directives',
     'angularFileUpload',
     'emoji',
-    'monospaced.elastic'
+    'monospaced.elastic',
+    'angularMoment'
   ])
   .config ($routeProvider) ->
     $routeProvider
@@ -91,6 +92,9 @@ angular
     $rootScope.$on '$firebaseSimpleLogin:error', (e, err) ->
       console.error 'error logging in with firebase'
       console.error err
+
+  .constant 'amTimeAgoConfig',
+    withoutSuffix: true
 
 
 
