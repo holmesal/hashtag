@@ -23,8 +23,8 @@ angular.module('shortwaveApp')
       # Bind unread
       # unreadChannels = Channels.unread
       # scope.unread = unreadChannels[scope.channel.$id]
-      scope.$watch 'channel.unread', ->
-        console.log scope.channel.unread
+      # scope.$watch 'channel.unread', ->
+      #   console.log scope.channel.unread
 
 
       # Handle channel changes

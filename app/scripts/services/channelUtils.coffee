@@ -45,6 +45,9 @@ angular.module('shortwaveApp')
 
         createChannel: (channelName, description) ->
 
+            # Cast to string
+            channelName = String channelName
+
             deferredChannel = $q.defer()
 
             newChannel = 
@@ -52,7 +55,7 @@ angular.module('shortwaveApp')
                 moderators: {}
                 meta:
                     public: true
-                    description: description
+                    description: if description then description else ""
 
             authUser = User.getAuthUser()
             user = User.getUser()
@@ -67,6 +70,7 @@ angular.module('shortwaveApp')
                     deferredChannel.reject err
                 else
                     # Worked!
+                    console.log 'setting channel on self'
                     # Now set the channel on yourself
                     channelListItemRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
                     channelListItemRef.setWithPriority

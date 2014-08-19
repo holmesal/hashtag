@@ -53,8 +53,6 @@ angular.module('shortwaveApp')
       autoUpload: true
       alias: 'image'
 
-    console.log $scope.uploader
-
     # Only accept images
     $scope.uploader.filters.push
       name: 'imageFilter'

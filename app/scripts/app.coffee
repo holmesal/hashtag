@@ -28,9 +28,9 @@ angular
       .when '/',
         templateUrl: 'views/main.html'
         controller: 'MainCtrl'
-      .when '/about',
-        templateUrl: 'views/about.html'
-        controller: 'AboutCtrl'
+      # .when '/about',
+      #   templateUrl: 'views/about.html'
+      #   controller: 'AboutCtrl'
 
       # General-purpose user dashboard
       .when '/dashboard',
@@ -40,11 +40,18 @@ angular
           user: ['User', (User) -> User.getUser()]
 
       # Handle named channels in the route
+      # .when '/:channel',
+      #   templateUrl: 'views/stream.html'
+      #   controller: 'StreamCtrl'
+      #   resolve: 
+      #     channel: ['ChannelUtils', '$route', (ChannelUtils, $route) -> ChannelUtils.getChannel $route.current.params.channel]
+
+      # Invites go straight to the channels
       .when '/:channel',
-        templateUrl: 'views/stream.html'
-        controller: 'StreamCtrl'
-        resolve: 
-          channel: ['ChannelUtils', '$route', (ChannelUtils, $route) -> ChannelUtils.getChannel $route.current.params.channel]
+        templateUrl: 'views/invite.html'
+        controller: 'InviteCtrl'
+        resolve:
+          user: ['User', (User) -> User.getUser()]
 
       .otherwise
         redirectTo: '/dashboard'
@@ -63,7 +70,8 @@ angular
     # Handle auth
     # TODO - break this out into a service
     $rootScope.auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
-      console.log err
+      if err
+        console.error err
 
     # Catch errors in changing location
     $rootScope.$on '$routeChangeError', ->

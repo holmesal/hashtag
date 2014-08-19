@@ -636,6 +636,6 @@ module.exports = function (grunt) {
   grunt.registerTask('fullRelease', [
     'release',
     // Push the updated app to S3 as well
-    'releaseDesktop'
+    's3:dmg'
   ]);
 };
