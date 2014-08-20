@@ -12,7 +12,17 @@ angular.module('shortwaveApp')
   .service 'ChannelUtils', ($firebase, $q, $rootScope, $timeout, User) ->
     
 
-    ChannelUtils = 
+    class ChannelUtils
+
+        constructor: ->
+            # Once the user logs in, check the channels
+            User.user.$loaded().then (user) =>
+                console.log "channel utils saw user load"
+                console.log user
+                # Check if this is a new user
+                unless user.channels
+                    @autoJoin()
+
 
         getChannel: (channelName) ->
 
@@ -190,4 +200,20 @@ angular.module('shortwaveApp')
                     set.resolve()
 
             set.promise
+
+        autoJoin: ->
+            # Get the channels to be auto-joined
+            chanRef = $rootScope.rootRef.child "static/defaultChannels"
+            chanRef.once 'value', (chanSnap) =>
+              chans = chanSnap.val()
+              console.log chans
+
+              for chan in chans
+                @joinChannel chan 
+                .then ->
+                  console.log "autoJoiner successfully joined channel #{chan}"
+                , (err) ->
+                  console.error err
+
+    return new ChannelUtils
 

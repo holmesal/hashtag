@@ -21,24 +21,40 @@ angular.module('shortwaveApp')
         scope.loaded = false
 
         if scope.channel
-          console.log "channel changed to #{scope.channel}"
+          console.info "channel changed to #{scope.channel}"
 
-          # Get the new ref
-          # messagesRef = $rootScope.rootRef.child "messages/#{scope.channel}"
-          # sync = $firebase messagesRef.limit(50)
+          
+
+          # unregister = scope.$watch 'Channels.messages[scope.channel]', ->
+          #   console.info 'scope.messages changed'
+          #   console.info scope.messages
+          # , true
+          setup()
 
           # scope.messages = sync.$asArray()
-          scope.messages = Channels.messages[scope.channel]
+          
+            # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
+            # $timeout ->
+            #   scope.loaded = true
+            # , 100
 
+      # Do the channel setup
+      setup = ->
+        console.info 'attempting setup'
+
+        scope.messages = Channels.messages[scope.channel]
+
+        if scope.messages
+          console.info 'succeeded'
           scope.messages.$loaded().then ->
             scrollToBottom()
             $timeout ->
               scope.loaded = true
             , 500
-            # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
-            # $timeout ->
-            #   scope.loaded = true
-            # , 100
+        else
+          # This is dirty.
+          console.info 'waiting...'
+          $timeout setup, 200
 
       # Scroll to bottom anytime messages change
       scope.$watch 'messages', ->

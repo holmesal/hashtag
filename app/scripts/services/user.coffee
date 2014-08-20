@@ -53,5 +53,7 @@ angular.module('shortwaveApp')
           @loggedIn = true
           @deferredUser.resolve @user
 
+          # Is this the first login?
+
     return new User
 
