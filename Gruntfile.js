@@ -449,7 +449,7 @@ module.exports = function (grunt) {
           archive: 'release/dist.zip'
         },
         expand: true,
-        cwd: 'dist/',
+        cwd: 'desktop/dist/',
         src: ['**/*'],
         dest: ''
       }
@@ -639,7 +639,7 @@ module.exports = function (grunt) {
     'bump',
     // Build for desktop
     'buildDesktop',
-    // Compress for S3
+    // Compress for S3 - uses release/dist as source
     'compress',
     // Push to S3
     's3:release',
