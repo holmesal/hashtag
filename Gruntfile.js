@@ -74,7 +74,7 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
-              // require('connect-modrewrite') (['!(\\..+)$ / [L]']),
+              require('connect-modrewrite') (['!(\\..+)$ / [L]']),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -529,6 +529,16 @@ module.exports = function (grunt) {
             to: 'com.mtnlab.shortwave'
           }
         ]
+      },
+      killHtml5:{
+        src: 'desktop/dist/index.html',
+        overwrite: true,
+        replacements: [
+          {
+            from: '<base href="/">',
+            to: ''
+          }
+        ]
       }
     }
   });
@@ -593,6 +603,8 @@ module.exports = function (grunt) {
   grunt.registerTask('buildDesktop', [
     // Build
     'build',
+    // Kill the base tag (needed normally for html5 mode)
+    'replace:killHtml5',
     // Make the nodewebkit app
     'nodewebkit',
     // Copy over the necessary icon files

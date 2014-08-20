@@ -53,10 +53,13 @@ angular
         resolve:
           user: ['User', (User) -> User.get()]
 
-      # .otherwise
-      #   redirectTo: '/dashboard'
+      .otherwise
+        redirectTo: '/dashboard'
 
-    # $locationProvider.html5Mode true
+    # html5Mode = if process?.versions['node-webkit'] then false else true
+    # console.log "is desktop? #{html5Mode}"
+
+    $locationProvider.html5Mode if process?.versions['node-webkit'] then false else true
 
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->
