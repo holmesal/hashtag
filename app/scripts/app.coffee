@@ -37,7 +37,7 @@ angular
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'
         resolve:
-          user: ['User', (User) -> User.getUser()]
+          user: ['User', (User) -> User.get()]
 
       # Handle named channels in the route
       # .when '/:channel',
@@ -51,10 +51,10 @@ angular
         templateUrl: 'views/invite.html'
         controller: 'InviteCtrl'
         resolve:
-          user: ['User', (User) -> User.getUser()]
+          user: ['User', (User) -> User.get()]
 
-      .otherwise
-        redirectTo: '/dashboard'
+      # .otherwise
+      #   redirectTo: '/dashboard'
 
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->
@@ -79,22 +79,25 @@ angular
 
     # On successful login, update the user and go to the dashboard
     $rootScope.$on '$firebaseSimpleLogin:login', (e, authUser) ->
-      console.log 'login event from app.coffee'
-      console.log authUser
+      console.info 'login event from app.coffee'
+      # If we're on the home screen, go to the dashboard
+      if $location.$$path is '/'
+        $location.path '/dashboard'
+    #   console.log authUser
 
-      # Update this user's data
-      userInfoRef = $rootScope.rootRef.child "users/#{authUser.uid}/profile"
-      userInfoRef.update 
-        photo: authUser.thirdPartyUserData.picture.data.url 
-        firstName: authUser.thirdPartyUserData.first_name
+    #   # Update this user's data
+    #   userInfoRef = $rootScope.rootRef.child "users/#{authUser.uid}/profile"
+    #   userInfoRef.update 
+    #     photo: authUser.thirdPartyUserData.picture.data.url 
+    #     firstName: authUser.thirdPartyUserData.first_name
 
-      # Go to the dashboard
-      $location.path '/dashboard'
+    #   # Go to the dashboard
+    #   $location.path '/dashboard'
 
     # On logout, take them to the login screen
     $rootScope.$on '$firebaseSimpleLogin:logout', ->
       console.log 'logout event from app.coffee'
-      $location.path '/'
+      # $location.path '/'
 
     # On login error, log that shit
     $rootScope.$on '$firebaseSimpleLogin:error', (e, err) ->

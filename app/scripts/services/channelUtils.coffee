@@ -57,11 +57,8 @@ angular.module('shortwaveApp')
                     public: true
                     description: if description then description else ""
 
-            authUser = User.getAuthUser()
-            user = User.getUser()
-
-            newChannel.members["#{authUser.uid}"] = true
-            newChannel.moderators["#{authUser.uid}"] = true
+            newChannel.members["#{User.user.$id}"] = true
+            newChannel.moderators["#{User.user.$id}"] = true
 
             newChannelRef = $rootScope.rootRef.child "channels/#{channelName}"
             newChannelRef.set newChannel, (err) ->
@@ -72,7 +69,7 @@ angular.module('shortwaveApp')
                     # Worked!
                     console.log 'setting channel on self'
                     # Now set the channel on yourself
-                    channelListItemRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
+                    channelListItemRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}"
                     channelListItemRef.setWithPriority
                         lastSeen: 0
                         muted: false
@@ -89,20 +86,17 @@ angular.module('shortwaveApp')
 
             joined = $q.defer()
 
-            authUser = User.getAuthUser()
-            user = User.getUser()
-
             # Only proceed if you're not already in this channel
-            unless user.channels?[channelName]
+            unless User.user.channels?[channelName]
 
                 # Add yourself to the channel members
-                channelMemberRef = $rootScope.rootRef.child "channels/#{channelName}/members/#{authUser.uid}"
+                channelMemberRef = $rootScope.rootRef.child "channels/#{channelName}/members/#{User.user.$id}"
                 channelMemberRef.set true, (err) ->
                     if err
                         joined.reject err
                     else
                         console.log 'joined ok!'
-                        selfChannelRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
+                        selfChannelRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}"
                         selfChannelRef.setWithPriority
                             lastSeen: 0
                             muted: false
@@ -153,9 +147,7 @@ angular.module('shortwaveApp')
 
             set = $q.defer()
 
-            user = User.getUser()
-
-            muteRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}/muted"
+            muteRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}/muted"
             muteRef.set value, (err) ->
                 if err
                     set.reject err
@@ -168,18 +160,15 @@ angular.module('shortwaveApp')
 
             left = $q.defer()
 
-            authUser = User.getAuthUser()
-            user = User.getUser()
-
             # First, remove yourself from the members of the channel
-            memberRef = $rootScope.rootRef.child "/channels/#{channelName}/members/#{authUser.uid}"
+            memberRef = $rootScope.rootRef.child "/channels/#{channelName}/members/#{User.user.$id}"
             memberRef.set null, (err) ->
                 if err
                     left.reject()
                 else
 
                     # Then, remove the channel from your own list
-                    listRef = $rootScope.rootRef.child "users/#{user.$id}/channels/#{channelName}"
+                    listRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}"
                     listRef.set null, (err) ->
                         if err
                             left.reject()
@@ -193,9 +182,7 @@ angular.module('shortwaveApp')
 
             set = $q.defer()
 
-            user = User.getUser()
-
-            viewRef = $rootScope.rootRef.child "users/#{user.$id}/viewing"
+            viewRef = $rootScope.rootRef.child "users/#{User.user.$id}/viewing"
             viewRef.set channelName, (err) ->
                 if err
                     set.reject err

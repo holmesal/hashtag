@@ -16,5 +16,7 @@ angular.module('shortwaveApp')
     # Ref is the uid of the user, minus the facebook: prefix
     $scope.ref = $routeParams.ref
 
-    # User will be full if logged in
-    $scope.user = User.getUser()
+    console.log 'first user'
+    console.log User.user
+
+    # Are we logged in?

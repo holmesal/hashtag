@@ -19,7 +19,7 @@ angular.module('shortwaveApp')
         @unread = {}
 
         # Just naively assume a user already exists
-        @user = User.getUser()
+        @user = User.user
 
         # Watch the user's list of channels
         channelListRef = $rootScope.rootRef.child "users/#{@user.$id}/channels"

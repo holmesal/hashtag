@@ -25,7 +25,7 @@ angular.module('shortwaveApp')
         scope.createVisible = false
 
       # Go load the channels from firebase
-      uid = User.getAuthUser().uid
+      uid = User.user.$uid
       userRef = $rootScope.rootRef.child "users/#{uid}"
       channelsRef = userRef.child 'channels'
       sync = $firebase channelsRef
@@ -36,7 +36,7 @@ angular.module('shortwaveApp')
       scope.channels.$loaded().then ->
 
         # Is this user currently viewing any channels?
-        user = User.getUser()
+        user = User.user
         if user.viewing
           channel = user.viewing
         else if scope.channels.length > 0

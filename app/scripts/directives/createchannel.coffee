@@ -7,7 +7,7 @@
  # # createChannel
 ###
 angular.module('shortwaveApp')
-  .directive('createChannel', ($filter, $rootScope, $firebase, User, ChannelUtils) ->
+  .directive('createChannel', ($filter, $rootScope, $firebase, ChannelUtils) ->
     templateUrl: 'views/partials/createChannel.html'
     restrict: 'E'
     scope: {}

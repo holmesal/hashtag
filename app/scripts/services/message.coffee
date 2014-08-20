@@ -43,10 +43,7 @@ angular.module('shortwaveApp')
         # Sent promise
         sent = $q.defer()
 
-        # Add some required properties
-        authUser = User.getAuthUser()
-
-        message.owner = authUser.uid
+        message.owner = User.user.$id
 
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()

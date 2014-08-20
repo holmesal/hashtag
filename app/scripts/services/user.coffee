@@ -10,78 +10,48 @@
 angular.module('shortwaveApp')
   .service 'User', ($rootScope, $firebase, $firebaseSimpleLogin, $q) ->
 
-    # Defer the auth user
-    deferredAuthUser = $q.defer()
+    class User 
 
-    # Not using $firebaseSimpleLogin - I think the callback model is a better fit here, to provide concrete did login / not logged in stages
-    rootRef = new Firebase $rootScope.firebaseURL
-    # Do the damn thing
-    auth = new FirebaseSimpleLogin rootRef, (err, authUser) ->
-      if err
-        # console.error 'There was an error getting the authUser from firebase'
-        # console.error err
-        # Reject the promise
-        deferredAuthUser.reject err
-      else if authUser
-        # console.log 'authUser is logged in!'
-        # console.log authUser
-        $rootScope.authUser = authUser
-        # Resolve the promise
-        # console.log 'resolving promise'
-        deferredAuthUser.resolve authUser
-      else
-        # Pretty sure this will be called when the user hits logout as well
-        # console.log 'no user is logged in!'
-        $rootScope.authUser = null
-        $rootScope.user = null
-        # Reject the promise - this will throw a routeChangeError
-        # console.log 'rejecting promise!'
-        deferredAuthUser.reject 'No user is logged in'
+      constructor: ->
 
-    # Defer the firebase user
-    deferredUser = $q.defer()
+        @rootRef = $rootScope.rootRef
 
-    # After the auth user resolves, kick of this promise resolution
-    deferredAuthUser.promise.then (authUser) ->
-      # console.log 'deferred auth user resolved successfully!'
-      # Bind the firebase user to the root scope
-      userRef = rootRef.child('users').child(authUser.uid)
-      sync = $firebase userRef
-      $rootScope.user = sync.$asObject()
+        # Login object
+        @auth = $firebaseSimpleLogin @rootRef
 
-      # Once it loads, resolve the promise
-      $rootScope.user.$loaded().then =>
-        deferredUser.resolve $rootScope.user
-      # Watch it for updates
-      # $rootScope.$watch 'user', (user) ->
-      #   # If the user exists, resolve the deferredUser promise
-      #   if user
-      #     console.log 'got user'
-      #     deferredUser.resolve user
+        # User promise
+        @deferredUser = $q.defer()
+        @prom = @deferredUser.promise
 
+      get: ->
+        # Returns a promise that will be resolved with the user and authUser.
+        # If the user isn't logged in, will be resolved with null
+        @auth.$getCurrentUser().then (@authUser) =>
+          console.log 'got current user!'
+          console.log authUser
+          # @authUser is null if the user isn't logged in
+          if @authUser
+            # Fetch the user from firebase
+            @fetch()
+          else
+            @loggedIn = false
+            # The user isn't logged in. Resolve the promise, but with a null user
+            @deferredUser.resolve null
+        .catch (err) ->
+          console.error 'err getting current user'
+          console.error err
 
-    User = 
+        return @prom
 
-      auth: auth
+      fetch: ->
+        userRef = $rootScope.rootRef.child "users/#{@authUser.uid}"
+        sync = $firebase userRef
+        @user = sync.$asObject()
 
-      getAuthUser: ->
-        # If the user has been authed previously, return an object, and the route will change instantly
-        if $rootScope.authUser
-          # console.log 'returning auth user!'
-          return $rootScope.authUser
-        # Otherwise, return a promise - the route will change when it resolves
-        # Or it will redirect to landing if it rejects
-        else
-          # console.log 'returning promise!'
-          return deferredAuthUser.promise
+        # Once the user is loaded, resolve the main promise
+        @user.$loaded().then =>
+          @loggedIn = true
+          @deferredUser.resolve @user
 
-      getUser: ->
-        # If the user already exists, return that. Otherwise, return a promise
-        if $rootScope.user
-          return $rootScope.user
-        else
-          return deferredUser.promise
-
-    return User
-
+    return new User
 
