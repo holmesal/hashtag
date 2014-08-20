@@ -1,0 +1,110 @@
+@import compass/css3
+@import colors
+
+$width: 413px
+$greyColor: #4E4E4E
+$spacing: 20px
+$facebookColor: #3E66AB
+$supportingTextSize: 16px
+$borderRadius: 3.6px
+
+.invite
+  width: 100%
+  height: 100%
+  background-color: $greenColor
+  padding-top: 20px
+
+  .bigName
+    font-family: Avenir-Heavy
+    color: white
+    font-size: 40px
+    text-align: center
+    letter-spacing: 2px
+    margin-bottom: 0px
+
+  .underline
+    width: 213px
+    height: 5px
+    background-color: white
+    display: block
+    margin-left: auto
+    margin-right: auto
+    margin-top: -9px
+
+  .inviteWrapper
+    width: 100%
+    background-color: #FEFEFE
+    border-radius: $borderRadius
+    width: 305px
+    margin-top: 122px
+    display: block 
+    margin-left: auto 
+    margin-right: auto
+    overflow: auto
+    text-align: center
+    color: $greyColor
+    padding-top: 50px
+    position: relative
+    overflow: visible
+    opacity: 1
+    +transition(0.3s ease-in-out all)
+
+    .name, .channel
+      font-family: Avenir-Heavy
+      font-size: 20px
+      letter-spacing: 1px
+      margin-bottom: 0px
+
+    .photo
+      $size: 84px
+      width: $size 
+      height: $size
+      border-radius: 100%
+      display: block
+      position: absolute
+      top: -$size/2
+      margin-left: -$size/2
+      left: 50%
+
+    .invited
+      font-size: $supportingTextSize
+      font-family: Avenir-Book
+      letter-spacing: 2px
+
+    .sep 
+      display: block 
+      margin-right: auto 
+      margin-left: auto 
+      height: 2px 
+      width: 223px
+      background-color: $greyColor
+      margin-top: $spacing
+      margin-bottom: $spacing
+
+    .button
+      height: 56px
+      line-height: 56px
+      width: 100%
+      background-color: $facebookColor
+      color: white
+      margin-top: $spacing
+      font-size: $supportingTextSize
+      font-family: Avenir-Book
+      border-bottom-left-radius: $borderRadius
+      border-bottom-right-radius: $borderRadius
+
+      &:hover
+        cursor: pointer
+
+    &.ng-hide
+      margin-top: 130px
+      opacity: 0
+
+  .question 
+    border-radius: 50%
+    border: 4px solid white
+    width: 42px
+    height: 42px
+
+
+

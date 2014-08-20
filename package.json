@@ -35,7 +35,8 @@
     "grunt-bump": "0.0.15",
     "grunt-string-replace": "^0.2.7",
     "grunt-shell": "^0.7.0",
-    "grunt-text-replace": "^0.3.12"
+    "grunt-text-replace": "^0.3.12",
+    "connect-modrewrite": "^0.7.7"
   },
   "engines": {
     "node": ">=0.10.0"

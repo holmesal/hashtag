@@ -8,15 +8,40 @@
  # Controller of the shortwaveApp
 ###
 angular.module('shortwaveApp')
-  .controller 'InviteCtrl', ($scope, $routeParams, User) ->
+  .controller 'InviteCtrl', ($scope, $rootScope, $routeParams, $location, $firebase, ChannelUtils, User) ->
     
     # On init, route params will be available for the channel
-    $scope.channel = $routeParams.channel
+    $scope.channelName = $routeParams.channel
 
     # Ref is the uid of the user, minus the facebook: prefix
     $scope.ref = $routeParams.ref
 
-    console.log 'first user'
-    console.log User.user
+    $scope.user = User.user
 
     # Are we logged in?
+
+    # Loaded starts off false
+    $scope.loaded = false
+
+    # Get the inviting user 
+    ref = $rootScope.rootRef.child "users/facebook:#{$scope.ref}/profile"
+    sync = $firebase ref 
+    $scope.profile = sync.$asObject()
+
+    # Show the card when the user is loaded
+    $scope.profile.$loaded().then ->
+      console.log 'loaded profile!'
+      $scope.loaded = true
+
+    # Join
+    $scope.join = ->
+      ChannelUtils.joinChannel $scope.channelName
+      .then ->
+        console.log 'joined channel successfully!'
+        # Set this channel
+        ChannelUtils.setViewing $scope.channelName
+        # Go to your dashboard
+        $location.path '/dashboard'
+      , (err) ->
+        console.error 'error joining channel'
+        console.error err

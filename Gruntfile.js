@@ -74,6 +74,7 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
+              // require('connect-modrewrite') (['!(\\..+)$ / [L]']),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
@@ -89,6 +90,7 @@ module.exports = function (grunt) {
           port: 9001,
           middleware: function (connect) {
             return [
+              require('connect-modrewrite') (['!(\\..+)$ / [L]']),
               connect.static('.tmp'),
               connect.static('test'),
               connect().use(

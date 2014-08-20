@@ -23,7 +23,7 @@ angular
     'monospaced.elastic',
     'angularMoment'
   ])
-  .config ($routeProvider) ->
+  .config ($routeProvider, $locationProvider) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/main.html'
@@ -55,6 +55,8 @@ angular
 
       # .otherwise
       #   redirectTo: '/dashboard'
+
+    # $locationProvider.html5Mode true
 
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->

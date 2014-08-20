@@ -1,3 +1,26 @@
-<h1>Invite for #{{channel}}</h1>
+<div class="invite">
 
-<p>Ref is {{ref}}</p>
+  <p class="bigName">Shortwave</p>
+  <div class="underline"></div>
+
+  <div class="inviteWrapper" ng-show="loaded">
+
+    <img class="photo" ng-src="{{profile.photo}}">
+
+    <p class="name">{{profile.firstName}}</p>
+    <p class="invited">Invited you to a channel.</p>
+
+    <div class="sep"></div>
+
+    <p class="channel">#{{channelName}}</p>
+
+    <div class="button" ng-if="!user" ng-click="loginAndJoin()">Login with Facebook</div>
+    <div class="button" ng-if="user" ng-click="join()">Join Channel</div>
+
+  </div>
+<!-- 
+  <span class="question">
+    ?
+  </span> -->
+
+</div>
