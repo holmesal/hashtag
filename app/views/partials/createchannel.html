@@ -39,7 +39,7 @@
   <p class="charCount" ng-show="description.length > 0">{{description.length || 0}} / 80</p>
 </div>
 
-<a ng-click="addChannel()" ng-class="{faded:!name.length > 0}">
+<a class="sidebarButton" ng-click="addChannel()" ng-class="{faded:!name.length > 0}">
   <span ng-if="!exists">Create</span>
   <span ng-if="exists">Join</span>
 </a>

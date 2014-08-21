@@ -5,7 +5,7 @@
 
   <div class="inviteWrapper" ng-show="loaded">
 
-    <img class="photo" ng-src="{{profile.photo}}">
+    <div class="photo" ng-style="{'background-image': 'url('+profile.photo+')'}"></div>
 
     <p class="name">{{profile.firstName}}</p>
     <p class="invited">Invited you to a channel.</p>

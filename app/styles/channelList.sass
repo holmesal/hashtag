@@ -4,7 +4,7 @@
 
 
 $channelListItemHeight: 70px
-$createChannelHeight: 53px
+$actionButtonHeight: 53px
 $indicatorWidth: 50px
 $dotSize: 8px
 
@@ -19,48 +19,82 @@ channel-list
   background-color: $sidebarColor
   overflow-y: scroll
 
-  .addChannel
+  .actionButton
     display: block
     width: 100%
-    height: $createChannelHeight
-    color: white
-    position: relative
-    text-align: center
-    border-bottom: $dividerstyle
-    background-color: $greenColor
-    @include transition($quick)
-
-    .plus,.supporting
-      transition: 0.2s ease-in-out all
-      position: absolute
-      left: 0
-      width: 100%
-
-    .plus 
-      line-height: $createChannelHeight
-      font-family: Avenir-Black
-      font-size: 25px
-      top: 0
-      transition: $quick
-
-
-    .supporting
-      font-size: 12px
-      bottom: -3px
-      opacity: 0
-      @include transition($quick)
-
-    &.addMode
-      background-color: $sidebarColor
-
-      .plus
-        @include rotate(45deg)
-        color: $blackColor
-      .supporting
-        color: $blackColor
+    height: $actionButtonHeight
 
     &:hover
       cursor: pointer
+
+    .nestedButton
+      width: 100%
+      height: 100%
+      position: relative
+
+    .choices
+      background-color: $darkGray
+      color: white
+      text-align: center
+      overflow: auto
+
+      .addButton,.inviteButton
+        height: 100%
+        line-height: $actionButtonHeight
+        float: left
+
+      .addButton
+        width: 66%
+        border-right: 1px solid white
+
+      .inviteButton
+        width: 34%
+
+    .addChannel
+      color: white
+      text-align: center
+      border-bottom: $dividerstyle
+      background-color: $greenColor
+      @include transition($quick)
+
+      .plus,.supporting
+        transition: 0.2s ease-in-out all
+        position: absolute
+        left: 0
+        width: 100%
+
+      .plus 
+        line-height: $actionButtonHeight
+        font-family: Avenir-Black
+        font-size: 25px
+        top: 0
+        transition: $quick
+
+
+      .supporting
+        font-size: 12px
+        bottom: -3px
+        opacity: 0
+        @include transition($quick)
+
+      &.addMode
+        background-color: $sidebarColor
+
+        .plus
+          @include rotate(45deg)
+          color: $blackColor
+        .supporting
+          color: $blackColor
+
+
+    .cancel
+      background-color: #D0626B
+      color: white
+
+    .inviteLink
+      height: $channelListItemHeight
+      line-height: $channelListItemHeight
+
 
     //   .plus
     //     top: -8px
@@ -233,23 +267,23 @@ channel-list
         opacity: 0.3
         margin-bottom: 3px
 
-    a
-      width: 100%
-      display: block
-      background-color: $greenColor
-      height: 33px
-      line-height: 33px
-      text-align: center
-      font-family: Avenir-Black
-      font-size: 14px
+  .sidebarButton
+    width: 100%
+    display: block
+    background-color: $greenColor
+    height: 33px
+    line-height: 33px
+    text-align: center
+    font-family: Avenir-Black
+    font-size: 14px
+    color: white
+    transition: $quick
+
+    &.faded
+      background-color: #CDCDCD
+      color: #E5E5E5
+
+    &:hover
+      cursor: pointer
+      text-decoration: none
       color: white
-      transition: $quick
-
-      &.faded
-        background-color: #CDCDCD
-        color: #E5E5E5
-
-      &:hover
-        cursor: pointer
-        text-decoration: none
-        color: white

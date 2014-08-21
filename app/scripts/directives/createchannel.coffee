@@ -7,11 +7,15 @@
  # # createChannel
 ###
 angular.module('shortwaveApp')
-  .directive('createChannel', ($filter, $rootScope, $firebase, ChannelUtils) ->
+  .directive('createChannel', ($filter, $rootScope, $timeout, $firebase, ChannelUtils) ->
     templateUrl: 'views/partials/createChannel.html'
     restrict: 'E'
     scope: {}
     link: (scope, element, attrs) ->
+
+      # On init, focus
+      $timeout ->
+        $rootScope.$broadcast 'focusOn', 'newchannelname'
 
       scope.checkChannel = ->
         if scope.name

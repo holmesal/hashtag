@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, User, Channels, NodeWebkit) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, $location, User, Channels, NodeWebkit) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -25,12 +25,20 @@ angular.module('shortwaveApp')
         scope.createVisible = false
 
       # Go load the channels from firebase
-      uid = User.user.$uid
-      userRef = $rootScope.rootRef.child "users/#{uid}"
+      scope.uid = User.user.$id
+      userRef = $rootScope.rootRef.child "users/#{scope.uid}"
       channelsRef = userRef.child 'channels'
       sync = $firebase channelsRef
 
       scope.channels = Channels.channelList
+
+      # Build the ref link for the current channel
+      scope.$watch 'currentChannel', ->
+        #account for ports
+        portFrag = if $location.$$port then ":#{$location.$$port}" else ''
+        #strip facebook string
+        ref = scope.uid.replace 'facebook:', ''
+        scope.refLink = "#{$location.$$protocol}://#{$location.$$host}#{portFrag}/#{scope.currentChannel}?ref=#{ref}"
 
       # Once the channels load
       scope.channels.$loaded().then ->
@@ -51,18 +59,16 @@ angular.module('shortwaveApp')
           scope.currentChannel = channel
 
       scope.showCreate = ->
-        unless scope.createVisible
-          # Show create
-          scope.createVisible = true
-          # Focus on the element
-          $timeout ->
-            $rootScope.$broadcast 'focusOn', 'newchannelname'
+        scope.actionState = 'create'
 
-        else
-          # Hide create
-          scope.createVisible = false
-          # Focus on the input
-          $rootScope.$broadcast 'focusOn', 'compose'
+        # else
+        #   # Hide create
+        #   scope.createVisible = false
+        #   # Focus on the input
+        #   $rootScope.$broadcast 'focusOn', 'compose'
+
+      scope.cancel = ->
+        scope.actionState = null
 
       scope.logout = ->
         # auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
