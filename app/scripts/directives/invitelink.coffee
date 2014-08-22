@@ -7,7 +7,7 @@
  # # inviteLink
 ###
 angular.module('shortwaveApp')
-  .directive('inviteLink', ($timeout, User) ->
+  .directive('inviteLink', ($timeout, User, Url) ->
     templateUrl: 'views/partials/inviteLink.html'
     restrict: 'E'
     scope: 

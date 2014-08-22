@@ -11,7 +11,7 @@ angular.module('shortwaveApp')
     templateUrl: 'views/partials/create.html'
     restrict: 'E'
     scope:
-      hideCreate: '='
+      cancel: '&'
     link: (scope, element, attrs) ->
       # element.text 'this is the create directive'
   )

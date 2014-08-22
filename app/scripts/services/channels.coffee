@@ -18,21 +18,22 @@ angular.module('shortwaveApp')
         @messages = {}
         @unread = {}
 
-        # Just naively assume a user already exists
-        @user = User.user
+        # Wait for the user to exist
+        User.get().then (user) =>
+            @user = user
 
-        # Watch the user's list of channels
-        channelListRef = $rootScope.rootRef.child "users/#{@user.$id}/channels"
+            # Watch the user's list of channels
+            channelListRef = $rootScope.rootRef.child "users/#{@user.$id}/channels"
 
-        sync = $firebase channelListRef
+            sync = $firebase channelListRef
 
-        @channelList = sync.$asArray()
-        @channels = sync.$asObject()
+            @channelList = sync.$asArray()
+            @channels = sync.$asObject()
 
-        @loaded = @channelList.$loaded()
+            @loaded = @channelList.$loaded()
 
-        # When the list of channels changes, we'll want to look for new ones
-        @channelList.$watch @channelListChanged, @
+            # When the list of channels changes, we'll want to look for new ones
+            @channelList.$watch @channelListChanged, @
 
       channelListChanged: ->
         console.log 'the list of channels changed:'

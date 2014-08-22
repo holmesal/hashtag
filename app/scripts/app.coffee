@@ -39,6 +39,7 @@ angular
         controller: 'DashboardCtrl'
         resolve:
           user: ['User', (User) -> User.get()]
+          authUser: ['User', (User) -> User.auth()]
 
       # Handle named channels in the route
       # .when '/:channel',

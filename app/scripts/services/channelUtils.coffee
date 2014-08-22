@@ -15,10 +15,9 @@ angular.module('shortwaveApp')
     class ChannelUtils
 
         constructor: ->
-            # Once the user logs in, check the channels
-            User.user.$loaded().then (user) =>
-                console.log "channel utils saw user load"
-                console.log user
+            # Once the user logs in, check the channels and autojoin if necessary
+            $rootScope.$on 'userLoaded', (ev, user) =>
+                console.info "channel utils saw user load", user
                 # Check if this is a new user
                 unless user.channels
                     @autoJoin()
@@ -114,7 +113,7 @@ angular.module('shortwaveApp')
                             if err
                                 joined.reject err
                             else
-                                joined.resolve()
+                                joined.resolve channelName
 
             # Otherwise, just pretend you joined (sshhhhh)
             else
@@ -210,8 +209,8 @@ angular.module('shortwaveApp')
 
               for chan in chans
                 @joinChannel chan 
-                .then ->
-                  console.log "autoJoiner successfully joined channel #{chan}"
+                .then (channelName) ->
+                  console.log "autoJoiner successfully joined channel #{channelName}"
                 , (err) ->
                   console.error err
 

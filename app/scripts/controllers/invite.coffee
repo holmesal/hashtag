@@ -33,6 +33,7 @@ angular.module('shortwaveApp')
       console.log 'loaded profile!'
       $scope.loaded = true
 
+
     # Join
     $scope.join = ->
       ChannelUtils.joinChannel $scope.channelName
@@ -45,3 +46,16 @@ angular.module('shortwaveApp')
       , (err) ->
         console.error 'error joining channel'
         console.error err
+
+    $scope.loginAndJoin = ->
+      User.login().then ->
+        console.info 'logged in!'
+        ChannelUtils.joinChannel $scope.channelName
+        .then (chan) ->
+          console.info "successfully joined channel #{chan}"
+          $location.path '/dashboard'
+        .catch (err) ->
+          console.error "error joining channel", err
+
+
+

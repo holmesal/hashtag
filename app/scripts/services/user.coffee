@@ -17,31 +17,52 @@ angular.module('shortwaveApp')
         @rootRef = $rootScope.rootRef
 
         # Login object
-        @auth = $firebaseSimpleLogin @rootRef
+        @firebaseAuth = $firebaseSimpleLogin @rootRef
 
-        # User promise
+        # Init
+        @init()
+
+      init: ->
+        # User promise - if user isn't logged in, will be resolved with a null user
         @deferredUser = $q.defer()
-        @prom = @deferredUser.promise
+
+        # Auth promise - if user isn't logged in, will be rejected
+        @deferredAuth = $q.defer()
+        
 
       get: ->
-        # Returns a promise that will be resolved with the user and authUser.
-        # If the user isn't logged in, will be resolved with null
-        @auth.$getCurrentUser().then (@authUser) =>
-          console.log 'got current user!'
-          console.log authUser
+        # Authenticate and load
+        @load()
+
+        # Return the user promise - will be null if not logged in
+        return @deferredUser.promise
+
+      auth: ->
+        # Authenticate and load
+        @load()
+
+        # Return the auth promise - will be rejected if not logged in
+        return @deferredAuth.promise
+
+      load: ->
+        @firebaseAuth.$getCurrentUser().then (@authUser) =>
+          console.info 'got current user!', authUser
           # @authUser is null if the user isn't logged in
           if @authUser
+            # Resolve with the auth User
+            @deferredAuth.resolve @authUser
             # Fetch the user from firebase
             @fetch()
           else
             @loggedIn = false
             # The user isn't logged in. Resolve the promise, but with a null user
             @deferredUser.resolve null
+            # Reject the auth promise
+            @deferredAuth.reject()
         .catch (err) ->
           console.error 'err getting current user'
           console.error err
 
-        return @prom
 
       fetch: ->
         userRef = $rootScope.rootRef.child "users/#{@authUser.uid}"
@@ -49,11 +70,30 @@ angular.module('shortwaveApp')
         @user = sync.$asObject()
 
         # Once the user is loaded, resolve the main promise
-        @user.$loaded().then =>
+        @user.$loaded().then (user) =>
+          console.info 'user allegedly loaded', user
+          # Now logged in
           @loggedIn = true
-          @deferredUser.resolve @user
+          # Resolve any routes
+          @deferredUser.resolve user
+          # Let other services know
+          $rootScope.$broadcast 'userLoaded', user
 
-          # Is this the first login?
+      login: ->
+        # Reset login promises
+        @init()
+
+        # Attempt to log in
+        @firebaseAuth.$login 'facebook'
+        .then =>
+          # Get the user
+          @get()
+        , (err) ->
+          console.error 'error logging in', err
+          @deferredUser.reject()
+
+        # Return the deferred user promise
+        return @deferredUser.promise
 
     return new User
 

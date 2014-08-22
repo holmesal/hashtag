@@ -10,7 +10,8 @@ angular.module('shortwaveApp')
   .directive('createChannel', ($filter, $rootScope, $timeout, $firebase, ChannelUtils) ->
     templateUrl: 'views/partials/createChannel.html'
     restrict: 'E'
-    scope: {}
+    scope: 
+      cancel: '&'
     link: (scope, element, attrs) ->
 
       # On init, focus
@@ -69,6 +70,7 @@ angular.module('shortwaveApp')
         scope.name = ''
         scope.description = ''
         scope.meta = null
+        scope.cancel()
 
       scope.keydown = (ev) ->
         scope.addChannel() if ev.keyCode is 13

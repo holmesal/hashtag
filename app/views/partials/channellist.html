@@ -10,7 +10,10 @@
 
 </div>
 
-<create-channel ng-if="actionState == 'create'"></create-channel>
+<create-channel 
+  ng-if="actionState == 'create'"
+  cancel="cancel()">
+</create-channel>
 
 <invite-link 
   ng-if="actionState == 'invite'" 
