@@ -2,6 +2,7 @@ node_modules
 .tmp
 .sass-cache
 bower_components
+!dist/bower_components
 cache
 release
 desktop/dist

@@ -518,6 +518,9 @@ module.exports = function (grunt) {
       },
       firebase: {
         command: 'firebase deploy'
+      },
+      stage: {
+        command: 'stage'
       }
     },
 
@@ -647,7 +650,9 @@ module.exports = function (grunt) {
     // Push to S3
     's3:release',
     // Deploy to firebase
-    'shell:firebase'
+    'shell:firebase',
+    // Deploy to the development remote
+    'shell:stage'
   ]);
 
   grunt.registerTask('fullRelease', [
