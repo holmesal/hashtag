@@ -6,16 +6,17 @@
     <div class="inviteButton" ng-click="actionState = 'invite'">Invite</div>
   </div>
 
-  <button class="btn nestedButton cancel" ng-show="actionState" ng-click="cancel()">Cancel</button>
+  <div class="nestedButton cancel" ng-show="actionState" ng-click="cancel()">Cancel</div>
 
 </div>
 
 <create-channel ng-if="actionState == 'create'"></create-channel>
 
-<div class="inviteLink" ng-if="actionState == 'invite'">
-  {{refLink}}
-  <a class="sidebarButton">Copy link to clipboard</a>
-</div>
+<invite-link 
+  ng-if="actionState == 'invite'" 
+  channel="currentChannel"
+  cancel="cancel()">
+</invite-link>
 
 
 <channel-list-item 

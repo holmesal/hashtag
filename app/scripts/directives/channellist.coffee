@@ -32,14 +32,6 @@ angular.module('shortwaveApp')
 
       scope.channels = Channels.channelList
 
-      # Build the ref link for the current channel
-      scope.$watch 'currentChannel', ->
-        #account for ports
-        portFrag = if $location.$$port then ":#{$location.$$port}" else ''
-        #strip facebook string
-        ref = scope.uid.replace 'facebook:', ''
-        scope.refLink = "#{$location.$$protocol}://#{$location.$$host}#{portFrag}/#{scope.currentChannel}?ref=#{ref}"
-
       # Once the channels load
       scope.channels.$loaded().then ->
 

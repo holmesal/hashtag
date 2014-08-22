@@ -21,9 +21,10 @@ angular
     'angularFileUpload',
     'emoji',
     'monospaced.elastic',
-    'angularMoment'
+    'angularMoment',
+    'ngClipboard'
   ])
-  .config ($routeProvider, $locationProvider) ->
+  .config ($routeProvider, $locationProvider, ngClipProvider) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/main.html'
@@ -59,7 +60,11 @@ angular
     # html5Mode = if process?.versions['node-webkit'] then false else true
     # console.log "is desktop? #{html5Mode}"
 
+    # Use HTML5 mode on the web only
     $locationProvider.html5Mode if process?.versions['node-webkit'] then false else true
+
+    # Set up zeroclipboard
+    ngClipProvider.setPath 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
 
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->

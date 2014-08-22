@@ -14,6 +14,8 @@ $quick: 0.2s linear all
 
 $hashOffset: -16px
 
+$sep: 1px solid $sidebarColor
+
 
 channel-list 
   background-color: $sidebarColor
@@ -31,16 +33,16 @@ channel-list
       width: 100%
       height: 100%
       position: relative
+      text-align: center
+      line-height: $actionButtonHeight
 
     .choices
       background-color: $darkGray
       color: white
-      text-align: center
       overflow: auto
 
       .addButton,.inviteButton
         height: 100%
-        line-height: $actionButtonHeight
         float: left
 
       .addButton
@@ -91,9 +93,16 @@ channel-list
       background-color: #D0626B
       color: white
 
-    .inviteLink
-      height: $channelListItemHeight
-      line-height: $channelListItemHeight
+  invite-link
+
+    .link
+      // line-height: $channelListItemHeight
+      background-color: white
+      border-right: $sep
+      // height: $channelListItemHeight
+      margin-bottom: 0px
+      padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
+
 
 
     //   .plus
@@ -107,6 +116,9 @@ channel-list
 
   channel-list-item
 
+    display: block
+    transition: $quick
+
     .channelWrapper
       display: block
       width: 100%
@@ -116,8 +128,6 @@ channel-list
       padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
       position: relative
       overflow: hidden
-
-
 
       &:hover
         cursor: pointer
@@ -212,7 +222,7 @@ channel-list
 
   create-channel
     display: block
-    margin-bottom: 200px
+    // margin-bottom: 200px
 
     .section
       padding: $channelPaddingSide $channelPaddingTop $channelPaddingSide $channelPaddingTop
