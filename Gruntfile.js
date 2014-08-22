@@ -375,7 +375,10 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: ['bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*','package.json'],
+          src: [
+            'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
+            'package.json',
+            'bower_components/zeroclipboard/dist/ZeroClipboard.swf'],
           dest: '<%= yeoman.dist %>'
         }]
       },
