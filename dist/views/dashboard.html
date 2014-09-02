@@ -1,14 +1,1 @@
-<div class="dashboard" 
-  ng-class="{createVisible:createVisible}" 
-  nv-file-drop uploader="uploader"
-  ng-paste="paste($event)">
-
-  <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list>
-
-  <div class="mainView">
-    <stream channel="currentChannel" ng-style="{bottom:composeHeight}"></stream>
-    <composebar channel="currentChannel" uploader="uploader" compose-height="composeHeight"></composebar>
-  </div>
-
-  <create hide-create="hideCreate"></create>
-</div>
+<div class="dashboard" ng-class="{createVisible:createVisible}" nv-file-drop uploader="uploader" ng-paste="paste($event)"> <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list> <div class="mainView"> <stream channel="currentChannel" ng-style="{bottom:composeHeight}"></stream> <composebar channel="currentChannel" uploader="uploader" compose-height="composeHeight"></composebar> </div> <create hide-create="hideCreate"></create> </div>
