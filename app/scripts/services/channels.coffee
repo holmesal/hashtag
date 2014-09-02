@@ -77,7 +77,7 @@ angular.module('shortwaveApp')
         unreadCount = 0
         newestTime = 0
         for message in @messages[name]
-            if message.$priority > lastSeen and @user.viewing isnt name and message.owner isnt @user.$id
+            if message.$priority > lastSeen #and @user.viewing isnt name and message.owner isnt @user.$id
                 unreadCount += 1
                 newestTime = message.$priority
             if message.$priority > newestTime
