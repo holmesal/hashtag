@@ -2,8 +2,8 @@
 <div class="actionButton">
 
   <div class="nestedButton choices" ng-show="!actionState">
-    <div class="addButton" ng-click="showCreate()">Add Conversation</div>
-    <div class="inviteButton" ng-click="actionState = 'invite'">Invite</div>
+    <div class="addButton" ng-click="showCreate()">+</div>
+    <!-- <div class="inviteButton" ng-click="actionState = 'invite'">Invite</div> -->
   </div>
 
   <div class="nestedButton cancel" ng-show="actionState" ng-click="cancel()">Cancel</div>
@@ -23,7 +23,7 @@
 
 
 <channel-list-item 
-  ng-repeat="channel in channels | orderBy:'latest':true" 
+  ng-repeat="channel in channels | orderBy:'newestTime':true" 
   channel="channel"
   current-channel="currentChannel"
   ng-class="{faded: actionState}">

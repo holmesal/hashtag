@@ -4,11 +4,11 @@
 
 
 $channelListItemHeight: 70px
-$actionButtonHeight: 53px
+$actionButtonHeight: 46px
 $indicatorWidth: 50px
 $dotSize: 8px
 
-$dividerstyle: 1px solid $dividerColor
+$dividerstyle: 1px solid rgba(255,255,255,0.3)
 
 $quick: 0.2s linear all
 
@@ -18,7 +18,7 @@ $sep: 1px solid $sidebarColor
 
 
 channel-list 
-  background-color: $sidebarColor
+  background-color: $darkGray
   overflow-y: scroll
 
   .actionButton
@@ -40,14 +40,21 @@ channel-list
       background-color: $darkGray
       color: white
       overflow: auto
+      border-bottom: $dividerstyle
 
       .addButton,.inviteButton
         height: 100%
         float: left
 
       .addButton
-        width: 66%
-        border-right: 1px solid white
+        width: 100%
+        // border-right: 1px solid white
+        font-family: Avenir-Medium
+        font-size: 18px
+        transition: $quick
+        margin-bottom: 0px
+        position: relative
+        text-align: center
 
       .inviteButton
         width: 34%
@@ -145,6 +152,21 @@ channel-list
         &.visible
           right: 0px
 
+      .unreadCount
+        position: absolute 
+        right: 11px 
+        top: 50%
+        $size: 22px
+        margin-top: -$size/2
+        width: $size
+        height: $size 
+        border-radius: 50%
+        border: 1px solid white
+        line-height: $size
+        text-align: center
+        color: white
+        font-family: Avenir-Medium
+
         // .stripe 
         //   width: $dotSize
         //   height: $dotSize
@@ -159,14 +181,16 @@ channel-list
         width: auto
         // overflow: hidden
         // padding-top: 15px
-        color: $blackColor
+        // color: $blackColor
+        color: white
 
         .name 
           font-family: Avenir-Medium
-          font-size: 13px
+          font-size: 18px
           transition: $quick
-          margin-bottom: 8px
+          margin-bottom: 0px
           position: relative
+          text-align: center
 
           .hash
             position: absolute
@@ -203,7 +227,9 @@ channel-list
           .leave
             float: right
 
-
+      // Unread state
+      &.unread 
+        background-color: $unreadColor
       // Selected state
       &.selected
         background-color: $greenColor

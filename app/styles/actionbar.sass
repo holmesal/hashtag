@@ -1,0 +1,55 @@
+@import structure
+@import colors
+
+$padding: 20px
+
+actionbar
+  width: 100%
+  height: $actionbarHeight
+  background-color: $greenColor
+  position: absolute
+  top: 0
+  left: 0
+  line-height: $actionbarHeight
+  color: white
+  border-radius: 0px
+  // border-left: 1px solid white
+
+  .title 
+    font-family: Avenir-Medium
+    letter-spacing: 1px
+    font-size: 18px
+    text-align: center
+
+  .leftButton, .rightButton
+    position: absolute
+    height: 100%
+    top: 0
+    font-size: 14px
+    font-family: Avenir-Roman
+    letter-spacing: 0.8px
+
+    &.leftButton
+      left: $padding
+      text-align: left
+
+    &.rightButton
+      right: $padding
+      text-align: right
+
+      img 
+        height: 23px
+        width: auto
+
+    &:hover
+      cursor: pointer
+
+  .cancel
+    position: absolute
+    left: 20px
+    font-family: Avenir-Light
+    font-size: 17px
+    color: white 
+    &:hover
+      text-decoration: none
+      cursor: pointer

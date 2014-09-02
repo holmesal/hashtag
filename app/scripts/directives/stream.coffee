@@ -65,7 +65,7 @@ angular.module('shortwaveApp')
         # console.log 'scrolling to the bottom'
         # Scroll the messaages to the bottom
         # For some reason we can't access the child in this way:
-        scroller = element.children()[0]
+        scroller = element.children()[1]
 
         # So the ghetto way looks like this:
         $('.messages').stop().animate

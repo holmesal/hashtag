@@ -7,11 +7,9 @@
  # # navbar
 ###
 angular.module('shortwaveApp')
-  .directive('navbar', ->
-    template: '{{currentChannel}}'
+  .directive('actionbar', ->
+    templateUrl: 'views/partials/actionbar.html'
     restrict: 'E'
-    scope:
-      currentChannel: '='
     link: (scope, element, attrs) ->
       # element.text 'this is the navbar directive'
   )

@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Channels', ($rootScope, $firebase, $timeout, User) ->
+  .service 'Channels', ($rootScope, $firebase, $timeout, $filter, User) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
 
     class Channels
@@ -35,61 +35,57 @@ angular.module('shortwaveApp')
             # When the list of channels changes, we'll want to look for new ones
             @channelList.$watch @channelListChanged, @
 
-      channelListChanged: ->
-        console.log 'the list of channels changed:'
+      channelListChanged: (wat) ->
+        console.info 'channel list item changed', wat
         console.log @channelList
 
         keys = []
 
-        # Go through the channels, and make sure you've got a listener for that channel set up
-        for channel in @channelList
-            name = channel.$id
-            console.log name
-            keys.push name
-            unless @messages[name]
-                console.log "(setting up channel #{name})"
-                ref = $rootScope.rootRef.child "messages/#{name}"
-                sync = $firebase ref.limit(50)
-                @messages[name] = sync.$asArray()
-                # Once this list of messages loads, start watching it
-                @messages[name].$loaded().then =>
-                    # Check the unread notifications right away
-                    console.log "pre-checking times for #{name}"
+        name = wat.key
+
+        if wat.event is 'child_added'
+            console.info "setting up channel: #{name}"
+            ref = $rootScope.rootRef.child "messages/#{name}"
+            sync = $firebase ref.limit(50)
+            @messages[name] = sync.$asArray()
+            # Once this list of messages loads, start watching it
+            @messages[name].$loaded().then =>
+                # Check the unread notifications right away
+                console.log "pre-checking times for #{name}"
+                @checkTimes name
+                # When this list of messages changes, check the newest times
+                # And broadcast a "got message" event
+                @messages[name].$watch (message) =>
                     @checkTimes name
-                    # When this list of messages changes, check the newest times
-                    # And broadcast a "got message" event
-                    @messages[name].$watch (message) =>
-                        @checkTimes name
-                        @sendNotification name, message
+                    @sendNotification name, message
 
-        # Remove any channels locally that aren't in the updated list
-        for name, channel of @messages
-            unless name in keys
-                console.log "deleting channel #{name}"
-                delete @messages[name]
+        else if wat.event is 'child_changed'
+            console.info "channel updated: #{name}"
+            @checkTimes name
 
-        # console.log "udpated channels: "
-        # console.log @messages
+        else if wat.event is 'child_removed'
+            console.info "deleting channel: #{name}"
+            delete @messages[name]
+
 
       checkTimes: (name) ->
         console.warn "checking times for channel #{name}"
-        console.log @channelList
-        # Get the priority of the last message
-        last = @messages[name][@messages[name].length - 1]
-        # Are there any messages?
-        if last
-            # Is the last message newer?
-            for channel, idx in @channelList
-                unread = false
-                if channel.$id is name
-                    latest = @channelList[idx].latest = last.$priority
-                    # console.log "#{latest} >= #{channel.lastSeen} - diff is #{latest - channel.lastSeen}"
-                    if latest >= channel.lastSeen
-                        # Ignore yourself
-                        unless last.owner is @user.$id
-                            unread = true
-                            # @channelList[idx].unread = true
-                    @channelList[idx].unread = unread
+        # console.log @channelList
+        chan = @channelList.$getRecord(name)
+        lastSeen = chan?.lastSeen
+        # Calc unread
+        unreadCount = 0
+        newestTime = 0
+        for message in @messages[name]
+            if message.$priority > lastSeen and @user.viewing isnt name and message.owner isnt @user.$id
+                unreadCount += 1
+                newestTime = message.$priority
+            if message.$priority > newestTime
+                newestTime = message.$priority
+
+        chan.unreadCount = unreadCount
+        chan.newestTime = newestTime
+
 
       sendNotification: (channelName, ev) ->
         # Only respond to messages being added
