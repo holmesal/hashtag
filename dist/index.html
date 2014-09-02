@@ -1,20 +1,127 @@
-<!doctype html> <html class="no-js"> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/main.f48cc6f6.css"> <base href="/">  <body ng-app="shortwaveApp"> <!--[if lt IE 7]>
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <!-- endbuild -->
+    <base href="/">
+  </head>
+  <body ng-app="shortwaveApp">
+    <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]--> <!-- Add your site or application content here --> <!-- <div class="container"> --> <!--       <div class="header">
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <!-- <div class="container"> -->
+<!--       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
           <li><a ng-href="#/about">About</a></li>
           <li><a ng-href="#">Contact</a></li>
         </ul>
         <h3 class="text-muted">shortwave</h3>
-      </div> --> <div ng-view="" class="appView"></div> <!--       <div class="footer">
+      </div> -->
+
+      <div ng-view="" class="appView"></div>
+
+<!--       <div class="footer">
         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div> --> <!-- </div> --> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID --> <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      </div> -->
+    <!-- </div> -->
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
        ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');</script> <!--[if lt IE 9]>
-    <script src="scripts/oldieshim.2c4a194c.js"></script>
-    <![endif]--> <script src="scripts/vendor.dbd9c0c6.js"></script> <script src="scripts/scripts.6e2c12b5.js"></script>  
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="bower_components/angularjs-scroll-glue/src/scrollglue.js"></script>
+    <script src="bower_components/angular-file-upload/angular-file-upload.js"></script>
+    <script src="bower_components/angular-emoji-filter/dist/emoji.min.js"></script>
+    <script src="bower_components/angular-elastic/elastic.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/services/ChannelUtils.js"></script>
+        <script src="scripts/controllers/dashboard.js"></script>
+        <script src="scripts/directives/channelListItem.js"></script>
+        <script src="scripts/directives/createchannel.js"></script>
+        <script src="scripts/services/user.js"></script>
+        <script src="scripts/services/channels.js"></script>
+        <script src="scripts/directives/composebar.js"></script>
+        <script src="scripts/directives/message.js"></script>
+        <script src="scripts/services/message.js"></script>
+        <script src="scripts/controllers/stream.js"></script>
+        <script src="scripts/directives/stream.js"></script>
+        <script src="scripts/directives/actionbar.js"></script>
+        <script src="scripts/directives/channellist.js"></script>
+        <script src="scripts/directives/loadchirp.js"></script>
+        <script src="scripts/filters/parseurl.js"></script>
+        <script src="scripts/directives/create.js"></script>
+        <script src="scripts/services/nodewebkit.js"></script>
+        <script src="scripts/directives/compile.js"></script>
+        <script src="scripts/directives/focuson.js"></script>
+        <script src="scripts/directives/safechannelname.js"></script>
+        <script src="scripts/directives/maxlength.js"></script>
+        <script src="scripts/controllers/invite.js"></script>
+        <script src="scripts/directives/invitelink.js"></script>
+        <script src="scripts/services/Url.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
