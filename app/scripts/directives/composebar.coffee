@@ -34,6 +34,8 @@ angular.module('shortwaveApp')
           Message.text text, scope.channel
           .then ->
             console.log "send message successfully"
+            # Bump the last-seen time
+            $rootScope.$broadcast 'bumpTime', scope.channel
           .catch (err) ->
             console.error "error sending message"
             console.error err

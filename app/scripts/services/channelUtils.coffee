@@ -22,6 +22,11 @@ angular.module('shortwaveApp')
                 unless user.channels
                     @autoJoin()
 
+            # Listen for requests to update the lastSeen time of a channel
+            $rootScope.$on 'bumpTime', (ev, channelName) =>
+                console.log 'ok'
+                @bumpTime channelName
+
 
         getChannel: (channelName) ->
 
@@ -199,6 +204,12 @@ angular.module('shortwaveApp')
                     set.resolve()
 
             set.promise
+
+        bumpTime: (channelName) ->
+            nowRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}/lastSeen"
+            nowRef.set Date.now(), (err) ->
+                if err
+                    console.error err
 
         autoJoin: ->
             # Get the channels to be auto-joined

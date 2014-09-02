@@ -23,7 +23,7 @@
 
 
 <channel-list-item 
-  ng-repeat="channel in channels" 
+  ng-repeat="channel in channels | orderBy:'latest':true" 
   channel="channel"
   current-channel="currentChannel"
   ng-class="{faded: actionState}">
