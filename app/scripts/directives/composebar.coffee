@@ -24,6 +24,8 @@ angular.module('shortwaveApp')
       , (height) ->
         console.log "height changed to #{height}px"
         scope.composeHeight = "#{height}px"
+        # Broadcast a change in height
+        $rootScope.$broadcast 'heightUpdate'
 
       # Send a message
       scope.send = ->
@@ -44,8 +46,10 @@ angular.module('shortwaveApp')
 
           # store the last text
           scope.lastText = scope.messageText
-          # Clear the current text
-          scope.messageText = ''
+
+          # Clear the current text - but do it on the next digest
+          $timeout -> # /hack
+            scope.messageText = null
 
       scope.keydown = (ev) ->
 
