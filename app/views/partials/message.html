@@ -8,12 +8,12 @@
     <p class="text" compile="message.content.text | parseUrl"></p>
 
     <!-- Todo - GIFs should have a template to themselves -->
-    <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
+<!--     <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
       <source ng-src="{{vidurls.webm}}">
       <source ng-src="{{vidurls.mp4}}">
-    </video>
+    </video> -->
 
-    <img ng-if="message.type == 'image'" ng-src="{{message.content.src}}" ng-click="navigate(message.content.src)" loadchirp>
+    <img ng-if="message.type == 'image' || message.type == 'gif'" ng-src="{{message.content.src}}" ng-click="navigate(message.content.src)" loadchirp>
 
     <div ng-if="message.type == 'website'" class="website" ng-click="navigate(message.content.url)">
       <p class="title" ng-if="message.content.title">{{message.content.title}}</p>

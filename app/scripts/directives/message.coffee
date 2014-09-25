@@ -21,11 +21,12 @@ angular.module('shortwaveApp')
       scope.owner = sync.$asObject()
 
       # Hacky till this gets moved out into it's own template
-      scope.$watch 'message.content.src', (updated) ->
-        if updated
-          scope.vidurls = 
-            mp4: $sce.trustAsResourceUrl(updated.mp4)
-            webm: $sce.trustAsResourceUrl(updated.webm)
+      # scope.$watch 'message.content.src', (updated) ->
+      #   if updated
+          # Make a request to GFYCAT to convert these
+          # scope.vidurls = 
+          #   mp4: $sce.trustAsResourceUrl(updated.mp4)
+          #   webm: $sce.trustAsResourceUrl(updated.webm)
 
       scope.navigate = (url) ->
 
