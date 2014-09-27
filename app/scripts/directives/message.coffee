@@ -7,7 +7,7 @@
  # # message
 ###
 angular.module('shortwaveApp')
-  .directive('message', ($rootScope, $firebase, $sce, $window, NodeWebkit) ->
+  .directive('message', ($rootScope, $firebase, $sce, $window, $http, NodeWebkit) ->
     templateUrl: 'views/partials/message.html'
     restrict: 'E'
     scope:
@@ -21,12 +21,13 @@ angular.module('shortwaveApp')
       scope.owner = sync.$asObject()
 
       # Hacky till this gets moved out into it's own template
-      # scope.$watch 'message.content.src', (updated) ->
-      #   if updated
+      scope.$watch 'message.content.gfycat', (updated) ->
+        if updated
+          # $http.get ''
           # Make a request to GFYCAT to convert these
-          # scope.vidurls = 
-          #   mp4: $sce.trustAsResourceUrl(updated.mp4)
-          #   webm: $sce.trustAsResourceUrl(updated.webm)
+          scope.vidurls = 
+            mp4: $sce.trustAsResourceUrl(updated.mp4)
+            webm: $sce.trustAsResourceUrl(updated.webm)
 
       scope.navigate = (url) ->
 
