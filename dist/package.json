@@ -1,6 +1,6 @@
 {
   "name": "Shortwave",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
