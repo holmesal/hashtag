@@ -14,6 +14,7 @@ angular.module('shortwaveApp')
       message: '='
       rolling: '='
       last: '='
+      preurl: '='
     link: (scope, element, attrs) ->
 
       ownerRef = $rootScope.rootRef.child "users/#{scope.message.owner}/profile"

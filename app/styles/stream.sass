@@ -42,6 +42,7 @@ stream
     message 
       position: relative
       display: block
+      min-height: 20px
 
       // Only message gets a min height
       &.only 
@@ -52,6 +53,7 @@ stream
 
       .userPhoto
         position: absolute
+        z-index: 100
         width: 48px
         height: 48px
         border-radius: 50%
@@ -94,6 +96,8 @@ stream
 
         img,video
           max-width: 100%
+          max-height: 200px
+          // margin-left: -$leftGutter
           &:hover
             cursor: pointer
 

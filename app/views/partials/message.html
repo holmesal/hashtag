@@ -5,10 +5,10 @@
   <div class="content">
     <span class="timeAgo" am-time-ago="message.$priority" ng-class="{visible:last}"></span>
 
-    <p class="text" compile="message.content.text | parseUrl"></p>
+    <p class="text" ng-if="!preurl" compile="message.content.text | parseUrl"></p>
 
     <!-- Todo - GIFs should have a template to themselves -->
-    <video ng-if="message.type == 'gif' && vidurls" autoplay loop loadchirp>
+    <video ng-if="message.type == 'gif' && message.content.converted" autoplay loop loadchirp ng-click="navigate(message.content.gfycat.website)">
       <source ng-src="{{vidurls.webm}}">
       <source ng-src="{{vidurls.mp4}}">
     </video>

@@ -2,9 +2,6 @@
 @import "./structure"
 @import "compass"
 
-
-$channelListItemHeight: 70px
-$actionButtonHeight: 46px
 $indicatorWidth: 50px
 $dotSize: 8px
 
@@ -16,25 +13,52 @@ $hashOffset: -16px
 
 $sep: 1px solid $sidebarColor
 
+=dashed-border($dashlength, $spacelength, $borderwidth, $color, $position: top)
+  $per: percentage($dashlength / ($dashlength + $spacelength))
+  background-image: linear-gradient(to right, $color 0%, $color $per, rgba(0, 0, 0, 0) $per)
+  background-position: 0 $position
+  background-size: ($dashlength + $spacelength) $borderwidth
+  background-repeat: repeat-x
+
 
 channel-list 
-  background-color: $darkGray
   overflow-y: scroll
+  +background-image(radial-gradient(circle, #FFFFFF, #F7F7F7))
+  border-right: 1px solid $borderColor
+  padding-top: $actionbarHeight
+  // position: relative
+
+  .addButton
+    height: $actionbarHeight
+    line-height: $actionbarHeight
+    background-color: $addButtonColor
+    color: white
+    display: block
+    width: 100%
+    text-align: center
+    font-family: Avenir-Black
+    font-size: 30px
+    position: fixed
+    top: 0
+    z-index: 1000
+    width: $channelListWidth
+
+    &:hover
+      cursor: pointer
+
 
   .actionButton
     display: block
     width: 100%
-    height: $actionButtonHeight
+    height: $actionbarHeight
 
-    &:hover
-      cursor: pointer
 
     .nestedButton
       width: 100%
       height: 100%
       position: relative
       text-align: center
-      line-height: $actionButtonHeight
+      line-height: $actionbarHeight
 
     .choices
       background-color: $darkGray
@@ -73,7 +97,7 @@ channel-list
         width: 100%
 
       .plus 
-        line-height: $actionButtonHeight
+        line-height: $actionbarHeight
         font-family: Avenir-Black
         font-size: 25px
         top: 0
@@ -125,6 +149,10 @@ channel-list
 
     display: block
     transition: $quick
+    // +background-image(linear-gradient(#FFFFFF, #FEFEFE))
+    // +dashed-border(1px, 5px, 1px, $borderColor, bottom)
+    +background-image(url(../images/cellBG.png))
+    background-size: 100% 100%
 
     .channelWrapper
       display: block
@@ -184,13 +212,11 @@ channel-list
         // color: $blackColor
         color: white
 
-        .name 
-          font-family: Avenir-Medium
-          font-size: 18px
+        .channelName 
           transition: $quick
           margin-bottom: 0px
           position: relative
-          text-align: center
+          // line-height: $channelListItemHeight
 
           .hash
             position: absolute
@@ -228,11 +254,11 @@ channel-list
             float: right
 
       // Unread state
-      &.unread 
-        background-color: $unreadColor
+      // &.unread 
+      //   background-color: $unreadColor
       // Selected state
-      &.selected
-        background-color: $greenColor
+      // &.selected
+      //   background-color: $greenColor
         // background-color: white
 
         .info 

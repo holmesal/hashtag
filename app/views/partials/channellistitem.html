@@ -10,9 +10,11 @@
   </div> -->
 
   <div class="info">
-    <p class="name">
+    <p class="channelName">
+      <img ng-if="channel.unreadCount" src="images/hashColor.png">
+      <img ng-if="!channel.unreadCount" src="images/hashGray.png">
       <!-- <span class="hash">#</span> -->
-      #{{channel.$id}}
+      {{channel.$id}}
     </p>
     <!-- <p class="description">{{description.$value}}</p>
     <div class="actions">
