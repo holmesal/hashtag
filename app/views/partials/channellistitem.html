@@ -16,6 +16,8 @@
       <!-- <span class="hash">#</span> -->
       {{channel.$id}}
     </p>
+
+    <img src="images/mute-active.png" class="mute" ng-if="channel.muted">
     <!-- <p class="description">{{description.$value}}</p>
     <div class="actions">
       <img ng-if="!channel.muted" class="mute" src="images/mute.png"

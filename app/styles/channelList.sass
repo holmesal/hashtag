@@ -109,7 +109,7 @@ channel-list
         // border-right: 1px solid white
         font-family: Avenir-Medium
         font-size: 18px
-        transition: $quick
+        // transition: $quick
         margin-bottom: 0px
         position: relative
         text-align: center
@@ -182,7 +182,7 @@ channel-list
   .channelListItem
 
     display: block
-    transition: $quick
+    // transition: $quick
     // +background-image(linear-gradient(#FFFFFF, #FEFEFE))
     // +dashed-border(1px, 5px, 1px, $borderColor, bottom)
     +background-image(url(../images/cellBG.png))
@@ -263,6 +263,12 @@ channel-list
           transition: $quick
           line-height: 140%
           margin-bottom: 0px
+
+        .mute
+          position: absolute 
+          height: 15px
+          left: 12px
+          top: 19px
 
         .actions
           width: 100%

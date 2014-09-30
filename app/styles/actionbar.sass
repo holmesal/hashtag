@@ -1,7 +1,7 @@
 @import structure
 @import colors
 
-$padding: 20px
+$padding: 30px
 
 actionbar
   width: 100%
@@ -34,9 +34,24 @@ actionbar
       right: $padding
       text-align: right
 
-      img 
-        height: 23px
-        width: auto
+    img 
+      height: 17px
+      width: auto
+      // transition: 0.3s ease-in-out opacity
+      opacity: 0.42
+
+      &:hover
+        opacity: 1
+
+    .leave
+      margin-left: 20px
+      height: 15px
+
+      &:hover
+        opacity: 1
+
+    .mute-active
+      opacity: 1 !important
 
     &:hover
       cursor: pointer
