@@ -35,7 +35,7 @@ angular.module('shortwaveApp')
 
       # Leave the channel
       scope.leave = ->
-        conf = window.confirm 'Are you sure you want to leave this channel?'
+        conf = window.confirm 'Are you sure you want to leave this hashtag?'
         if conf
           # Leave the channel
           ChannelUtils.leaveChannel scope.channel.$id

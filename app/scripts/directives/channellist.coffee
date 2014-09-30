@@ -80,6 +80,9 @@ angular.module('shortwaveApp')
       scope.reset = ->
         scope.addName = ''
         scope.addMode = false
+        if scope.resultRef
+          scope.resultRef.off()
+        scope.suggestions = []
 
       scope.addChannel = (channelName) ->
         ChannelUtils.addChannel channelName

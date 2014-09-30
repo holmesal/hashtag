@@ -37,6 +37,11 @@
   </div>
 </div>
 
+<div class="addPrompt" ng-if="addMode && !addName">
+  <p>What hashtag would you like to add?</p>
+  <img src="images/leave.png" ng-click="reset()">
+</div>
+
 <!-- <create-channel 
   ng-if="actionState == 'create'"
   cancel="cancel()">
