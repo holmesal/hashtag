@@ -1,9 +1,11 @@
-<div class="channelWrapper" ng-click="changeChannel()" ng-class="{'selected': currentChannel == channel.$id, 'unread':channel.unreadCount}"> <div class="unreadCount" ng-show="channel.unreadCount"> <span class="number">{{channel.unreadCount}}</span> </div> <!-- <div class="indicator" ng-class="{visible: channel.unread}">
-  </div> --> <div class="info"> <p class="name"> <!-- <span class="hash">#</span> --> #{{channel.$id}} </p> <!-- <p class="description">{{description.$value}}</p>
+<div class="channelWrapper" ng-click="changeChannel()" ng-class="{'selected': currentChannel == channel.$id, 'unread':channel.unreadCount}"> <!-- <div class="unreadCount" ng-show="channel.unreadCount">
+    <span class="number">{{channel.unreadCount}}</span>
+  </div> --> <!-- <div class="indicator" ng-class="{visible: channel.unread}">
+  </div> --> <div class="info"> <p class="channelName"> <img ng-if="channel.unreadCount" src="images/hashColor.1c5457d0.png"> <img ng-if="!channel.unreadCount" src="images/hashGray.269f565a.png"> <!-- <span class="hash">#</span> --> {{channel.$id}} </p> <img src="images/mute-active.83d48a00.png" class="mute" ng-if="channel.muted"> <!-- <p class="description">{{description.$value}}</p>
     <div class="actions">
-      <img ng-if="!channel.muted" class="mute" src="images/mute.9d0815fa.png"
+      <img ng-if="!channel.muted" class="mute" src="images/mute.d4870653.png"
         ng-click="toggleMute($event)">
-      <img ng-if="channel.muted" class="mute" src="images/mute-active.f5773d83.png"
+      <img ng-if="channel.muted" class="mute" src="images/mute-active.83d48a00.png"
         ng-click="toggleMute($event)">
-      <img class="leave" src="images/leave.ab654ad8.png" ng-click="leave($event)">
+      <img class="leave" src="images/leave.9cb30ed5.png" ng-click="leave($event)">
     </div> --> </div> </div>

@@ -1,1 +1,10 @@
-<div class="actionButton"> <div class="nestedButton choices" ng-show="!actionState"> <div class="addButton" ng-click="showCreate()">+</div> <!-- <div class="inviteButton" ng-click="actionState = 'invite'">Invite</div> --> </div> <div class="nestedButton cancel" ng-show="actionState" ng-click="cancel()">Cancel</div> </div> <create-channel ng-if="actionState == 'create'" cancel="cancel()"> </create-channel> <invite-link ng-if="actionState == 'invite'" channel="currentChannel" cancel="cancel()"> </invite-link> <channel-list-item ng-repeat="channel in channels | orderBy:'newestTime':true" channel="channel" current-channel="currentChannel" ng-class="{faded: actionState}"> </channel-list-item> <p class="logout" ng-click="logout()">Logout</p>
+<div class="addButton"> <input type="text" ng-show="addMode" focus-on="add" safe-channel-name ng-keyup="search()" ng-model="addName"> <span class="plus" ng-show="!addMode" ng-click="toggleMode()">+</span> </div> <div class="autocompleteResults" ng-show="addMode"> <div class="channelListItem" ng-repeat="suggestion in suggestions" ng-click="addChannel(suggestion.text)"> <div class="channelWrapper"> <div class="info"> <p class="channelName suggestion"> <img src="images/hashColor.1c5457d0.png"> {{suggestion.text}} </p> <p class="peopleCount"> {{suggestion.payload.memberCount}} <img src="images/peeps.ee31b588.png"> </p> </div> </div> </div> <div class="channelListItem" ng-if="addName" ng-click="addChannel(addName)"> <div class="channelWrapper"> <div class="info"> <p class="channelName"> <span class="createText">Add</span> <img src="images/hashColor.1c5457d0.png"> {{addName}} </p> </div> </div> </div> </div> <div class="addPrompt" ng-if="addMode && !addName"> <p>What hashtag would you like to add?</p> <img src="images/leave.9cb30ed5.png" ng-click="reset()"> </div> <!-- <create-channel 
+  ng-if="actionState == 'create'"
+  cancel="cancel()">
+</create-channel>
+
+<invite-link 
+  ng-if="actionState == 'invite'" 
+  channel="currentChannel"
+  cancel="cancel()">
+</invite-link> --> <channel-list-item ng-repeat="channel in channels | orderBy:'newestTime':true" channel="channel" current-channel="currentChannel" class="channelListItem" ng-class="{faded: actionState}" ng-show="!addMode"> </channel-list-item> <p class="logout" ng-click="logout()" ng-show="!addMode">Logout</p>
