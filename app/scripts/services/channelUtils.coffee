@@ -65,7 +65,7 @@ angular.module('shortwaveApp')
 
             console.info "checking existence of channel #{channelName}"
 
-            channelRef = $rootScope.rootRef.child "channels/#{channelName}"
+            channelRef = $rootScope.rootRef.child "channels/#{channelName}/meta"
             channelRef.once 'value', (snap) =>
                 channel = snap.val()
 
