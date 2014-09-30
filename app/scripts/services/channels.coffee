@@ -10,6 +10,13 @@
 angular.module('shortwaveApp')
   .service 'Channels', ($rootScope, $firebase, $timeout, $filter, User) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
+    # 
+    
+
+    # Every time a channel is set up, start listening to the channel meta
+    # Every time the remote lastSeenTime updates, update your own channel priority
+    # An unread channel is just one where those two things are out of sync
+
 
     class Channels
 

@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, $location, User, Channels, NodeWebkit) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, $location, User, Channels, ChannelUtils, NodeWebkit) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -15,7 +15,10 @@ angular.module('shortwaveApp')
       # showCreate: '='
     link: (scope, element, attrs) ->
 
-      scope.$auth = $firebaseSimpleLogin $rootScope.rootRef
+      searchQueueRef = $rootScope.rootRef.child 'searchQueue'
+
+      # current search ref
+      scope.resultRef = null
 
       # Start in the collapsed state
       scope.createVisible = false
@@ -50,14 +53,52 @@ angular.module('shortwaveApp')
         if channel
           scope.currentChannel = channel
 
-      scope.showCreate = ->
-        scope.actionState = 'create'
+      scope.search = ->
+        if scope.resultRef
+          # Remove all listeners
+          scope.resultRef.off()
+          scope.suggestions = []
 
-        # else
-        #   # Hide create
-        #   scope.createVisible = false
-        #   # Focus on the input
-        #   $rootScope.$broadcast 'focusOn', 'compose'
+        # Make a new search
+        searchRef = searchQueueRef.child('query').push()
+        searchRef.set 
+          query: scope.addName
+
+        # Make a new result
+        scope.resultRef = searchQueueRef.child "result/#{searchRef.name()}"
+        scope.resultRef.on 'value', (snap) ->
+          data = snap.val()
+          console.log 'got results', data
+          # Are there results?
+          if data?.results
+            scope.suggestions = data.results
+            scope.resultRef.off()
+          else
+            scope.suggestions = []
+          scope.$apply ->
+
+      scope.reset = ->
+        scope.addName = ''
+        scope.addMode = false
+
+      scope.addChannel = (channelName) ->
+        ChannelUtils.addChannel channelName
+          .then ->
+            console.log 'added ok!'
+            # Show that channel
+            $rootScope.$broadcast 'updateChannel', channelName
+            # Channel created ok, clear the textfield and any errors
+            scope.reset()
+          .catch (err) ->
+            # Creation failed, log it
+            console.error "channel #{scope.name} could not be added!"
+            console.error err
+
+
+      scope.toggleMode = ->
+        scope.addMode = true
+        $timeout ->
+          $rootScope.$broadcast 'focusOn', 'add'
 
       scope.cancel = ->
         scope.actionState = null

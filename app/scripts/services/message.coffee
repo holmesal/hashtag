@@ -45,12 +45,16 @@ angular.module('shortwaveApp')
 
         message.owner = User.user.$id
 
+        # Time
+        priority = Date.now()
+
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()
-        pushRef.setWithPriority message, Date.now(), (err) ->
+        pushRef.setWithPriority message, priority, (err) ->
           if err
             sent.reject err
           else
+            sent.resolve()
             request = 
               channel: channel
               message: pushRef.ref().name()
@@ -58,17 +62,19 @@ angular.module('shortwaveApp')
             parseRef = $rootScope.rootRef.child('parseQueue').push()
             parseRef.set request, (err) ->
               if err
-                sent.reject err
-              else
-                sent.resolve()
+                console.error err
 
             # Queue a push request for this message
             pushRef = $rootScope.rootRef.child('pushQueue').push()
             pushRef.set request, (err) ->
               if err
-                sent.reject err
-              else
-                sent.resolve()
+                console.error err
+
+            # Update the newest time on this channel
+            latestRef = $rootScope.rootRef.child("channels/#{channel}/meta/latestMessagePriority")
+            latestRef.set priority, (err) ->
+              if err
+                console.error err
 
         # Return the promise
         sent.promise

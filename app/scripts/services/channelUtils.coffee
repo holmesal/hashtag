@@ -57,7 +57,41 @@ angular.module('shortwaveApp')
             # Send the promise back!
             deferredChannel.promise
 
-        createChannel: (channelName, description) ->
+
+        addChannel: (channelName) ->
+
+            # First, check if this channel exists
+            deferredAdd = $q.defer()
+
+            console.info "checking existence of channel #{channelName}"
+
+            channelRef = $rootScope.rootRef.child "channels/#{channelName}"
+            channelRef.once 'value', (snap) =>
+                channel = snap.val()
+
+                if channel 
+                    # Exists, so just join it
+                    console.info "channel #{channelName} exists, joining"
+                    @joinChannel channelName
+                    .then ->
+                        deferredAdd.resolve()
+                    .catch (err) ->
+                        deferredAdd.reject err 
+                else
+                    console.info "channel #{channelName} does not exist, creating"
+                    @createChannel channelName
+                    .then ->
+                        deferredAdd.resolve()
+                    .catch (err) ->
+                        deferredAdd.reject err 
+
+            # Return the promise
+            deferredAdd.promise
+
+
+
+
+        createChannel: (channelName) ->
 
             # Cast to string
             channelName = String channelName
@@ -69,7 +103,6 @@ angular.module('shortwaveApp')
                 moderators: {}
                 meta:
                     public: true
-                    description: if description then description else ""
 
             newChannel.members["#{User.user.$id}"] = true
             newChannel.moderators["#{User.user.$id}"] = true
