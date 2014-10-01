@@ -33,10 +33,13 @@ angular.module('shortwaveApp')
       channelsRef = userRef.child 'channels'
       sync = $firebase channelsRef
 
-      scope.channels = Channels.channelList
+      scope.channels = Channels.channels
+      # scope.channels = sync.$asArray()
 
       # Once the channels load
       scope.channels.$loaded().then ->
+
+        console.log scope.channels
 
         # Is this user currently viewing any channels?
         user = User.user

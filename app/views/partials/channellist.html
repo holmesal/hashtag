@@ -38,7 +38,7 @@
 </div>
 
 <div class="addPrompt" ng-if="addMode && !addName">
-  <p>What hashtag would you like to add?</p>
+  <p>Start typing the name of the hashtag you'd like to add.</p>
   <img src="images/leave.png" ng-click="reset()">
 </div>
 
@@ -55,7 +55,7 @@
 
 
 <channel-list-item 
-  ng-repeat="channel in channels | orderBy:'newestTime':true" 
+  ng-repeat="channel in channels | orderBy:'$priority || 1':true" 
   channel="channel"
   current-channel="currentChannel"
   class="channelListItem"

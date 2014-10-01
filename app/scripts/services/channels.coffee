@@ -34,64 +34,63 @@ angular.module('shortwaveApp')
 
             sync = $firebase channelListRef
 
-            @channelList = sync.$asArray()
-            @channels = sync.$asObject()
+            @channels = sync.$asArray()
+            # @channels = sync.$asObject()
 
-            @loaded = @channelList.$loaded()
+            @loaded = @channels.$loaded()
 
             # When the list of channels changes, we'll want to look for new ones
-            @channelList.$watch @channelListChanged, @
+            @channels.$watch @channelListChanged, @
 
       channelListChanged: (wat) ->
-        console.info 'channel list item changed', wat
-        console.log @channelList
+        # console.info 'channel list item changed', wat
+        # console.log @channelList
 
-        keys = []
+        # keys = []
 
-        name = wat.key
+        # name = wat.key
 
         if wat.event is 'child_added'
-            console.info "setting up channel: #{name}"
-            ref = $rootScope.rootRef.child "messages/#{name}"
-            sync = $firebase ref.limit(50)
-            @messages[name] = sync.$asArray()
-            # Once this list of messages loads, start watching it
-            @messages[name].$loaded().then =>
-                # Check the unread notifications right away
-                console.log "pre-checking times for #{name}"
-                @checkTimes name
-                # When this list of messages changes, check the newest times
-                # And broadcast a "got message" event
-                @messages[name].$watch (message) =>
-                    @checkTimes name
-                    @sendNotification name, message
+            console.info "starting to watch channel #{wat.key}"
+            ref = $rootScope.rootRef.child "channels/#{wat.key}/meta/latestMessagePriority"
+            ref.on 'value', (snap) =>
+                time = snap.val()
+                console.info "updating personal .priority for channel #{wat.key} -> #{time}"
+                # Set your local time
+                # chan = @channels.$getRecord wat.key
+                # chan['.priority'] = time
+                # @channels.$save wat.key
+                chanRef = $rootScope.rootRef.child "users/#{@user.$id}/channels/#{wat.key}"
+                chanRef.setPriority time
 
-        else if wat.event is 'child_changed'
-            console.info "channel updated: #{name}"
-            @checkTimes name
+        # else if wat.event is 'child_changed'
+        #     console.info "channel updated: #{name}"
+        #     # @checkTimes name
 
         else if wat.event is 'child_removed'
             console.info "deleting channel: #{name}"
-            delete @messages[name]
+            # delete @messages[name]
+            ref = $rootScope.rootRef.child "channels/#{wat.key}/meta/latestMessagePriority"
+            ref.off()
 
 
-      checkTimes: (name) ->
-        console.warn "checking times for channel #{name}"
-        # console.log @channelList
-        chan = @channelList.$getRecord(name)
-        lastSeen = chan?.lastSeen
-        # Calc unread
-        unreadCount = 0
-        newestTime = 0
-        for message in @messages[name]
-            if message.$priority > lastSeen #and @user.viewing isnt name and message.owner isnt @user.$id
-                unreadCount += 1
-                newestTime = message.$priority
-            if message.$priority > newestTime
-                newestTime = message.$priority
+      # checkTimes: (name) ->
+      #   console.warn "checking times for channel #{name}"
+      #   # console.log @channelList
+      #   chan = @channelList.$getRecord(name)
+      #   lastSeen = chan?.lastSeen
+      #   # Calc unread
+      #   unreadCount = 0
+      #   newestTime = 0
+      #   for message in @messages[name]
+      #       if message.$priority > lastSeen #and @user.viewing isnt name and message.owner isnt @user.$id
+      #           unreadCount += 1
+      #           newestTime = message.$priority
+      #       if message.$priority > newestTime
+      #           newestTime = message.$priority
 
-        chan.unreadCount = unreadCount
-        chan.newestTime = newestTime
+      #   chan.unreadCount = unreadCount
+      #   chan.newestTime = newestTime
 
 
       sendNotification: (channelName, ev) ->

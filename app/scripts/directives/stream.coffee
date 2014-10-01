@@ -11,50 +11,38 @@ angular.module('shortwaveApp')
     templateUrl: 'views/partials/stream.html'
     restrict: 'E'
     scope:
-      channel: '='
+      channelName: '='
     link: (scope, element, attrs) ->
 
       scope.loaded = false
       
-      scope.$watch 'channel', (up) ->
+      scope.$watch 'channelName', (up) ->
 
         scope.loaded = false
 
-        if scope.channel
-          console.info "channel changed to #{scope.channel}"
-
-          
-
-          # unregister = scope.$watch 'Channels.messages[scope.channel]', ->
-          #   console.info 'scope.messages changed'
-          #   console.info scope.messages
-          # , true
+        if scope.channelName
+          console.info "channel changed to #{scope.channelName}"
           setup()
-
-          # scope.messages = sync.$asArray()
-          
-            # This doesn't do too much here, because the scroll height has to change for these thigns to be loaded properly
-            # $timeout ->
-            #   scope.loaded = true
-            # , 100
 
       # Do the channel setup
       setup = ->
-        console.info 'attempting setup'
 
-        scope.messages = Channels.messages[scope.channel]
+        # Load the messages
+        ref = $rootScope.rootRef.child "messages/#{scope.channelName}"
+        sync = $firebase ref.limit(100)
+        scope.messages = sync.$asArray()
 
-        if scope.messages
-          console.info 'succeeded'
-          scope.messages.$loaded().then ->
-            scrollToBottom()
-            $timeout ->
-              scope.loaded = true
-            , 500
-        else
-          # This is dirty.
-          console.info 'waiting...'
-          $timeout setup, 200
+        scope.messages.$loaded().then ->
+          scrollToBottom()
+          $timeout ->
+            scope.loaded = true
+          , 500
+
+          # Bump your last seen time every time you see a message
+          scope.messages.$watch (ev) ->
+            if ev.event is 'child_added'
+              # A new message was added, bump the time
+              $rootScope.$broadcast 'bumpTime', scope.channelName
 
       # Scroll to bottom anytime messages change
       scope.$watch 'messages', ->

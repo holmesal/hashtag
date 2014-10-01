@@ -24,7 +24,7 @@ angular.module('shortwaveApp')
 
             # Listen for requests to update the lastSeen time of a channel
             $rootScope.$on 'bumpTime', (ev, channelName) =>
-                console.log 'ok'
+                console.log 'channel utils saw bumpTime get called'
                 @bumpTime channelName
 
 
@@ -120,7 +120,7 @@ angular.module('shortwaveApp')
                     channelListItemRef.setWithPriority
                         lastSeen: 0
                         muted: false
-                    , Date.now(), (err) ->
+                    , Firebase.ServerValue.TIMESTAMP, (err) ->
                         if err
                             deferredChannel.reject err
                         else
@@ -147,7 +147,7 @@ angular.module('shortwaveApp')
                         selfChannelRef.setWithPriority
                             lastSeen: 0
                             muted: false
-                        , Date.now(), (err) ->
+                        , Firebase.ServerValue.TIMESTAMP, (err) ->
                             if err
                                 joined.reject err
                             else
@@ -239,8 +239,9 @@ angular.module('shortwaveApp')
             set.promise
 
         bumpTime: (channelName) ->
+            console.info "updating personal lastSeen time for channel #{channelName} -> #{Date.now()}"
             nowRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}/lastSeen"
-            nowRef.set Date.now(), (err) ->
+            nowRef.set Firebase.ServerValue.TIMESTAMP, (err) ->
                 if err
                     console.error err
 

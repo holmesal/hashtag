@@ -15,6 +15,9 @@ angular.module('shortwaveApp')
       currentChannel: '='
     link: (scope, element, attrs) ->
 
+      # Latency - to handle discrepencies in timestamp values
+      scope.latency = 1000
+
       # Get the description
       ref = $rootScope.rootRef.child "channels/#{scope.channel.$id}/meta/description"
       sync = $firebase ref

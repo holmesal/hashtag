@@ -46,7 +46,7 @@ angular.module('shortwaveApp')
         message.owner = User.user.$id
 
         # Time
-        priority = Date.now()
+        priority = Firebase.ServerValue.TIMESTAMP
 
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()
@@ -58,6 +58,7 @@ angular.module('shortwaveApp')
             request = 
               channel: channel
               message: pushRef.ref().name()
+
             # Queue a parse request for this message
             parseRef = $rootScope.rootRef.child('parseQueue').push()
             parseRef.set request, (err) ->
