@@ -13,13 +13,14 @@ angular.module('shortwaveApp')
 
     Message = 
 
-      text: (text, channel) ->
+      text: (text, channel, mentions=[]) ->
 
         # Build a new message
         message = 
           type: 'text'
           content:
             text: text
+          mentions: mentions
 
         # Send - returns a promise
         @send message, channel

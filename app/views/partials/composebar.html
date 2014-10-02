@@ -1,8 +1,10 @@
 <autocomplete 
+  members="members"
   channel-name="channelName"
   query="query"
   ng-show="query"
-  ng-style="{bottom: composeHeight}"></autocomplete>
+  ng-style="{bottom: composeHeight}"
+  complete-mention="completeMention(mentionString)"></autocomplete>
 <div class="uploading" ng-if="uploader.isUploading">
   <div class="prog" ng-style="{width:uploader.progress+'%'}"></div>
 </div>

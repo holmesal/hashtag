@@ -7,7 +7,7 @@
  # # composemessage
 ###
 angular.module('shortwaveApp')
-  .directive('composebar', ($firebaseSimpleLogin, $rootScope, $window, $timeout, Message) ->
+  .directive('composebar', ($firebaseSimpleLogin, $rootScope, $window, $timeout, $firebase, Message) ->
     templateUrl: 'views/partials/composebar.html'
     restrict: 'E'
     scope: 
@@ -31,9 +31,16 @@ angular.module('shortwaveApp')
       scope.send = ->
         # Is there anything here?
         if scope.messageText
+          # build the @mentions array
+          mentions = []
+          for uuid,mentionString of scope.mentions 
+            mentions.push
+              uuid: uuid
+              substring: mentionString
+
           # Replace with line breaks
           text = scope.messageText.replace '\n','</br>'
-          Message.text text, scope.channelName
+          Message.text text, scope.channelName, mentions
           .then ->
             console.log "send message successfully"
             # Bump the last-seen time
@@ -67,14 +74,68 @@ angular.module('shortwaveApp')
 
       # Every time the text changes, check it for stuffs
       scope.$watch 'messageText', (text) ->
+
         scope.query = null
+        scope.mentions = {}
+
         if text
-          # Are we inside an @mention right now?
+
+          # Show the autocomplete if we're inside an @mention
           lastAt = text.lastIndexOf '@'
           if lastAt != -1
             lastSpace = text.lastIndexOf ' '
             # If there's no space after the at, the query is what's in between
             unless lastSpace > lastAt
-              scope.query = text.substring lastAt, text.length
+              scope.query = 
+                atPosition: lastAt
+                text: text.substring lastAt, text.length
+
+
+          # Compute the mentions object
+          mentionStrings = text.match /\B\@([\w\-]+)/gim
+          # console.log mentionStrings
+          # For each mention string, try to match it with a user
+          for mentionString in mentionStrings or []
+            # Strip off the @
+            mentionString = mentionString.replace '@', ''
+            # Go through each user in this channel
+            for member in scope.members
+              memberName = "#{member.profile.firstName}#{member.profile.lastName}"
+              if mentionString.toLowerCase() is memberName.toLowerCase()
+                # This is a match
+                # console.log "@#{mentionString} ---> #{member.$id}"
+                scope.mentions[member.$id] = mentionString
+
+
+      # Watch for changes to the channel
+      scope.$watch 'channelName', (chan) ->
+        if chan
+          # Clear any existing members references
+          if scope.members 
+            scope.members.$destroy()
+
+          # Set up a firebase referece to the members of this channel
+          membersRef = $rootScope.rootRef.child "channels/#{scope.channelName}/members"
+          sync = $firebase membersRef
+          scope.members = sync.$asArray()
+
+          # Watch for new members being added
+          scope.members.$watch (ev) ->
+            if ev.event is 'child_added'
+              # console.log "new child added! #{ev.key}"
+              # Grab this user's profile
+              profileRef = $rootScope.rootRef.child "users/#{ev.key}/profile"
+              sync = $firebase profileRef
+              # Store this in the members array
+              member = scope.members.$getRecord ev.key
+              member.profile = sync.$asObject()
+
+      scope.completeMention = (mentionString) ->
+        # Render the text in place of what's already there
+        # First trim the existing string
+        scope.messageText = scope.messageText.substring 0, scope.query.atPosition + 1
+
+        # Add the text returned from the autocomplete, and a space
+        scope.messageText += "#{mentionString} "
 
   )

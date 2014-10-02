@@ -58,11 +58,17 @@ composebar
       height: $height
       position: relative
 
+      &:hover
+        cursor: pointer
+
       .name
         line-height: $height
         width: 100%
         // background-color: green
         border-bottom: 1px solid $borderColor
+
+        &.last 
+          border: none
 
       .userPhoto
         position: absolute

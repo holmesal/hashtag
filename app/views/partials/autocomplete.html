@@ -1,4 +1,10 @@
-<div class="result" ng-repeat="result in results | orderBy:'matchPosition' | limitTo:3">
+<div 
+  class="result" 
+  ng-repeat="result in results | orderBy:'matchPosition' | limitTo:3"
+  ng-click="resultClicked(result)">
+
   <div class="userPhoto" ng-style="{'background-image':'url('+result.profile.photo+')'}"></div>
-  <p class="name">{{result.profile.firstName}} {{result.profile.lastName}}</p>
+
+  <p class="name" ng-class="{last: $last}">{{result.profile.firstName}} {{result.profile.lastName}}</p>
+
 </div>
