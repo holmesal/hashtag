@@ -76,7 +76,7 @@ angular.module('shortwaveApp')
               sync.$watch (ev) =>
                 if ev.event is 'child_added'
                   # New message added, send a notification
-                  @sendNotification wat.key, sync[0]
+                  @notify wat.key, sync[0]
                   # console.log 'new message added!', sync[0]
             # chan = @channels.$getRecord wat.key
             # chan.$lastMessage = sync.$asArray()
@@ -112,28 +112,39 @@ angular.module('shortwaveApp')
       #   chan.newestTime = newestTime
 
 
-      sendNotification: (channelName, message) ->
-        # Lots of reasons to not send a push notificiation
-        # Have you muted the channel?
-        unless @user.channels[channelName]?.muted
-            # Did you send this message?
-            unless @user.$id is message.owner
-              # Is this a parsed message?
-              unless message.parsedFrom
-                # Is this in a channel hidden from you, or is the app in the background?
-                if channelName isnt @user.viewing or not Focus.focus
-                  # Ok fine, send the message
-                  # Grab the owner's name
-                  nameRef = $rootScope.rootRef.child "users/#{message.owner}/profile/firstName"
-                  nameRef.once 'value', (snap) ->
-                      name = snap.val()
-                      console.log 'sending notification'
-                      # Create and send a new notification
-                      Notification.requestPermission()
-                      note = new Notification "#{name} (##{channelName})",
-                          icon: 'images/icon.png'
-                          body: message.content.text
-                          tag: message.$id
+      notify: (channelName, message) ->
+        # Always send if you're in the @mentions
+        if message.mentions
+          mentioned = (mention for mention in message.mentions when mention.uuid is @user.$id)
+          if mentioned
+            @showNotification channelName, message
+
+        # Otherwise, lots of reasons to not send a push notificiation
+        else
+          # Have you muted the channel?
+          unless @user.channels[channelName]?.muted
+              # Did you send this message?
+              unless @user.$id is message.owner
+                # Is this a parsed message?
+                unless message.parsedFrom
+                  # Is this in a channel hidden from you, or is the app in the background?
+                  if channelName isnt @user.viewing or not Focus.focus
+                    # Ok fine, send the message
+                    @showNotification channelName, message
+                  
+
+      showNotification: (channelName, message) ->
+        # Grab the owner's name
+        nameRef = $rootScope.rootRef.child "users/#{message.owner}/profile/firstName"
+        nameRef.once 'value', (snap) ->
+            name = snap.val()
+            console.log 'sending notification'
+            # Create and send a new notification
+            Notification.requestPermission()
+            note = new Notification "#{name} (##{channelName})",
+                icon: 'images/icon.png'
+                body: message.content.text
+                tag: message.$id
 
 
 

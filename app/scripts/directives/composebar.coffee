@@ -36,7 +36,7 @@ angular.module('shortwaveApp')
           for uuid,mentionString of scope.mentions 
             mentions.push
               uuid: uuid
-              substring: mentionString
+              substring: "@#{mentionString}"
 
           # Replace with line breaks
           text = scope.messageText.replace '\n','</br>'
