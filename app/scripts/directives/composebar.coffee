@@ -19,13 +19,26 @@ angular.module('shortwaveApp')
       # Get the height straightaway
       # alert element.height()
 
+      # HACKKKKKK
+      # There is a bug where the autocomplete ng-repeat reports an incorrect size after the offset changes. The height error is the height of one of the cells, or 42px.
+      # The super hacky (yet effective) solution is to not fire a resize event when the height grows be exactly this amount
+      # The side effect of this is that when the autcomplete size grows by an increment of 1, the stuff above it doesn't resize. I think this is okay, as it only happens when you're deleting characters and it provides a nice little smoothing effect.
+      # Fack.
+      scope.lastHeight = 0
+
       scope.$watch ->
         element.height()
       , (height) ->
-        # console.log "height changed to #{height}px"
-        scope.composeHeight = "#{height}px"
-        # Broadcast a change in height
-        $rootScope.$broadcast 'heightUpdate'
+        unless height - scope.lastHeight is 42
+          # console.log "height changed to #{height}px"
+          scope.composeHeight = "#{height}px"
+          # Broadcast a change in height
+          $rootScope.$broadcast 'heightUpdate'
+          # Store as lastHeight
+          scope.lastHeight = height
+        else
+          console.log "ignoring height change because ng-repeat hackery"
+      , true
 
       # Send a message
       scope.send = ->

@@ -16,6 +16,8 @@ angular.module('shortwaveApp')
       members: '='
       completeMention: '&'
     link: (scope, element, attrs) ->
+
+      scope.numElements = 3
       
       # Watch for changes to the query
       scope.$watch 'query', (query) ->
@@ -23,6 +25,8 @@ angular.module('shortwaveApp')
         scope.results = []
         # Reset the index
         scope.idx = 0
+        # Reset the offset
+        scope.offset = 0
         if query?.text
           # Strip out all @ symbols
           q = query.text.replace '@', ''
@@ -53,13 +57,24 @@ angular.module('shortwaveApp')
       # Listen for arrowkey events
       scope.$on 'autocomplete:move', (ev, direction) ->
         # console.log "autocomplete move #{direction}"
-        if direction is 'up'
-          scope.idx--
-        else
+        if direction is 'down'
+          # increment
           scope.idx++
-        scope.idx = 0 if scope.idx < 0
-        scope.idx = scope.results.length - 1 if scope.idx > scope.results.length - 1
-        # console.log 'autocomplete scope.idx is now ' + scope.idx
+          # stop at the end
+          scope.idx = scope.results.length - 1 if scope.idx > scope.results.length - 1
+          # increment offset if necessary
+          if scope.idx > scope.numElements - 1
+            scope.offset = scope.idx - (scope.numElements - 1)
+        else
+          # decrement
+          scope.idx--
+          # stop at the beginning
+          scope.idx = 0 if scope.idx < 0
+          # decrement offset if necessary
+          if scope.idx < scope.offset
+            scope.offset = scope.idx
+
+        # console.log "length #{scope.results.length} idx #{scope.idx} offset #{scope.offset}"
 
       # Listen for select events
       scope.$on 'autocomplete:select', ->
