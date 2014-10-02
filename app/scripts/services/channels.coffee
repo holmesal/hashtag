@@ -116,7 +116,9 @@ angular.module('shortwaveApp')
         # Always send if you're in the @mentions
         if message.mentions
           mentioned = (mention for mention in message.mentions when mention.uuid is @user.$id)
-          if mentioned
+          console.log "computed mentions"
+          console.log mentioned
+          if mentioned.length > 0
             @showNotification channelName, message
 
         # Otherwise, lots of reasons to not send a push notificiation
