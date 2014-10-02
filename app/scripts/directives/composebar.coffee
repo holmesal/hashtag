@@ -22,7 +22,7 @@ angular.module('shortwaveApp')
       scope.$watch ->
         element.height()
       , (height) ->
-        console.log "height changed to #{height}px"
+        # console.log "height changed to #{height}px"
         scope.composeHeight = "#{height}px"
         # Broadcast a change in height
         $rootScope.$broadcast 'heightUpdate'
@@ -42,7 +42,7 @@ angular.module('shortwaveApp')
           text = scope.messageText.replace '\n','</br>'
           Message.text text, scope.channelName, mentions
           .then ->
-            console.log "send message successfully"
+            # console.log "send message successfully"
             # Bump the last-seen time
             $rootScope.$broadcast 'bumpTime', scope.channelName
           .catch (err) ->
@@ -59,16 +59,38 @@ angular.module('shortwaveApp')
             scope.messageText = null
 
       scope.keydown = (ev) ->
+        # console.info "keypress: #{ev.keyCode}"
 
+        # Enter key sends unless
+        # 1. you hold down shift (newline instead)
+        # 2. the autocomplete is open (selects current index)
         if ev.keyCode is 13
-          # Is shift being held down?
-          unless ev.shiftKey
-            scope.send()
+          # Is the autocomplete open?
+          if scope.query
+            scope.$broadcast 'autocomplete:select'
+            ev.preventDefault()
+          else
+            # Is shift being held down?
+            unless ev.shiftKey
+              scope.send()
+
+        # Up/down arrow keys are ignored if the autocomplete is open
+        if ev.keyCode in [38,40] and scope.query
+          direction = if ev.keyCode is 38 then 'up' else 'down'
+          # Pass this along to the autocomplete
+          scope.$broadcast 'autocomplete:move', direction
+          # Ignore in the textarea
+          ev.preventDefault()
+
+        # Escape key closes the autocomplete
+        if ev.keyCode is 27
+          scope.query = null
+
 
       # Grab focus when window comes into focus
       win = angular.element $window
       win.on 'focus', ->
-        console.log 'regained focus, setting to compose'
+        # console.log 'regained focus, setting to compose'
         $rootScope.$broadcast 'focusOn', 'compose'
 
 

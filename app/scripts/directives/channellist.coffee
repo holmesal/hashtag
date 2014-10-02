@@ -39,7 +39,7 @@ angular.module('shortwaveApp')
       # Once the channels load
       scope.channels.$loaded().then ->
 
-        console.log scope.channels
+        # console.log scope.channels
 
         # Is this user currently viewing any channels?
         user = User.user
@@ -71,7 +71,7 @@ angular.module('shortwaveApp')
         scope.resultRef = searchQueueRef.child "result/#{searchRef.name()}"
         scope.resultRef.on 'value', (snap) ->
           data = snap.val()
-          console.log 'got results', data
+          # console.log 'got results', data
           # Are there results?
           if data?.results
             scope.suggestions = data.results
@@ -90,7 +90,7 @@ angular.module('shortwaveApp')
       scope.addChannel = (channelName) ->
         ChannelUtils.addChannel channelName
           .then ->
-            console.log 'added ok!'
+            # console.log 'added ok!'
             # Show that channel
             $rootScope.$broadcast 'updateChannel', channelName
             # Channel created ok, clear the textfield and any errors

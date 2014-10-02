@@ -17,14 +17,14 @@ angular.module('shortwaveApp')
         constructor: ->
             # Once the user logs in, check the channels and autojoin if necessary
             $rootScope.$on 'userLoaded', (ev, user) =>
-                console.info "channel utils saw user load", user
+                # console.info "channel utils saw user load", user
                 # Check if this is a new user
                 unless user.channels
                     @autoJoin()
 
             # Listen for requests to update the lastSeen time of a channel
             $rootScope.$on 'bumpTime', (ev, channelName) =>
-                console.log 'channel utils saw bumpTime get called'
+                # console.log 'channel utils saw bumpTime get called'
                 @bumpTime channelName
 
 
@@ -63,7 +63,7 @@ angular.module('shortwaveApp')
             # First, check if this channel exists
             deferredAdd = $q.defer()
 
-            console.info "checking existence of channel #{channelName}"
+            # console.info "checking existence of channel #{channelName}"
 
             channelRef = $rootScope.rootRef.child "channels/#{channelName}/meta"
             channelRef.once 'value', (snap) =>
@@ -239,7 +239,7 @@ angular.module('shortwaveApp')
             set.promise
 
         bumpTime: (channelName) ->
-            console.info "updating personal lastSeen time for channel #{channelName} -> #{Date.now()}"
+            # console.info "updating personal lastSeen time for channel #{channelName} -> #{Date.now()}"
             nowRef = $rootScope.rootRef.child "users/#{User.user.$id}/channels/#{channelName}/lastSeen"
             nowRef.set Firebase.ServerValue.TIMESTAMP, (err) ->
                 if err

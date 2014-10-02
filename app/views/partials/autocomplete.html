@@ -1,9 +1,14 @@
 <div 
   class="result" 
   ng-repeat="result in results | orderBy:'matchPosition' | limitTo:3"
-  ng-click="resultClicked(result)">
+  ng-click="resultClicked(result)"
+  ng-class="{faded: idx != $index}"
+  ng-mouseover="hover($index)">
+
+  <img class="arrow" src="images/autocompleteSelect.png" ng-if="idx == $index">
 
   <div class="userPhoto" ng-style="{'background-image':'url('+result.profile.photo+')'}"></div>
+
 
   <p class="name" ng-class="{last: $last}">{{result.profile.firstName}} {{result.profile.lastName}}</p>
 

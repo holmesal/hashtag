@@ -32,7 +32,7 @@ angular.module('shortwaveApp')
 
       # Handle channel changes
       scope.changeChannel = ->
-        console.log 'changing in response to click'
+        # console.log 'changing in response to click'
         # Broadcast the new channel
         $rootScope.$broadcast 'updateChannel', scope.channel.$id
         # scope.currentChannel = scope.channel.$id
@@ -52,7 +52,7 @@ angular.module('shortwaveApp')
         # Save the setting
         ChannelUtils.setMute scope.channel.$id, scope.channel.muted
         .then ->
-          console.log "channel muted successfully"
+          console.info "channel muted successfully"
         .catch (err) ->
           console.error err
 
@@ -60,11 +60,11 @@ angular.module('shortwaveApp')
         # Leave the channel
         ChannelUtils.leaveChannel scope.channel.$id
         .then ->
-          console.log "left channel successfully"
+          console.info "left channel successfully"
           # Join the first that isn't this one
           list = (channel.$id for channel in Channels.channelList when channel.$id isnt scope.channel.$id)
-          console.log "leaving #{scope.channel.$id}"
-          console.log "joining #{list[0]}"
+          # console.log "leaving #{scope.channel.$id}"
+          console.info "joining #{list[0]}"
           $rootScope.$broadcast 'updateChannel', list[0]
         .catch (err) ->
           console.error err

@@ -90,7 +90,7 @@ angular
 
     # On successful login, update the user and go to the dashboard
     $rootScope.$on '$firebaseSimpleLogin:login', (e, authUser) ->
-      console.info 'login event from app.coffee'
+      # console.info 'login event from app.coffee'
       # If we're on the home screen, go to the dashboard
       if $location.$$path is '/'
         $location.path '/dashboard'

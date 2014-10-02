@@ -12,6 +12,6 @@ angular.module('shortwaveApp')
     link: (scope, element, attrs) ->
       scope.$on 'focusOn', (e, name) ->
         if name is attrs.focusOn
-          console.log "focusing #{name}"
+          # console.log "focusing #{name}"
           element[0].focus()
   )

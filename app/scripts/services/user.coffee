@@ -46,7 +46,7 @@ angular.module('shortwaveApp')
 
       load: ->
         @firebaseAuth.$getCurrentUser().then (@authUser) =>
-          console.info 'got current user!', authUser
+          # console.info 'got current user!', authUser
           # @authUser is null if the user isn't logged in
           if @authUser
             # Resolve with the auth User
@@ -71,7 +71,7 @@ angular.module('shortwaveApp')
 
         # Once the user is loaded, resolve the main promise
         @user.$loaded().then (user) =>
-          console.info 'user allegedly loaded', user
+          # console.info 'user allegedly loaded', user
           # Now logged in
           @loggedIn = true
           # Resolve any routes

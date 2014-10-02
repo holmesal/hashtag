@@ -19,7 +19,10 @@ angular.module('shortwaveApp')
       
       # Watch for changes to the query
       scope.$watch 'query', (query) ->
+        # Empty the results array
         scope.results = []
+        # Reset the index
+        scope.idx = 0
         if query?.text
           # Strip out all @ symbols
           q = query.text.replace '@', ''
@@ -43,4 +46,27 @@ angular.module('shortwaveApp')
 
         # Set the focus back on the compose bar
         $rootScope.$broadcast 'focusOn', 'compose'
+
+      scope.hover = (idx) ->
+        scope.idx = idx
+
+      # Listen for arrowkey events
+      scope.$on 'autocomplete:move', (ev, direction) ->
+        # console.log "autocomplete move #{direction}"
+        if direction is 'up'
+          scope.idx--
+        else
+          scope.idx++
+        scope.idx = 0 if scope.idx < 0
+        scope.idx = scope.results.length - 1 if scope.idx > scope.results.length - 1
+        # console.log 'autocomplete scope.idx is now ' + scope.idx
+
+      # Listen for select events
+      scope.$on 'autocomplete:select', ->
+        if scope.results.length > 0
+          # Grab the result
+          result = scope.results[scope.idx]
+          # Pick it
+          scope.resultClicked result
+
   )

@@ -25,7 +25,7 @@ angular.module('shortwaveApp')
           # Create a new ref
           sync = new $firebase $rootScope.rootRef.child("users/#{User.user.$id}/channels/#{name}")
           scope.channel = sync.$asObject()
-          console.log scope.channel
+          # console.log scope.channel
 
 
       # Toggle the muted state of a channel
