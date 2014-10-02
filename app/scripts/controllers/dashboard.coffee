@@ -10,8 +10,6 @@
 angular.module('shortwaveApp')
   .controller 'DashboardCtrl', ($scope, $rootScope, $timeout, $filter, $firebase, $firebaseSimpleLogin, $location, user, Channels, ChannelUtils, Message, FileUploader) ->
 
-    # Information about current uploads
-
     # Responsible for switching the channel on the directives
     $rootScope.$on 'updateChannel', (ev, newChannel) =>
       # Set the new channel in firebase

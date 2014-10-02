@@ -1,10 +1,12 @@
-@import "./colors"
-@import "./structure"
+@import colors
+@import structure
 
 composebar
   position: absolute
+  z-index: 500
   bottom: 0
   width: 100%
+  border-top: 1px solid $borderColor
 
   .sender
     // height: $composeHeight
@@ -43,3 +45,30 @@ composebar
       background-color: $greenColor
       height: 100%
       transition: 0.2s ease-in-out all
+
+  autocomplete
+    display: block
+    background-color: white 
+    // position: absolute
+    padding-left: $leftGutter
+
+    $height: 42px
+
+    .result
+      height: $height
+      position: relative
+
+      .name
+        line-height: $height
+        width: 100%
+        // background-color: green
+        border-bottom: 1px solid $borderColor
+
+      .userPhoto
+        position: absolute
+        width: 30px
+        height: 30px
+        border-radius: 50%
+        background-size: cover
+        top: 5px
+        left: -52px

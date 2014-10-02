@@ -11,8 +11,8 @@
 
   <div class="info">
     <p class="channelName">
-      <img ng-if="channel.$priority > channel.lastSeen" src="images/hashColor.png">
-      <img ng-if="channel.$priority <= channel.lastSeen" src="images/hashGray.png">
+      <img src="images/hashColor.png" ng-if="channel.$priority > channel.lastSeen">
+      <img src="images/hashGray.png" ng-if="channel.$priority <= channel.lastSeen">
       <!-- <span class="hash">#</span> -->
       {{channel.$id}}
     </p>

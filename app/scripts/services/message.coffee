@@ -48,6 +48,12 @@ angular.module('shortwaveApp')
         # Time
         priority = Firebase.ServerValue.TIMESTAMP
 
+        # Update the newest time on this channel
+        latestRef = $rootScope.rootRef.child("channels/#{channel}/meta/latestMessagePriority")
+        latestRef.set priority, (err) ->
+          if err
+            console.error err
+
         # Send the message
         pushRef = $rootScope.rootRef.child("messages/#{channel}").push()
         pushRef.setWithPriority message, priority, (err) ->
@@ -68,12 +74,6 @@ angular.module('shortwaveApp')
             # Queue a push request for this message
             pushRef = $rootScope.rootRef.child('pushQueue').push()
             pushRef.set request, (err) ->
-              if err
-                console.error err
-
-            # Update the newest time on this channel
-            latestRef = $rootScope.rootRef.child("channels/#{channel}/meta/latestMessagePriority")
-            latestRef.set priority, (err) ->
               if err
                 console.error err
 

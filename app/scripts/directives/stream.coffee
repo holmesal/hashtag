@@ -33,8 +33,8 @@ angular.module('shortwaveApp')
         scope.messages = sync.$asArray()
 
         scope.messages.$loaded().then ->
-          scrollToBottom()
           $timeout ->
+            scrollToBottom()
             scope.loaded = true
           , 500
 

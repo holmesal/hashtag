@@ -11,7 +11,7 @@ angular.module('shortwaveApp')
     templateUrl: 'views/partials/composebar.html'
     restrict: 'E'
     scope: 
-      channel: '='
+      channelName: '='
       uploader: '='
       composeHeight: '='
     link: (scope, element, attrs) ->
@@ -33,11 +33,11 @@ angular.module('shortwaveApp')
         if scope.messageText
           # Replace with line breaks
           text = scope.messageText.replace '\n','</br>'
-          Message.text text, scope.channel
+          Message.text text, scope.channelName
           .then ->
             console.log "send message successfully"
             # Bump the last-seen time
-            $rootScope.$broadcast 'bumpTime', scope.channel
+            $rootScope.$broadcast 'bumpTime', scope.channelName
           .catch (err) ->
             console.error "error sending message"
             console.error err
@@ -63,5 +63,18 @@ angular.module('shortwaveApp')
       win.on 'focus', ->
         console.log 'regained focus, setting to compose'
         $rootScope.$broadcast 'focusOn', 'compose'
+
+
+      # Every time the text changes, check it for stuffs
+      scope.$watch 'messageText', (text) ->
+        scope.query = null
+        if text
+          # Are we inside an @mention right now?
+          lastAt = text.lastIndexOf '@'
+          if lastAt != -1
+            lastSpace = text.lastIndexOf ' '
+            # If there's no space after the at, the query is what's in between
+            unless lastSpace > lastAt
+              scope.query = text.substring lastAt, text.length
 
   )

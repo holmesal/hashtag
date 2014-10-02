@@ -7,7 +7,11 @@
 
   <div class="mainView">
     <stream channel-name="currentChannel" ng-style="{bottom:composeHeight}"></stream>
-    <composebar channel="currentChannel" uploader="uploader" compose-height="composeHeight"></composebar>
+    <composebar 
+      channel-name="currentChannel" 
+      uploader="uploader" 
+      compose-height="composeHeight">
+    </composebar>
   </div>
 
   <create hide-create="hideCreate"></create>

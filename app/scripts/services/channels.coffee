@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Channels', ($rootScope, $firebase, $timeout, $filter, User) ->
+  .service 'Channels', ($rootScope, $firebase, $timeout, $interval, $filter, Focus, User) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
     # 
     
@@ -22,8 +22,8 @@ angular.module('shortwaveApp')
 
       constructor: ->
 
-        @messages = {}
-        @unread = {}
+        # @messages = {}
+        # @unread = {}  
 
         # Wait for the user to exist
         User.get().then (user) =>
@@ -35,12 +35,19 @@ angular.module('shortwaveApp')
             sync = $firebase channelListRef
 
             @channels = sync.$asArray()
-            # @channels = sync.$asObject()
 
             @loaded = @channels.$loaded()
 
             # When the list of channels changes, we'll want to look for new ones
             @channels.$watch @channelListChanged, @
+
+            # When the viewing changes remotely, update the current channel
+            viewingRef = $rootScope.rootRef.child "users/#{@user.$id}/viewing"
+            viewingRef.on 'value', (snap) ->
+              if snap.val()
+                $rootScope.$broadcast 'updateChannel', snap.val()
+
+
 
       channelListChanged: (wat) ->
         # console.info 'channel list item changed', wat
@@ -51,21 +58,33 @@ angular.module('shortwaveApp')
         # name = wat.key
 
         if wat.event is 'child_added'
-            console.info "starting to watch channel #{wat.key}"
+            # Start to watch this channel for latestMessagePriority changes
+            # console.info "starting to watch channel #{wat.key}"
             ref = $rootScope.rootRef.child "channels/#{wat.key}/meta/latestMessagePriority"
             ref.on 'value', (snap) =>
                 time = snap.val()
-                console.info "updating personal .priority for channel #{wat.key} -> #{time}"
-                # Set your local time
-                # chan = @channels.$getRecord wat.key
-                # chan['.priority'] = time
-                # @channels.$save wat.key
+                # console.info "updating personal .priority for channel #{wat.key} -> #{time}"
                 chanRef = $rootScope.rootRef.child "users/#{@user.$id}/channels/#{wat.key}"
                 chanRef.setPriority time
 
+            # Start watching just the newest message on this channel
+            ref = $rootScope.rootRef.child("messages/#{wat.key}").limit(1)
+            # ref.on 'child_added', (snap) ->
+            #   console.info 'message added', snap.val()
+            sync = $firebase(ref).$asArray()
+            sync.$loaded().then =>
+              sync.$watch (ev) =>
+                if ev.event is 'child_added'
+                  # New message added, send a notification
+                  @sendNotification wat.key, sync[0]
+                  # console.log 'new message added!', sync[0]
+            # chan = @channels.$getRecord wat.key
+            # chan.$lastMessage = sync.$asArray()
+            # console.info 'channel created', chan
+
         # else if wat.event is 'child_changed'
         #     console.info "channel updated: #{name}"
-        #     # @checkTimes name
+        #     console.info @channels.$getRecord(wat.key)
 
         else if wat.event is 'child_removed'
             console.info "deleting channel: #{name}"
@@ -93,30 +112,28 @@ angular.module('shortwaveApp')
       #   chan.newestTime = newestTime
 
 
-      sendNotification: (channelName, ev) ->
-        # Only respond to messages being added
-        if ev.event is 'child_added'
-            idx = @messages[channelName].$indexFor ev.key
-            message = @messages[channelName][idx]
-            console.log "new message: #{message.content.text}"
-
-            # If this isn't in your list of channels to ignore
-            console.log "is muted? #{@user.channels[channelName]?.muted}"
-            unless @user.channels[channelName]?.muted
-                # If this isn't you and this isn't a parsed message
-                # console.log "is this a parsed message? #{message.parsedFrom}"
-                if @user.$id isnt message.owner and not message.parsedFrom
-                    # Grab the owner's name
-                    nameRef = $rootScope.rootRef.child "users/#{message.owner}/profile/firstName"
-                    nameRef.once 'value', (snap) ->
-                        name = snap.val()
-                        console.log 'sending notification'
-                        # Create and send a new notification
-                        Notification.requestPermission()
-                        note = new Notification "#{name} (##{channelName})",
-                            icon: 'images/icon.png'
-                            body: message.content.text
-                            tag: ev.key
+      sendNotification: (channelName, message) ->
+        # Lots of reasons to not send a push notificiation
+        # Have you muted the channel?
+        unless @user.channels[channelName]?.muted
+            # Did you send this message?
+            unless @user.$id is message.owner
+              # Is this a parsed message?
+              unless message.parsedFrom
+                # Is this in a channel hidden from you, or is the app in the background?
+                if channelName isnt @user.viewing or not Focus.focus
+                  # Ok fine, send the message
+                  # Grab the owner's name
+                  nameRef = $rootScope.rootRef.child "users/#{message.owner}/profile/firstName"
+                  nameRef.once 'value', (snap) ->
+                      name = snap.val()
+                      console.log 'sending notification'
+                      # Create and send a new notification
+                      Notification.requestPermission()
+                      note = new Notification "#{name} (##{channelName})",
+                          icon: 'images/icon.png'
+                          body: message.content.text
+                          tag: message.$id
 
 
 
