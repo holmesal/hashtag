@@ -520,7 +520,7 @@ module.exports = function (grunt) {
         command: 'firebase deploy'
       },
       stage: {
-        command: 'stage'
+        command: 'source /Users/alonsoholmes/.bash_profile && stage'
       }
     },
 
