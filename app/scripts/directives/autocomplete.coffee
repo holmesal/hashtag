@@ -28,6 +28,7 @@ angular.module('shortwaveApp')
         # Reset the offset
         scope.offset = 0
         if query?.text
+          # console.log 'query changed and exists'
           # Strip out all @ symbols
           q = query.text.replace '@', ''
           # lowercase
@@ -41,6 +42,8 @@ angular.module('shortwaveApp')
             unless idx is -1
               member.matchPosition = idx
               scope.results.push member
+          # console.log 'query results', scope.results
+      , true
 
       # Handle clicks on results
       scope.resultClicked = (result) ->

@@ -29,7 +29,7 @@ angular.module('shortwaveApp')
       scope.$watch ->
         element.height()
       , (height) ->
-        unless height - scope.lastHeight is 42
+        unless height - scope.lastHeight is 42 and scope.lastHeight isnt 0
           # console.log "height changed to #{height}px"
           scope.composeHeight = "#{height}px"
           # Broadcast a change in height
@@ -153,6 +153,14 @@ angular.module('shortwaveApp')
           membersRef = $rootScope.rootRef.child "channels/#{scope.channelName}/members"
           sync = $firebase membersRef
           scope.members = sync.$asArray()
+
+          # Chirp on load in case the user started typing early
+          scope.members.$loaded().then ->
+            # Use the last member's profile load event as a good indicator of loadedness
+            scope.members[scope.members.length-1].profile.$loaded().then ->
+              if scope.query
+                console.warn 'bumping query'
+                scope.query.bump = true
 
           # Watch for new members being added
           scope.members.$watch (ev) ->
