@@ -35,14 +35,21 @@ angular.module('shortwaveApp')
 
       # Leave the channel
       scope.leave = ->
-        conf = window.confirm 'Are you sure you want to leave this hashtag?'
-        if conf
+        # conf = window.confirm 'Are you sure you want to leave this hashtag?'
+        swal
+          type: 'warning'
+          title: "Leave ##{scope.channelName}?"
+          text: 'You can always join again later by adding this hashtag again.'
+          confirmButtonText: "Leave #{scope.channelName}"
+          cancelButtonVisible: true
+          showCancelButton: 'Nevermind'
+        , ->
           # Leave the channel
           ChannelUtils.leaveChannel scope.channel.$id
           .then ->
             console.log "left channel successfully"
             # Join the first that isn't this one
-            list = (channel.$id for channel in Channels.channelList when channel.$id isnt scope.channel.$id)
+            list = (channel.$id for channel in Channels.channels when channel.$id isnt scope.channel.$id)
             console.log "leaving #{scope.channel.$id}"
             console.log "joining #{list[0]}"
             $rootScope.$broadcast 'updateChannel', list[0]
