@@ -34,7 +34,7 @@ class Launcher extends EventEmitter
         timeout = 0
       # Load the existing app
       setTimeout =>
-        @info 'booting app'
+        @info 'launching...'
         if window?
           window.location = "app://localhost/dist/index.html"
       , timeout
@@ -49,13 +49,14 @@ class Launcher extends EventEmitter
     try
       pjson = require "./dist/package.json"
       @currentVersion = pjson.version
+      @info "build #{@currentVersion}"
     catch err
       # console.error err
       @info "Current version does not exist, so this must be the first run."
       @currentVersion = 'v0.0.0'
 
   getLatestVersion: ->
-    @info "getting latest version from #{bucket}..."
+    @info "getting latest version number..."
     request 
       url: "#{bucket}/package.json"
       json: true
@@ -64,20 +65,20 @@ class Launcher extends EventEmitter
         # This is the package.json
         @latestVersion = pack.version
         # latestRelease = body[0]
-        @info 'got latest info from aws!'
+        @info 'got latest version!'
         # console.log latestVersion
         # @latestVersion = latestRelease.tag_name
         # If newer, start updateing
-        @info "checking if #{@latestVersion} > #{@currentVersion}"
+        # @info "checking if #{@latestVersion} > #{@currentVersion}"
         if semver.gt @latestVersion, @currentVersion
-          @info 'got newer version, downloading'
+          @info "downloading #{@latestVersion}"
           @download()
         else
           @info 'currently running newest version, skipping'
           @emit 'continue', 3000
       else
         # TODO - catch no-internet errors here
-        @info "error getting latest release from github"
+        @info "error getting latest version number"
         console.error err
         @info "status: #{res?.statusCode}"
         @emit 'continue', 5000
@@ -85,7 +86,6 @@ class Launcher extends EventEmitter
 
   download: ->
     url = "#{bucket}/dist.zip"
-    @info "downloading from #{url}"
 
     # Remove any existing zip file
     rm 'dist.zip', =>
@@ -98,12 +98,12 @@ class Launcher extends EventEmitter
 
       stream.on 'close', =>
         @info 'stream closed!'
-        @info 'finished downloading new version!'
+        @info 'finished downloading!'
         # verify this zip, then unpack it
         @prepare()
 
   prepare: ->
-    @info "preparing to unpack zip..."
+    @info "preparing to unpack..."
 
     try
       @zip = new AdmZip 'dist.zip'
