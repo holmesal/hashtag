@@ -15,6 +15,9 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  // Load package.json (for version number)
+  var pack = require('./package.json');
+
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
@@ -161,7 +164,15 @@ module.exports = function (grunt) {
       },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+        fileTypes: {
+          html: {
+            replace: {
+              js: '<script src="/{{filePath}}"></script>',
+              css: '<link rel="stylesheet" href="/{{filePath}}" />'
+            }
+          }
+        }
       },
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -545,6 +556,16 @@ module.exports = function (grunt) {
             to: ''
           }
         ]
+      },
+      version:{
+        src: 'app/scripts/services/version.coffee',
+        overwrite: true,
+        replacements: [
+          {
+            from: 'grunt.version',
+            to: pack.version
+          }
+        ]
       }
     }
   });
@@ -556,6 +577,9 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      // Replace the version
+      'replace:version',
+      // Do the rest of the build
       'clean:server',
       'wiredep',
       'concurrent:server',
@@ -580,6 +604,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    // Replace the version
+    'replace:version',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

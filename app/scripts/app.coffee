@@ -68,7 +68,7 @@ angular
     ngClipProvider.setPath 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
 
 
-  .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit) ->
+  .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater) ->
 
     # Some channel names are just not allowed
     # TODO - store these in Firebase instead

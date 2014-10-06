@@ -21,12 +21,17 @@ angular.module('shortwaveApp')
 
           @gui = require 'nw.gui'
 
+          @pack = require './package.json'
+
           # Hooray.
           # Celebrate by making a menu.
           win = @gui.Window.get()
           nativeMenuBar = new @gui.Menu type: 'menubar'
-          nativeMenuBar.createMacBuiltin 'ShortwaveApp'
+          nativeMenuBar.createMacBuiltin 'Hashtag'
           win.menu = nativeMenuBar
+
+        else
+          @isDesktop = false
 
       open: (url) ->
         if @isDesktop
@@ -35,6 +40,14 @@ angular.module('shortwaveApp')
       clearCache: ->
         if @isDesktop
           @gui.App.clearCache()
+
+      restart: ->
+        if @isDesktop
+          # Restart by setting the location back to the launcher
+          window.location = @pack.main
+        else
+          # Restart by just reloading the page and forcing a GET
+          window.location.reload true
 
     return new NodeWebkit
       
