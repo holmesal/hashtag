@@ -8,10 +8,12 @@
     ng-repeat="message in messages" 
     id="{{message.$id}}"
     message="message" 
-    rolling="message.owner == messages[$index-1].owner"
+    rolling="message.owner == messages[$index-1].owner && message.$priority - messages[$index-1].$priority < 180000"
     preurl="message.content.text == messages[$index+1].content.src"
     last="$index == messages.length-1"
     channel-name="channelName"
-    ng-class="{last: message.owner != messages[$index+1].owner, only: message.owner != messages[$index+1].owner && message.owner != messages[$index-1].owner}">
+    ng-class="{
+      last: message.owner != messages[$index+1].owner, 
+      only: (message.owner != messages[$index+1].owner && message.owner != messages[$index-1].owner) || !rolling}">
   </message>
 </div>
