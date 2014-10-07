@@ -558,7 +558,7 @@ module.exports = function (grunt) {
         ]
       },
       version:{
-        src: 'app/scripts/services/version.coffee',
+        src: '.tmp/scripts/services/version.js',
         overwrite: true,
         replacements: [
           {
@@ -577,12 +577,12 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      // Replace the version
-      'replace:version',
       // Do the rest of the build
       'clean:server',
       'wiredep',
       'concurrent:server',
+      // Replace the version
+      'replace:version',
       'autoprefixer',
       'connect:livereload',
       'watch'
@@ -604,11 +604,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    // Replace the version
-    'replace:version',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
+    // Replace the version
+    'replace:version',
     'autoprefixer',
     'concat',
     'ngmin',
