@@ -16,7 +16,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   // Load package.json (for version number)
-  var pack = require('./package.json');
+  // var pack = require('./package.json');
 
   // Configurable paths for the application
   var appConfig = {
@@ -29,6 +29,9 @@ module.exports = function (grunt) {
 
     // Project settings
     yeoman: appConfig,
+
+    // Version
+    version: require('./package.json').version,
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -515,7 +518,8 @@ module.exports = function (grunt) {
         tagMessage: 'Desktop release %VERSION%',
         push: true,
         pushTo: 'origin',
-        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+        updateConfigs: ['version']
       }
     },
 
@@ -563,7 +567,7 @@ module.exports = function (grunt) {
         replacements: [
           {
             from: 'grunt.version',
-            to: pack.version
+            to: grunt.config('version')
           }
         ]
       }
