@@ -51,6 +51,8 @@ angular.module('shortwaveApp')
           if @authUser
             # Resolve with the auth User
             @deferredAuth.resolve @authUser
+            # Update this user's info
+            @update()
             # Fetch the user from firebase
             @fetch()
           else
@@ -78,6 +80,16 @@ angular.module('shortwaveApp')
           @deferredUser.resolve user
           # Let other services know
           $rootScope.$broadcast 'userLoaded', user
+
+      update: ->
+        profileRef = $rootScope.rootRef.child "users/#{@authUser.uid}/profile"
+
+        profile = {}
+        profile.firstName = @authUser.thirdPartyUserData.first_name if @authUser.thirdPartyUserData.first_name
+        profile.lastName = @authUser.thirdPartyUserData.last_name if @authUser.thirdPartyUserData.last_name
+        profile.photo = @authUser.thirdPartyUserData.picture.data.url if @authUser.thirdPartyUserData.picture.data.url
+
+        profileRef.update profile
 
       login: ->
         # Reset login promises
