@@ -11,6 +11,7 @@
     rolling="message.owner == messages[$index-1].owner"
     preurl="message.content.text == messages[$index+1].content.src"
     last="$index == messages.length-1"
+    channel-name="channelName"
     ng-class="{last: message.owner != messages[$index+1].owner, only: message.owner != messages[$index+1].owner && message.owner != messages[$index-1].owner}">
   </message>
 </div>
