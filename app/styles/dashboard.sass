@@ -1,5 +1,6 @@
-@import "./structure"
-@import "./colors"
+@import structure
+@import colors
+@import compass/css3
 
 .dashboard
   width: 100%
@@ -23,3 +24,58 @@
     width: auto
     overflow: hidden
     position: relative
+
+  .uploadView
+    position: fixed
+    z-index: 1001
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+    background-color: rgba(70,76,88,0.8)
+    display: none
+    opacity: 0
+    transition: 1s linear all
+    animation-duration: 0.3s
+
+    p
+      color: white 
+      text-align: center
+      margin-top: 50%
+      font-family: Avenir-Heavy
+      font-size: 30px
+
+    .chute
+      $width: 50px
+      width: $width
+      position: absolute
+      opacity: 0.9
+      display: block
+      left: 50%
+      top: 30%
+      margin-left: -$width/2
+      // animation-duration: 10s
+      animation: swing 3s infinite ease-in-out, drop 5s ease-out
+      transform-origin: top
+
+  &.dragover
+    .uploadView
+      display: block
+      opacity: 1
+
+@keyframes swing
+  0%
+    transform: rotate(-5deg)
+  50%
+    transform: rotate(5deg)
+  100%
+    transform: rotate(-5deg)
+
+@keyframes drop
+  0%
+    top: 0px
+  100%
+    top: 30%
+
+
+

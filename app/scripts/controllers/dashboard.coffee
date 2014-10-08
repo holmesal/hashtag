@@ -8,7 +8,10 @@
  # Controller of the shortwaveApp
 ###
 angular.module('shortwaveApp')
-  .controller 'DashboardCtrl', ($scope, $rootScope, $timeout, $filter, $firebase, $firebaseSimpleLogin, $location, user, Channels, ChannelUtils, Message, FileUploader) ->
+  .controller 'DashboardCtrl', ($scope, $rootScope, $timeout, $filter, $firebase, $firebaseSimpleLogin, $location, user, User, Channels, ChannelUtils, Message, $upload) ->
+
+    # Store a reference to the s3 queue
+    s3QueueRef = $rootScope.rootRef.child 's3Queue'
 
     # Responsible for switching the channel on the directives
     $rootScope.$on 'updateChannel', (ev, newChannel) =>
@@ -42,53 +45,66 @@ angular.module('shortwaveApp')
     # Focus on the compose bar when the controller loads
     $scope.focusInput()
 
-    # Initialize the uploader
-    imgur = '5ee37787905afcd'
-    $scope.uploader = new FileUploader
-      url: 'https://api.imgur.com/3/image'
-      headers:
-        'Authorization': "Client-ID #{imgur}"
-      autoUpload: true
-      alias: 'image'
+    # # Initialize the uploader
+    # imgur = '5ee37787905afcd'
+    # $scope.uploader = new FileUploader
+    #   url: 'https://api.imgur.com/3/image'
+    #   method: 'POST'
 
-    # Only accept images
-    $scope.uploader.filters.push
-      name: 'imageFilter'
-      fn: (item, opts) ->
-        type =  item.type.slice(item.type.lastIndexOf('/') + 1)
-        type in ['jpg','png','jpg','jpeg','bmp','gif']
+    #   headers:
+    #     'Authorization': "Client-ID #{imgur}"
+    #   autoUpload: true
+    #   alias: 'image'
 
-    # Callbacks
-    $scope.uploader.onWhenAddingFileFailed = (item, filter, options) ->
-      console.error 'error adding file', item, filter, options
+    # # Only accept images
+    # $scope.uploader.filters.push
+    #   name: 'imageFilter'
+    #   fn: (item, opts) ->
+    #     type =  item.type.slice(item.type.lastIndexOf('/') + 1)
+    #     type in ['jpg','png','jpg','jpeg','bmp','gif']
 
-    $scope.uploader.onAfterAddingFile = (fileItem) ->
-      # console.log 'uploading item', fileItem
-      $scope.uploader.uploadAll()
+    # # Callbacks
+    # $scope.uploader.onWhenAddingFileFailed = (item, filter, options) ->
+    #   console.error 'error adding file', item, filter, options
 
-    # $scope.uploader.onBeforeUploadItem = (fileItem) ->
-    #   console.log 'preparing to upload item', fileItem
+    # $scope.uploader.onAfterAddingFile = (fileItem) ->
+    #   # Make a request for an s3 policy
+    #   requestRef = s3QueueRef.child('request').push()
+    #   console.log "the owner is #{User.user.$id}"
+    #   requestRef.set
+    #     owner: User.user.$id 
+    #   # Listen for the response
+    #   resultRef = s3QueueRef.child "result/#{requestRef.name()}"
+    #   resultRef.on 'value', (snap) ->
+    #     if snap.val()
+    #       console.info 'got policy back from server', snap.val()
+    #       resultRef.off()
+    #       console.log 'should be uploading here', fileItem
+    #   # $scope.uploader.uploadAll()
 
-    # $scope.uploader.onProgressItem = (fileItem, progress) ->
-    #   console.log 'got progess for item', fileItem, progress
+    # # $scope.uploader.onBeforeUploadItem = (fileItem) ->
+    # #   console.log 'preparing to upload item', fileItem
 
-    $scope.uploader.onProgressAll = (progress) ->
-      console.info "upload progress: #{progress}"
+    # # $scope.uploader.onProgressItem = (fileItem, progress) ->
+    # #   console.log 'got progess for item', fileItem, progress
+
+    # $scope.uploader.onProgressAll = (progress) ->
+    #   console.info "upload progress: #{progress}"
 
 
-    $scope.uploader.onSuccessItem = (fileItem, res, status, headers) ->
-      console.info 'successfully uploaded item - sending message'
-      # File upload was a success, post an image message with this url
-      Message.text res.data.link, $scope.currentChannel
+    # $scope.uploader.onSuccessItem = (fileItem, res, status, headers) ->
+    #   console.info 'successfully uploaded item - sending message'
+    #   # File upload was a success, post an image message with this url
+    #   Message.text res.data.link, $scope.currentChannel
 
-    $scope.uploader.onErrorItem = (fileItem, res, status, headers) ->
-      console.error 'error uploading item', fileItem, res, status, headers
+    # $scope.uploader.onErrorItem = (fileItem, res, status, headers) ->
+    #   console.error 'error uploading item', fileItem, res, status, headers
 
-    # $scope.uploader.onCompleteItem = (fileItem, res, status, headers) ->
-    #   console.log 'finished uploading item', fileItem, res, status, headers
+    # # $scope.uploader.onCompleteItem = (fileItem, res, status, headers) ->
+    # #   console.log 'finished uploading item', fileItem, res, status, headers
 
-    $scope.uploader.onCompleteAll = ->
-      console.info 'all uploads done'
+    # $scope.uploader.onCompleteAll = ->
+    #   console.info 'all uploads done'
 
 
 

@@ -1,6 +1,7 @@
 <div class="dashboard" 
   ng-class="{createVisible:createVisible}" 
-  nv-file-drop uploader="uploader"
+  ng-file-drop="onFileSelect($files)" 
+  ng-file-drag-over-class="dragover"
   ng-paste="paste($event)">
   
   <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list>
@@ -15,4 +16,12 @@
   </div>
 
   <create hide-create="hideCreate"></create>
+
+
+  <!-- The overlay that is shown when you drag a file over -->
+  <div class="uploadView animated fadeIn">
+    <object type="image/svg+xml" data="images/parachute.svg" class="chute animated fadeInDown"></object>
+    <p class="animated fadeInUp">Drop files to upload.</p>
+  </div>
+
 </div>
