@@ -1,5 +1,5 @@
 {
-  "name": "Shortwave",
+  "name": "Hashtag",
   "version": "0.1.1",
   "main": "app://localhost/launcher.html",
   "chromium-args": "--disable-web-security",

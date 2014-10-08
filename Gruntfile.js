@@ -413,11 +413,11 @@ module.exports = function (grunt) {
         files: [
           {
             src: 'desktop/assets/icon/Icon?',
-            dest: 'release/Shortwave/osx/Shortwave.app/icon/Icon?'
+            dest: 'release/Hashtag/osx/Hashtag.app/icon/Icon?'
           },
           {
             src: 'desktop/assets/icon.icns',
-            dest: 'release/Shortwave/osx/Shortwave.app/Contents/Resources/nw.icns'
+            dest: 'release/Hashtag/osx/Hashtag.app/Contents/Resources/nw.icns'
           }
         ]
       }
@@ -499,8 +499,8 @@ module.exports = function (grunt) {
       dmg: {
         upload: [
           {
-            src: 'release/Shortwave/osx/Shortwave.dmg',
-            dest: 'Shortwave.dmg'
+            src: 'release/Hashtag/osx/Hashtag.dmg',
+            dest: 'Hashtag.dmg'
           }
         ]
       }
@@ -526,7 +526,7 @@ module.exports = function (grunt) {
     // Run commands in the shell
     shell: {
       makeDmg: {
-        command: 'desktop/createDmg/create-dmg --volname "Shortwave" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Shortwave.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Shortwave/osx/Shortwave.dmg release/Shortwave/osx'
+        command: 'desktop/createDmg/create-dmg --volname "Hashtag" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Hashtag.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Hashtag/osx/Hashtag.dmg release/Hashtag/osx'
       },
       nodewebkit: {
         command: 'nw desktop/'
@@ -542,12 +542,12 @@ module.exports = function (grunt) {
     // Replace text
     replace: {
       plist:{
-        src: 'release/Shortwave/osx/Shortwave.app/Contents/Info.plist',
+        src: 'release/Hashtag/osx/Hashtag.app/Contents/Info.plist',
         overwrite: true,
         replacements: [
           {
             from: 'com.intel.nw',
-            to: 'com.mtnlab.shortwave'
+            to: 'com.mtnlab.Hashtag'
           }
         ]
       },

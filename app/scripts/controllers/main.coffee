@@ -8,17 +8,47 @@
  # Controller for the landing page - handle loggin in the user, etc.
 ###
 angular.module('shortwaveApp')
-  .controller 'MainCtrl', ($scope, $rootScope, $location, $firebase, $firebaseSimpleLogin, $interval) ->
+  .controller 'MainCtrl', ($scope, $rootScope, $location, $timeout, $firebase, $firebaseSimpleLogin, $interval) ->
+
+    # Log the time this screen loaded
+    startTime = Date.now()
+    minTime = 3000
 
     # TODO - move login checking out to a service that does it in the route resolve - right now said service exists, but this callback is in too many places...
     $scope.$auth = $firebaseSimpleLogin $rootScope.rootRef
-    # , (err, authUser) ->
-    #   # console.log 'auth done'
-    #   if err
-    #     console.error err
-    #   else
-    #     # If the user is logged in, redirect to one of your channels. Your first one?
-    #     if authUser
+    , (err, authUser) ->
+      # console.log 'auth done'
+      if err
+        console.error err
+      else
+        # If the user is logged in, redirect to one of your channels. Your first one?
+        # Redirect to the dashboard after a couple of seconds
+        # $location.path '/dashboard'
+        gotoDashboard()
+
+    # $scope.$auth.$on 'logout', (ev) ->
+    #     swal 'logout'
+
+    # Is anyone logged in?
+    $scope.$auth.$getCurrentUser().then (user) ->
+        # console.info "got user", user
+        if user
+            gotoDashboard()
+        else
+            # Show the login options
+            $scope.showLogin = true
+
+    gotoDashboard = ->
+        # Has this screen been loaded for long enough?
+        if Date.now() - startTime > minTime
+            # Redirect to the dashboard
+            $location.path '/dashboard'
+        else
+            $timeout ->
+                $location.path '/dashboard'
+            , minTime - (Date.now() - startTime)
+
+
 
     # Get the list of things from firebase
     useWithRef = $rootScope.rootRef.child "static/useWithSuggestions"
