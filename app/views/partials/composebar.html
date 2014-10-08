@@ -5,8 +5,8 @@
   ng-show="query"
   ng-style="{bottom: composeHeight}"
   complete-mention="completeMention(mentionString)"></autocomplete>
-<div class="uploading" ng-if="uploader.isUploading">
-  <div class="prog" ng-style="{width:uploader.progress+'%'}"></div>
+<div class="uploads" ng-if="uploads">
+  <div class="prog" ng-repeat="upload in uploads" ng-style="{width:upload+'%',top: -$index*8+'px'}"></div>
 </div>
 <div class="sender">
   <div class="sendButton" ng-click="send()">Send</div>

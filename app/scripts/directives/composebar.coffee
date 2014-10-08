@@ -12,7 +12,7 @@ angular.module('shortwaveApp')
     restrict: 'E'
     scope: 
       channelName: '='
-      uploader: '='
+      uploads: '='
       composeHeight: '='
     link: (scope, element, attrs) ->
 

@@ -66,11 +66,12 @@ angular.module('shortwaveApp')
               channel: channel
               message: pushRef.ref().name()
 
-            # Queue a parse request for this message
-            parseRef = $rootScope.rootRef.child('parseQueue').push()
-            parseRef.set request, (err) ->
-              if err
-                console.error err
+            # Queue a parse request for this message, but only if it's of type text
+            if message.type is 'text'
+              parseRef = $rootScope.rootRef.child('parseQueue').push()
+              parseRef.set request, (err) ->
+                if err
+                  console.error err
 
             # Queue a push request for this message
             pushRef = $rootScope.rootRef.child('pushQueue').push()

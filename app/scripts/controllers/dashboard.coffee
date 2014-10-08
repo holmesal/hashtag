@@ -12,6 +12,8 @@ angular.module('shortwaveApp')
 
     # Store a reference to the s3 queue
     s3QueueRef = $rootScope.rootRef.child 's3Queue'
+    # Location of the s3 bucket
+    bucketUrl = 'https://wavelength-bucket.s3.amazonaws.com'
 
     # Responsible for switching the channel on the directives
     $rootScope.$on 'updateChannel', (ev, newChannel) =>
@@ -44,6 +46,76 @@ angular.module('shortwaveApp')
 
     # Focus on the compose bar when the controller loads
     $scope.focusInput()
+
+    # Object to handle file uploads
+    $scope.uploads = {}
+
+
+    # Handle file selects
+    $scope.onFileSelect = (files) ->
+
+      console.log 'files selected!', files
+
+      for file in files
+        # Get an upload request for this file
+        requestUpload file
+
+    requestUpload = (file) ->
+      requestRef = s3QueueRef.child('request').push()
+      console.log "the owner is #{User.user.$id}"
+      requestRef.set
+        owner: User.user.$id 
+      console.log "made request for #{file.name}"
+      # Listen for the response
+      resultRef = s3QueueRef.child "result/#{requestRef.name()}"
+      resultRef.on 'value', (snap) =>
+        if snap.val()
+          console.info "got policy for #{file.name} back from server", snap.val()
+          # Stop listening to this result ref
+          resultRef.off()
+
+          # Upload the file
+          uploadFile snap.name(), file, snap.val()
+
+    uploadFile = (id, file, policy) ->
+      $upload.upload
+        url: bucketUrl
+        method: 'POST'
+        data:
+          key: id
+          AWSAccessKeyId: 'AKIAJWLORAVT7M4V7IJA'
+          acl: 'public-read'
+          policy: policy.policy
+          signature: policy.signature
+          "Content-Type": file.type or 'application/octet-stream'
+          "Content-Length": file.size
+          filename: file.name
+        file: file
+      .progress (ev) ->
+        # Update the progress object
+        console.log "progress for #{id}: #{ev.loaded/ev.total}"
+        $scope.uploads[id] = (ev.loaded/ev.total) * 100
+      .success (data, status) ->
+        # Clear the progress object
+        delete $scope.uploads[id]
+        console.log 'upload success', data, status
+        console.log "checking type #{file.type}"
+        # Build the path
+        url = "#{bucketUrl}/#{id}"
+        # Depending on the type of the file, send an appropriate message
+        if file.type.indexOf('image') isnt -1
+          # Send an image type message
+          Message.image url, $scope.currentChannel
+        else
+          console.error 'unknown type'
+          # Send a url type message
+          Message.text url, $scope.currentChannel
+
+      .error (data) ->
+        console.error 'upload error', data
+            
+        # $scope.uploader.uploadAll()
+
 
     # # Initialize the uploader
     # imgur = '5ee37787905afcd'
