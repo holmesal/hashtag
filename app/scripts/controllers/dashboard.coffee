@@ -122,9 +122,13 @@ angular.module('shortwaveApp')
       console.info 'user pasted something', JSON.stringify items
 
       for item in items
-        if item.type in ['image/png','image/jpeg','image/gif']
-          console.info 'uploading user-pasted image'
-          blob = items[0].getAsFile()
-
-          # Make a new file uploader item with this data
-          $scope.uploader.addToQueue blob
+        console.info item
+        # Try to get as a blog
+        blob = items[0].getAsFile()
+        if blob
+          console.log blob
+          blob.name = 'pastedItem'
+          # Request and make the upload
+          requestUpload blob
+        else
+          console.info 'could not get as a file, ignoring'
