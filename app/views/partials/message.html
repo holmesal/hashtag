@@ -5,7 +5,9 @@
   <div class="content">
     <span class="timeAgo" am-time-ago="message.$priority" ng-class="{visible:last}"></span>
 
-    <p class="text" ng-if="!preurl" compile="message.content.text | parseUrl"></p>
+    <p class="text" 
+      ng-if="!preurl" 
+      ng-bind-html="message.content.text | linky"></p>
 
     <!-- Todo - GIFs should have a template to themselves -->
     <video ng-if="message.type == 'gif' && message.content.converted" autoplay loop loadchirp ng-click="navigate(message.content.gfycat.website)">
