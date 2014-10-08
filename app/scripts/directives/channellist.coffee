@@ -116,6 +116,6 @@ angular.module('shortwaveApp')
         $rootScope.auth.logout()
         NodeWebkit.clearCache()
         $timeout ->
-          $window.location.reload()
+          $window.location.href = '/'
         , 2000
   )
