@@ -7,29 +7,37 @@ $width: 413px
 .landingView
   width: 100%
   height: 100%
-  background-color: $greenColor
+  // background-color: $greenColor
+  +background-image(radial-gradient(circle, #FFFFFF, #F7F7F7))
   padding-top: 115px
+  text-align: center
 
-  .bigName
-    font-family: Avenir-Heavy
-    color: white
-    font-size: 80px
-    text-align: center
-    letter-spacing: 2.5px
-    margin-bottom: 0px
+  // .bigName
+  //   font-family: Avenir-Heavy
+  //   color: white
+  //   font-size: 80px
+  //   text-align: center
+  //   letter-spacing: 2.5px
+  //   margin-bottom: 0px
 
-  .underline
-    width: $width
-    height: 8px
-    background-color: white
-    display: block
-    margin-left: auto
+  .logoBig
+    margin-left: auto 
     margin-right: auto
-    margin-top: -12px
+    width: 160px
+    // animation-duration: 10s
+
+  // .underline
+  //   width: $width
+  //   height: 8px
+  //   background-color: white
+  //   display: block
+  //   margin-left: auto
+  //   margin-right: auto
+  //   margin-top: -12px
 
   .rotatingText
     margin-top: 90px
-    color: white 
+    color: $darkTextColor 
     text-align: center
     height: 66px
     width: $width
@@ -37,6 +45,7 @@ $width: 413px
     margin-left: auto 
     margin-right: auto
     position: relative
+    animation-delay: 2s
 
     $offset: 10px
 
@@ -87,16 +96,25 @@ $width: 413px
       margin-top: 2px
       margin-bottom: 0px
 
-  .facebook
-    width: $width
-    border-radius: 3px
-    background-color: #3E66AB
-    color: white
-    display: block
-    margin-left: auto 
-    margin-right: auto
-    padding-top: 13px 
-    padding-bottom: 13px 
-    font-size: 17px
-    font-family: Avenir-Light
-    margin-top: 100px
+  .loginWrapper
+    animation-delay: 2s
+
+    .facebook
+      width: $width
+      border-radius: 3px
+      // background-color: #3E66AB
+      background-color: transparent
+      border: 1px solid $darkTextColor
+      // color: white
+      color: #464C58
+      display: block
+      margin-left: auto 
+      margin-right: auto
+      padding-top: 13px 
+      padding-bottom: 13px 
+      font-size: 17px
+      font-family: Avenir-Light
+      margin-top: 100px
+
+    .privacy
+      margin-top: 20px

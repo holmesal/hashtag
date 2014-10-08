@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist',
+    dist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
     yeoman: appConfig,
 
     // Version
-    version: require('./package.json').version,
+    pkg: require('./package.json'),
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -519,7 +519,7 @@ module.exports = function (grunt) {
         push: true,
         pushTo: 'origin',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
-        updateConfigs: ['version']
+        updateConfigs: ['pkg']
       }
     },
 
@@ -567,7 +567,9 @@ module.exports = function (grunt) {
         replacements: [
           {
             from: 'grunt.version',
-            to: grunt.config('version')
+            to: function(){
+              return grunt.config('pkg.version')
+            }
           }
         ]
       }
