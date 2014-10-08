@@ -52,4 +52,4 @@ angular.module('shortwaveApp')
     checkVersion()
 
     # Check the version again every half hour
-    $interval checkVersion, 1000*60*30
+    $interval checkVersion, 1000*60*5
