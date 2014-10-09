@@ -4,7 +4,7 @@
   "main": "app://localhost/launcher.html",
   "chromium-args": "--disable-web-security",
   "window": {
-    "title": "Shortwave",
+    "title": "Hashtag",
     "icon": "assets/icon.png",
     "toolbar": false,
     "min_width": 700,

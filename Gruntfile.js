@@ -526,7 +526,7 @@ module.exports = function (grunt) {
     // Run commands in the shell
     shell: {
       makeDmg: {
-        command: 'desktop/createDmg/create-dmg --volname "Hashtag" --window-size 490 510 --background desktop/assets/dmgBackground.jpg --icon Hashtag.app 100 245 --app-drop-link 390 245 --volicon desktop/assets/icon.icns release/Hashtag/osx/Hashtag.dmg release/Hashtag/osx'
+        command: 'desktop/createDmg/create-dmg --volname "Hashtag" --window-size 633 423 --background desktop/assets/dmgBackground.jpg --icon Hashtag.app 172 170 --app-drop-link 461 170 --volicon desktop/assets/icon.icns release/Hashtag/osx/Hashtag.dmg release/Hashtag/osx'
       },
       nodewebkit: {
         command: 'nw desktop/'
