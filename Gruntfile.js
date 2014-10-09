@@ -535,7 +535,7 @@ module.exports = function (grunt) {
         command: 'firebase deploy'
       },
       stage: {
-        command: 'source /Users/alonsoholmes/.bash_profile && stage'
+        command: 'git push development develop:master'
       }
     },
 
@@ -684,6 +684,7 @@ module.exports = function (grunt) {
     // Deploy to firebase
     'shell:firebase',
     // Deploy to the development remote
+    // 'stage' doesn't work because /bin/sh doesn't have access to .bash_prof
     'shell:stage'
   ]);
 
