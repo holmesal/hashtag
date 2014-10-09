@@ -68,7 +68,7 @@ angular
     ngClipProvider.setPath 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
 
     # Shim moment.js if running on desktop
-    if process?.versions['node-webkit']
+    # if process?.versions['node-webkit']
       # Moment shim. Documented here:
       # https://github.com/rogerwang/node-webkit/issues/2075
       # window.moment = require 'moment'
