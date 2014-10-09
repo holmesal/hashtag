@@ -31,7 +31,7 @@ angular.module('shortwaveApp')
       identify: (userId, traits, extraContext={}) ->
         # Track, with the context
         con = $.extend true, extraContext, @context
-        analytics.track userId, traits, con
+        analytics.identify userId, traits, con
         # console.log "identified #{userId} with traits", traits, "and context", con
 
     return new Analytics
