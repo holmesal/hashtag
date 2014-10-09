@@ -67,6 +67,12 @@ angular
     # Set up zeroclipboard
     ngClipProvider.setPath 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
 
+    # Shim moment.js if running on desktop
+    if process?.versions['node-webkit']
+      # Moment shim. Documented here:
+      # https://github.com/rogerwang/node-webkit/issues/2075
+      window.moment = require 'moment'
+
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater, Analytics, version) ->
 
@@ -121,8 +127,8 @@ angular
       console.error 'error logging in with firebase'
       console.error err
 
-  .constant 'amTimeAgoConfig',
-    withoutSuffix: true
+  # .constant 'amTimeAgoConfig',
+  #   withoutSuffix: true
 
 
 

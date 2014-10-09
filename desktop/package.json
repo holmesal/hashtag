@@ -16,10 +16,11 @@
     "plugin": true
   },
   "dependencies": {
-    "semver": "^3.0.1",
+    "adm-zip": "^0.4.4",
+    "moment": "^2.8.3",
+    "mv": "^2.0.3",
     "request": "^2.40.0",
     "rimraf": "^2.2.8",
-    "adm-zip": "^0.4.4",
-    "mv": "^2.0.3"
+    "semver": "^3.0.1"
   }
 }

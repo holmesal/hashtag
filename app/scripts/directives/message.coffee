@@ -13,6 +13,7 @@ angular.module('shortwaveApp')
     scope:
       message: '='
       rolling: '='
+      separated: '='
       last: '='
       preurl: '='
       channelName: '='

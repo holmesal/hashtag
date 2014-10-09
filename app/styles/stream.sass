@@ -42,8 +42,13 @@ stream
       min-height: 20px
 
       // Only message gets a min height
-      &.only 
+      &.only
         min-height: 50px
+
+      &.separated
+        // min-height: 50px
+        margin-top: 25px
+
       // Last message gets more padding
       &.last
         margin-bottom: 25px
@@ -60,30 +65,25 @@ stream
         top: 0
         left: -(($leftGutter/2) + ($photoSize/2))
 
-      .name 
-        font-size: 10px
-        color: $nameColor
-        font-family: Avenir-Medium
-        margin-bottom: 2px
+      .metaRow
+        overflow: auto 
+
+        .name,.timeAgo
+          font-size: 11px
+          font-family: Avenir-Book
+          margin-bottom: 2px
+          color: $nameColor
+
+        .name
+          float: left
+
+        .timeAgo
+          float: right
+          opacity: 0.6
 
       .content
         margin-bottom: 5px
         position: relative
-
-        .timeAgo
-          position: absolute 
-          bottom: 0px
-          left: 100%
-          width: $rightGutter
-          padding-right: 10px
-          text-align: right
-          color: $iconColor
-          opacity: 0
-
-          +transition(0.2s linear all)
-
-          &.visible
-            opacity: 1
 
         .text 
           margin-bottom: 0

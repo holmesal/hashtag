@@ -511,11 +511,11 @@ module.exports = function (grunt) {
       options: {
         files: ['package.json'],
         commit: true,
-        commitMessage: 'Desktop release v%VERSION%',
+        commitMessage: 'Hashtag desktop release v%VERSION%',
         commitFiles: ['package.json'],
         createTag: true,
         tagName: 'v%VERSION%',
-        tagMessage: 'Desktop release %VERSION%',
+        tagMessage: 'Hashtag desktop release %VERSION%',
         push: true,
         pushTo: 'origin',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
