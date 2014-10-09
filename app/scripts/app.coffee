@@ -71,7 +71,7 @@ angular
     if process?.versions['node-webkit']
       # Moment shim. Documented here:
       # https://github.com/rogerwang/node-webkit/issues/2075
-      window.moment = require 'moment'
+      # window.moment = require 'moment'
 
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater, Analytics, version) ->
