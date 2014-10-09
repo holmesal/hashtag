@@ -68,7 +68,7 @@ angular
     ngClipProvider.setPath 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
 
 
-  .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater) ->
+  .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater, Analytics, version) ->
 
     # Some channel names are just not allowed
     # TODO - store these in Firebase instead
@@ -83,6 +83,12 @@ angular
     $rootScope.auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
       if err
         console.error err
+
+    # Analytics
+    Analytics.addContext
+      app:
+        platform: 'desktop'
+        version: version
 
     # Catch errors in changing location
     $rootScope.$on '$routeChangeError', ->

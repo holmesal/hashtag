@@ -10,7 +10,7 @@
 </div>
 
 <div class="autocompleteResults" ng-show="addMode">
-  <div class="channelListItem" ng-repeat="suggestion in suggestions" ng-click="addChannel(suggestion.text)">
+  <div class="channelListItem" ng-repeat="suggestion in suggestions" ng-click="addChannel(suggestion.text,true)">
     <div class="channelWrapper">
       <div class="info">
         <p class="channelName suggestion">
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="channelListItem" ng-if="addName" ng-click="addChannel(addName)">
+  <div class="channelListItem" ng-if="addName" ng-click="addChannel(addName,false)">
     <div class="channelWrapper">
       <div class="info">
         <p class="channelName">
@@ -39,7 +39,7 @@
 
 <div class="addPrompt" ng-if="addMode && !addName">
   <p>Start typing the name of the hashtag you'd like to add.</p>
-  <img src="images/leave.png" ng-click="reset()">
+  <img src="images/leave.png" ng-click="reset(true)">
 </div>
 
 <!-- <create-channel 

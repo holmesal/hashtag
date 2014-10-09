@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Channels', ($rootScope, $firebase, $timeout, $interval, $filter, Focus, User) ->
+  .service 'Channels', ($rootScope, $firebase, $timeout, $interval, $filter, Focus, User, Analytics) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
     # 
     
@@ -37,6 +37,12 @@ angular.module('shortwaveApp')
             @channels = sync.$asArray()
 
             @loaded = @channels.$loaded()
+
+            # Once the channel list loads, store the length
+            @channels.$loaded().then (chans) =>
+              # Track the number of channels this user is in
+              Analytics.identify @user.$id,
+                channelCount: chans.length
 
             # When the list of channels changes, we'll want to look for new ones
             @channels.$watch @channelListChanged, @

@@ -7,7 +7,7 @@
  # # One of the list items that appears in the 
 ###
 angular.module('shortwaveApp')
-  .directive('channelListItem', ($rootScope, $firebase, $timeout, User, Channels, ChannelUtils) ->
+  .directive('channelListItem', ($rootScope, $firebase, $timeout, User, Channels, ChannelUtils, Analytics) ->
     templateUrl: 'views/partials/channellistitem.html'
     restrict: 'E'
     scope:
@@ -38,6 +38,8 @@ angular.module('shortwaveApp')
         # scope.currentChannel = scope.channel.$id
         # Set your lastSeen for this channel
         $rootScope.$broadcast 'bumpTime', scope.channel.$id
+        Analytics.track 'Change Channel',
+          channel: scope.channel.$id
         
 
       scope.toggleMute = (ev) ->

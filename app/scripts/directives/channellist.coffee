@@ -7,7 +7,7 @@
  # # channelList
 ###
 angular.module('shortwaveApp')
-  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, $location, User, Channels, ChannelUtils, NodeWebkit) ->
+  .directive('channelList', ($firebase, $rootScope, $timeout, $firebaseSimpleLogin, $window, $location, User, Channels, ChannelUtils, NodeWebkit, Analytics) ->
     templateUrl: 'views/partials/channellist.html'
     restrict: 'E'
     scope:
@@ -37,7 +37,7 @@ angular.module('shortwaveApp')
       # scope.channels = sync.$asArray()
 
       # Once the channels load
-      scope.channels.$loaded().then ->
+      scope.channels.$loaded().then (chans) ->
 
         # console.log scope.channels
 
@@ -80,42 +80,47 @@ angular.module('shortwaveApp')
             scope.suggestions = []
           scope.$apply ->
 
-      scope.reset = ->
+      scope.reset = (cancel=false)->
         scope.addName = ''
         scope.addMode = false
         if scope.resultRef
           scope.resultRef.off()
         scope.suggestions = []
+        if cancel
+          Analytics.track 'Add Channel Cancel'
 
-      scope.addChannel = (channelName) ->
+      scope.addChannel = (channelName, tappedResult) ->
         ChannelUtils.addChannel channelName
-          .then ->
+          .then (isCreate) ->
             # console.log 'added ok!'
             # Show that channel
             $rootScope.$broadcast 'updateChannel', channelName
+            Analytics.track 'Add Channel Success',
+              channel: channelName
+              isCreate: isCreate
+              tappedResult: tappedResult
             # Channel created ok, clear the textfield and any errors
             scope.reset()
           .catch (err) ->
             # Creation failed, log it
             console.error "channel #{scope.name} could not be added!"
             console.error err
+            Analytics.track 'Add Channel Error',
+              channel: channelName
+              error: err
 
 
       scope.toggleMode = ->
         scope.addMode = true
+        Analytics.track 'Add Channel Open'
         $timeout ->
           $rootScope.$broadcast 'focusOn', 'add'
 
-      scope.cancel = ->
-        scope.actionState = null
-
       scope.logout = ->
-        # auth = new FirebaseSimpleLogin $rootScope.rootRef, (err) ->
-        #   console.log 'logged out'
-        # auth.logout()
         $rootScope.auth.logout()
         NodeWebkit.clearCache()
+        Analytics.track 'Logout'
         $timeout ->
           $window.location.href = '/'
-        , 2000
+        , 20
   )

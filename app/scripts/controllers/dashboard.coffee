@@ -62,10 +62,10 @@ angular.module('shortwaveApp')
 
     requestUpload = (file) ->
       requestRef = s3QueueRef.child('request').push()
-      console.log "the owner is #{User.user.$id}"
+      # console.log "the owner is #{User.user.$id}"
       requestRef.set
         owner: User.user.$id 
-      console.log "made request for #{file.name}"
+      # console.log "made request for #{file.name}"
       # Listen for the response
       resultRef = s3QueueRef.child "result/#{requestRef.name()}"
       resultRef.on 'value', (snap) =>

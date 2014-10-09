@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Message', ($q, $rootScope, User) ->
+  .service 'Message', ($q, $rootScope, User, Analytics) ->
     # AngularJS will instantiate a singleton by calling "new" on this function
 
     Message = 
@@ -25,6 +25,7 @@ angular.module('shortwaveApp')
         # Send - returns a promise
         @send message, channel
 
+
       image: (url, channel) ->
 
         # Build a new image message
@@ -35,8 +36,6 @@ angular.module('shortwaveApp')
 
         # Send - returns a promise
         @send message, channel
-
-
 
 
       send: (message, channel) ->
@@ -78,6 +77,12 @@ angular.module('shortwaveApp')
             pushRef.set request, (err) ->
               if err
                 console.error err
+
+        # Track
+        Analytics.track 'Send Message',
+          channel: channel
+          type: message.type
+          id: pushRef.name()
 
         # Return the promise
         sent.promise

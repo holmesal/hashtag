@@ -9,7 +9,7 @@
  # Primarily, it will be used in the route resolver - route changes won't proceed if the channel doesn't exist.
 ###
 angular.module('shortwaveApp')
-  .service 'ChannelUtils', ($firebase, $q, $rootScope, $timeout, User) ->
+  .service 'ChannelUtils', ($firebase, $q, $rootScope, $timeout, User, Analytics) ->
     
 
     class ChannelUtils
@@ -74,14 +74,14 @@ angular.module('shortwaveApp')
                     console.info "channel #{channelName} exists, joining"
                     @joinChannel channelName
                     .then ->
-                        deferredAdd.resolve()
+                        deferredAdd.resolve false
                     .catch (err) ->
                         deferredAdd.reject err 
                 else
                     console.info "channel #{channelName} does not exist, creating"
                     @createChannel channelName
                     .then ->
-                        deferredAdd.resolve()
+                        deferredAdd.resolve true
                     .catch (err) ->
                         deferredAdd.reject err 
 
@@ -198,8 +198,14 @@ angular.module('shortwaveApp')
             muteRef.set value, (err) ->
                 if err
                     set.reject err
+                    Analytics.track 'Mute Channel Error',
+                        channel: channelName
+                        error: err
                 else
                     set.resolve()
+                    Analytics.track 'Mute Channel',
+                        channel: channelName
+                        isMuted: value
 
             set.promise
 
@@ -219,8 +225,13 @@ angular.module('shortwaveApp')
                     listRef.set null, (err) ->
                         if err
                             left.reject()
+                            Analytics.track 'Leave Channel Error',
+                                channel: channelName
+                                error: err
                         else
                             left.resolve()
+                            Analytics.track 'Leave Channel',
+                                channel: channelName
 
 
             left.promise
@@ -233,6 +244,9 @@ angular.module('shortwaveApp')
             viewRef.set channelName, (err) ->
                 if err
                     set.reject err
+                    Analytics.track 'Change Channel Error',
+                        channel: channelName
+                        error: err
                 else
                     set.resolve()
 

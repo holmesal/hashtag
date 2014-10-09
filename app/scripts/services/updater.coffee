@@ -8,7 +8,7 @@
  # Service in the shortwaveApp.
 ###
 angular.module('shortwaveApp')
-  .service 'Updater', ($http, $timeout, $interval, version, NodeWebkit) ->
+  .service 'Updater', ($http, $timeout, $interval, version, NodeWebkit, Analytics) ->
 
     # Grab the current version
     console.info "running hashtag version #{version}"
@@ -44,6 +44,9 @@ angular.module('shortwaveApp')
           console.info "version #{data.version} now available!"
           # Show the update popup
           showUpdatePopup data.version
+          Analytics.track 'Update Popup Shown',
+            currentVersion: version
+            remoteVersion: data.version
         else
           console.info 'running newest version'
       .error (data, status, headers, config) ->

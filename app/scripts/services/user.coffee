@@ -8,7 +8,7 @@
  # Provides an interface to firebase
 ###
 angular.module('shortwaveApp')
-  .service 'User', ($rootScope, $firebase, $firebaseSimpleLogin, $q) ->
+  .service 'User', ($rootScope, $firebase, $firebaseSimpleLogin, $q, Analytics) ->
 
     class User 
 
@@ -71,15 +71,32 @@ angular.module('shortwaveApp')
         sync = $firebase userRef
         @user = sync.$asObject()
 
+        console.log analytics
+        console.log @
+
         # Once the user is loaded, resolve the main promise
         @user.$loaded().then (user) =>
           # console.info 'user allegedly loaded', user
-          # Now logged in
-          @loggedIn = true
+          
           # Resolve any routes
           @deferredUser.resolve user
           # Let other services know
           $rootScope.$broadcast 'userLoaded', user
+          # Only do this the first time
+          unless @loggedIn
+            console.log user
+            # Identify this user
+            Analytics.identify user.$id,
+              id: user.$id
+              firstName: user.profile.firstName
+              lastName: user.profile.lastName
+              avatar: user.profile.photo
+
+            # Track this login
+            Analytics.track 'Logged in'
+
+          # Now logged in
+          @loggedIn = true
 
       update: ->
         profileRef = $rootScope.rootRef.child "users/#{@authUser.uid}/profile"
