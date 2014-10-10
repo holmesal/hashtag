@@ -28,7 +28,7 @@
     <script type="text/javascript">
         if (process.versions['node-webkit']){
             try {
-                window.moment = require('/bower_components/moment/moment.js');
+                window.moment = require(process.cwd()+'/dist/bower_components/moment/moment.js')
             } catch (err) {
                 console.error('could not shim moment.js');
                 console.error(err);
