@@ -121,6 +121,6 @@ angular.module('shortwaveApp')
         NodeWebkit.clearCache()
         Analytics.track 'Logout'
         $timeout ->
-          $window.location.href = '/'
+          NodeWebkit.restart()
         , 20
   )

@@ -71,8 +71,8 @@ angular.module('shortwaveApp')
         sync = $firebase userRef
         @user = sync.$asObject()
 
-        console.log analytics
-        console.log @
+        # console.log analytics
+        # console.log @
 
         # Once the user is loaded, resolve the main promise
         @user.$loaded().then (user) =>
@@ -84,7 +84,7 @@ angular.module('shortwaveApp')
           $rootScope.$broadcast 'userLoaded', user
           # Only do this the first time
           unless @loggedIn
-            console.log user
+            # console.log user
             # Identify this user
             Analytics.identify user.$id,
               id: user.$id

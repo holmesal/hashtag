@@ -134,12 +134,12 @@ class Launcher extends EventEmitter
       @emit 'continue', 5000
 
   unpack: ->
-    @info "unpacking zip..."
+    @info "unpacking..."
     # Wow, I hope this is synchronous
     @zip.extractAllTo 'dist', true # overwrite any existing
     # Go!
     @info "unpacked!"
-    @info fs.readdirSync 'dist'
+    # @info fs.readdirSync 'dist'
     @emit 'continue', 3000
 
 
