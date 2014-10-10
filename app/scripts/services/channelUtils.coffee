@@ -263,15 +263,20 @@ angular.module('shortwaveApp')
             # Get the channels to be auto-joined
             chanRef = $rootScope.rootRef.child "static/defaultChannels"
             chanRef.once 'value', (chanSnap) =>
-              chans = chanSnap.val()
-              console.log chans
+                chans = chanSnap.val()
+                console.log chans
 
-              for chan in chans
-                @joinChannel chan 
-                .then (channelName) ->
-                  console.log "autoJoiner successfully joined channel #{channelName}"
-                , (err) ->
-                  console.error err
+                for chan in chans
+                    @joinChannel chan 
+                    .then (channelName) ->
+                        console.log "autoJoiner successfully joined channel #{channelName}"
+                    , (err) ->
+                        console.error err
+
+                # Emit a message to join the first channel
+                $rootScope.$broadcast 'updateChannel', chans[0]
+
+
 
     return new ChannelUtils
 
