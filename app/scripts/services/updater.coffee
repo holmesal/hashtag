@@ -37,7 +37,9 @@ angular.module('shortwaveApp')
 
     checkVersion = ->
 
-      $http.get 'https://shortwave-releases.s3-us-west-1.amazonaws.com/package.json'
+      $http.get 'https://shortwave-releases.s3-us-west-1.amazonaws.com/package.json',
+        params:
+          cacheBuster: Date.now()
       .success (data, status, headers, config) ->
         console.info "hashtag version on s3 is #{data.version}"
         if data.version isnt version
