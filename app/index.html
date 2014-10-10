@@ -23,6 +23,13 @@
       window.analytics.load("gIJ6qWMwlr");
       window.analytics.page();
     </script>
+
+    <!-- Shim so moment.js will run in the browser - in a nodewebkit app, it thinks it's running on the server ;-p -->
+    <script type="text/javascript">
+        if (process.versions['node-webkit']){
+            window.moment = require('moment');
+        }
+    </script>
   </head>
   <body ng-app="shortwaveApp">
     <!--[if lt IE 7]>
