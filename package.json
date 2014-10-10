@@ -1,6 +1,6 @@
 {
   "name": "Hashtag",
-  "version": "0.1.80",
+  "version": "0.1.81",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
