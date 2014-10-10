@@ -27,7 +27,7 @@
     <!-- Shim so moment.js will run in the browser - in a nodewebkit app, it thinks it's running on the server ;-p -->
     <script type="text/javascript">
         if (process.versions['node-webkit']){
-            window.moment = require('moment');
+            window.moment = require('/bower_components/moment');
         }
     </script>
   </head>
