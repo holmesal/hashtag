@@ -27,7 +27,8 @@ angular.module('shortwaveApp')
           # Celebrate by making a menu.
           win = @gui.Window.get()
           nativeMenuBar = new @gui.Menu type: 'menubar'
-          nativeMenuBar.createMacBuiltin 'Hashtag'
+          if nativeMenuBar.createMacBuiltin
+            nativeMenuBar.createMacBuiltin 'Hashtag'
           win.menu = nativeMenuBar
 
         else
