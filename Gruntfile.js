@@ -469,6 +469,15 @@ module.exports = function (grunt) {
         cwd: 'desktop/dist/',
         src: ['**/*'],
         dest: ''
+      },
+      windows: {
+        options: {
+          archive: 'release/Hashtag/win/Hashtag.zip'
+        },
+        expand: true,
+        cwd: 'release/Hashtag/win/',
+        src: ['**/*'],
+        dest: ''
       }
     },
 
@@ -496,11 +505,19 @@ module.exports = function (grunt) {
           }
         ]
       },
-      dmg: {
+      osx: {
         upload: [
           {
             src: 'release/Hashtag/osx/Hashtag.dmg',
             dest: 'Hashtag.dmg'
+          }
+        ]
+      },
+      win: {
+        upload: [
+          {
+            src: 'release/Hashtag/win/Hashtag.zip',
+            dest: 'Hashtag.zip'
           }
         ]
       }
@@ -665,10 +682,13 @@ module.exports = function (grunt) {
   grunt.registerTask('releaseDesktop',[
     // First, build for desktop
     'buildDesktop',
-    // Make the launcher
+    // Make the launcher for OSX
     'shell:makeDmg',
+    // Make the zip for windows
+    'compress:windows',
     // Push up to S3
-    's3:dmg'
+    's3:osx',
+    's3:win'
   ]);
 
 
@@ -678,7 +698,7 @@ module.exports = function (grunt) {
     // Build for desktop
     'buildDesktop',
     // Compress for S3 - uses release/dist as source
-    'compress',
+    'compress:release',
     // Push to S3
     's3:release',
     // Deploy to firebase
