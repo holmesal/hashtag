@@ -244,8 +244,7 @@ module.exports = function (grunt) {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
-          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= yeoman.dist %>/styles/fonts/*'
+          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -379,7 +378,7 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/*'
+            'styles/fonts/*'
           ]
         }, {
           expand: true,
@@ -453,7 +452,7 @@ module.exports = function (grunt) {
     // Build for node-webkit
     nodewebkit: {
       options: {
-        platforms: ['osx'],
+        platforms: ['osx', 'win'],
         buildDir: 'release',
         version: '0.10.1'
       },
@@ -649,9 +648,7 @@ module.exports = function (grunt) {
     // Copy over the necessary icon files
     'copy:iconsMac',
     // Replace the bundleidentifier in the info.plist
-    'replace:plist',
-    // Make the launcher
-    'shell:makeDmg'
+    'replace:plist'
   ]);
 
   // For developing an application locally - building on the desktop
@@ -668,6 +665,8 @@ module.exports = function (grunt) {
   grunt.registerTask('releaseDesktop',[
     // First, build for desktop
     'buildDesktop',
+    // Make the launcher
+    'shell:makeDmg',
     // Push up to S3
     's3:dmg'
   ]);
