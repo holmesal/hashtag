@@ -1,1 +1,15 @@
-<div class="result" ng-repeat="result in results | orderBy:'matchPosition' | limitTo: offset - results.length | limitTo: numElements" ng-click="resultClicked(result)" ng-class="{faded: idx - offset != $index}" ng-mouseover="hover($index)"> <img class="arrow" src="images/autocompleteSelect.6283bca5.png" ng-if="idx - offset == $index"> <div class="userPhoto" ng-style="{'background-image':'url('+result.profile.photo+')'}"></div> <p class="name" ng-class="{last: $last}">{{result.profile.firstName}} {{result.profile.lastName}}</p> </div>
+<div 
+  class="result" 
+  ng-repeat="result in results | orderBy:'matchPosition' | limitTo: offset - results.length | limitTo: numElements"
+  ng-click="resultClicked(result)"
+  ng-class="{faded: idx - offset != $index}"
+  ng-mouseover="hover($index)">
+
+  <img class="arrow" src="images/autocompleteSelect.png" ng-if="idx - offset == $index">
+
+  <div class="userPhoto" ng-style="{'background-image':'url('+result.profile.photo+')'}"></div>
+
+
+  <p class="name" ng-class="{last: $last}">{{result.profile.firstName}} {{result.profile.lastName}}</p>
+
+</div>
