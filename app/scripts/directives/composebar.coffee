@@ -26,6 +26,10 @@ angular.module('shortwaveApp')
       # Fack.
       scope.lastHeight = 0
 
+      console.log 'uploads is:'
+      console.log scope.uploads
+      console.log Object.keys(scope.uploads).length != 0
+
       scope.$watch ->
         element.height()
       , (height) ->

@@ -99,15 +99,15 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 html,body,.appView {
   margin: 0px;
   padding: 0px;
-  height: 100%;
-  width: 100%;
-  min-width: 100px;
+  // height: 100%;
+  // width: 100%;
+  // min-width: 100px;
   font-family: Avenir-Light;
   // overflow: none;
 }
 
 body{
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 *:focus, *:active {

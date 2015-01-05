@@ -76,6 +76,9 @@ angular
 
   .run ($rootScope, $location, $firebase, $firebaseSimpleLogin, NodeWebkit, Updater, Analytics, version) ->
 
+    # fastclick
+    FastClick.attach document.body
+
     # Some channel names are just not allowed
     # TODO - store these in Firebase instead
     $rootScope.notAllowed = ['discover', 'login']

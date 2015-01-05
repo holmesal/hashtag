@@ -4,24 +4,25 @@
   ng-file-drag-over-class="dragover"
   ng-paste="paste($event)">
   
-  <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list>
+  <!-- <channel-list current-channel="currentChannel" show-create="showCreate"></channel-list> -->
 
-  <div class="mainView">
-    <stream channel-name="currentChannel" ng-style="{bottom:composeHeight}"></stream>
-    <composebar 
-      channel-name="currentChannel" 
-      uploads="uploads" 
-      compose-height="composeHeight">
-    </composebar>
-  </div>
+  <!-- <div class="mainView"> -->
+  <actionbar channel-name="currentChannel"></actionbar>
+  <stream channel-name="currentChannel" ng-style="{zbottom:composeHeight}"></stream>
+  <composebar 
+    channel-name="currentChannel" 
+    uploads="uploads" 
+    compose-height="composeHeight">
+  </composebar>
+  <!-- </div> -->
 
-  <create hide-create="hideCreate"></create>
+  <!-- <create hide-create="hideCreate"></create> -->
 
 
   <!-- The overlay that is shown when you drag a file over -->
-  <div class="uploadView animated fadeIn">
+  <!-- <div class="uploadView animated fadeIn">
     <img src="images/parachute.png" class="chute"></img>
     <p class="animated fadeInUp">Drop files to upload.</p>
-  </div>
+  </div> -->
 
 </div>
